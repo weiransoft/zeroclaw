@@ -14,7 +14,7 @@ use std::time::Instant;
 use uuid::Uuid;
 
 /// Maximum agentic tool-use iterations per user message to prevent runaway loops.
-const MAX_TOOL_ITERATIONS: usize = 10;
+const DEFAULT_MAX_TOOL_ITERATIONS: usize = 10;
 
 /// Trigger auto-compaction when non-system message count exceeds this threshold.
 const MAX_HISTORY_MESSAGES: usize = 50;
@@ -422,6 +422,7 @@ pub(crate) async fn agent_turn(
     model: &str,
     temperature: f64,
     silent: bool,
+    max_tool_iterations: usize,
 ) -> Result<String> {
     run_tool_call_loop(
         provider,
@@ -432,6 +433,7 @@ pub(crate) async fn agent_turn(
         model,
         temperature,
         silent,
+        max_tool_iterations,
     )
     .await
 }
@@ -447,8 +449,9 @@ pub(crate) async fn run_tool_call_loop(
     model: &str,
     temperature: f64,
     silent: bool,
+    max_tool_iterations: usize,
 ) -> Result<String> {
-    for _iteration in 0..MAX_TOOL_ITERATIONS {
+    for _iteration in 0..max_tool_iterations {
         observer.record_event(&ObserverEvent::LlmRequest {
             provider: provider_name.to_string(),
             model: model.to_string(),
@@ -548,11 +551,7 @@ pub(crate) async fn run_tool_call_loop(
                 format!("Unknown tool: {}", call.name)
             };
 
-            let _ = writeln!(
-                tool_results,
-                "<tool_result name=\"{}\">\n{}\n</tool_result>",
-                call.name, result
-            );
+            tool_results.push_str(&format!("--- Tool: {} ---\n{}\n\n", call.name, result));
         }
 
         // Add assistant message with tool calls + tool results to history
@@ -560,7 +559,7 @@ pub(crate) async fn run_tool_call_loop(
         history.push(ChatMessage::user(format!("[Tool results]\n{tool_results}")));
     }
 
-    anyhow::bail!("Agent exceeded maximum tool iterations ({MAX_TOOL_ITERATIONS})")
+    anyhow::bail!("Agent exceeded maximum tool iterations ({max_tool_iterations})")
 }
 
 /// Build the tool instruction block for the system prompt so the LLM knows
@@ -575,7 +574,7 @@ pub(crate) fn build_tool_instructions(tools_registry: &[Box<dyn Tool>]) -> Strin
     );
     instructions.push_str("Example: User says \"what's the date?\". You MUST respond with:\n<tool_call>\n{\"name\":\"shell\",\"arguments\":{\"command\":\"date\"}}\n</tool_call>\n\n");
     instructions.push_str("You may use multiple tool calls in a single response. ");
-    instructions.push_str("After tool execution, results appear in <tool_result> tags. ");
+    instructions.push_str("After tool execution, results appear as plain text. ");
     instructions
         .push_str("Continue reasoning with the results until you can give a final answer.\n\n");
     instructions.push_str("### Available Tools\n\n");
@@ -637,9 +636,9 @@ pub async fn run(
     } else {
         (None, None)
     };
-    let mut tools_registry = tools::all_tools_with_runtime(
+    let mut tools_registry = tools::all_tools_with_runtime_swarm_context(
         &security,
-        runtime,
+        runtime.clone(),
         mem.clone(),
         composio_key,
         composio_entity_id,
@@ -648,15 +647,16 @@ pub async fn run(
         &config.workspace_dir,
         &config.agents,
         config.api_key.as_deref(),
-        &config,
+        Arc::new(config.clone()),
+        crate::swarm::SwarmContext::root(),
     );
 
     let peripheral_tools: Vec<Box<dyn Tool>> =
         crate::peripherals::create_peripheral_tools(&config.peripherals).await?;
     if !peripheral_tools.is_empty() {
         tracing::info!(count = peripheral_tools.len(), "Peripheral tools added");
-        tools_registry.extend(peripheral_tools);
     }
+    tools_registry.extend(peripheral_tools);
 
     // ── Resolve provider ─────────────────────────────────────────
     let provider_name = provider_override
@@ -759,6 +759,14 @@ pub async fn run(
             "delegate",
             "Delegate a sub-task to a specialized agent. Use when: task needs different model/capability, or to parallelize work.",
         ));
+        tool_descs.push((
+            "sessions_spawn",
+            "Spawn a sub-agent run (swarm). Returns run_id; use subagents action=wait to fetch results.",
+        ));
+        tool_descs.push((
+            "subagents",
+            "Manage sub-agent runs: list/get/wait/kill/steer.",
+        ));
     }
     if config.peripherals.enabled && !config.peripherals.boards.is_empty() {
         tool_descs.push((
@@ -847,6 +855,7 @@ pub async fn run(
             model_name,
             temperature,
             false,
+            config.agent.max_tool_iterations,
         )
         .await?;
         println!("{response}");
@@ -909,6 +918,7 @@ pub async fn run(
                 model_name,
                 temperature,
                 false,
+                config.agent.max_tool_iterations,
             )
             .await
             {
@@ -957,6 +967,16 @@ pub async fn run(
 /// Process a single message through the full agent (with tools, peripherals, memory).
 /// Used by channels (Telegram, Discord, etc.) to enable hardware and tool use.
 pub async fn process_message(config: Config, message: &str) -> Result<String> {
+    process_message_with_swarm_context(config, message, None, crate::swarm::SwarmContext::root())
+        .await
+}
+
+pub(crate) async fn process_message_with_swarm_context(
+    config: Config,
+    message: &str,
+    extra_system_prompt: Option<&str>,
+    swarm_ctx: crate::swarm::SwarmContext,
+) -> Result<String> {
     let observer: Arc<dyn Observer> =
         Arc::from(observability::create_observer(&config.observability));
     let runtime: Arc<dyn runtime::RuntimeAdapter> =
@@ -979,9 +999,9 @@ pub async fn process_message(config: Config, message: &str) -> Result<String> {
     } else {
         (None, None)
     };
-    let mut tools_registry = tools::all_tools_with_runtime(
+    let mut tools_registry = tools::all_tools_with_runtime_swarm_context(
         &security,
-        runtime,
+        runtime.clone(),
         mem.clone(),
         composio_key,
         composio_entity_id,
@@ -990,7 +1010,8 @@ pub async fn process_message(config: Config, message: &str) -> Result<String> {
         &config.workspace_dir,
         &config.agents,
         config.api_key.as_deref(),
-        &config,
+        Arc::new(config.clone()),
+        swarm_ctx,
     );
     let peripheral_tools: Vec<Box<dyn Tool>> =
         crate::peripherals::create_peripheral_tools(&config.peripherals).await?;
@@ -1081,6 +1102,13 @@ pub async fn process_message(config: Config, message: &str) -> Result<String> {
         Some(&config.identity),
         bootstrap_max_chars,
     );
+    if let Some(extra) = extra_system_prompt {
+        let extra = extra.trim();
+        if !extra.is_empty() {
+            system_prompt.push_str("\n\n");
+            system_prompt.push_str(extra);
+        }
+    }
     system_prompt.push_str(&build_tool_instructions(&tools_registry));
 
     let mem_context = build_context(mem.as_ref(), message).await;
@@ -1110,6 +1138,7 @@ pub async fn process_message(config: Config, message: &str) -> Result<String> {
         &model_name,
         config.default_temperature,
         true,
+        config.agent.max_tool_iterations,
     )
     .await
 }
@@ -1529,8 +1558,8 @@ Done."#;
     // ═══════════════════════════════════════════════════════════════════════
 
     const _: () = {
-        assert!(MAX_TOOL_ITERATIONS > 0);
-        assert!(MAX_TOOL_ITERATIONS <= 100);
+        assert!(DEFAULT_MAX_TOOL_ITERATIONS > 0);
+        assert!(DEFAULT_MAX_TOOL_ITERATIONS <= 100);
         assert!(MAX_HISTORY_MESSAGES > 0);
         assert!(MAX_HISTORY_MESSAGES <= 1000);
     };

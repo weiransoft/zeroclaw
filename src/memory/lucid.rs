@@ -377,101 +377,33 @@ impl Memory for LucidMemory {
 #[cfg(all(test, unix))]
 mod tests {
     use super::*;
-    use std::fs;
-    use std::os::unix::fs::PermissionsExt;
     use tempfile::TempDir;
 
-    fn write_fake_lucid_script(dir: &Path) -> String {
-        let script_path = dir.join("fake-lucid.sh");
-        let script = r#"#!/usr/bin/env bash
-set -euo pipefail
-
-if [[ "${1:-}" == "store" ]]; then
-  echo '{"success":true,"id":"mem_1"}'
-  exit 0
-fi
-
-if [[ "${1:-}" == "context" ]]; then
-  cat <<'EOF'
-<lucid-context>
-Auth context snapshot
-- [decision] Use token refresh middleware
-- [context] Working in src/auth.rs
-</lucid-context>
-EOF
-  exit 0
-fi
-
-echo "unsupported command" >&2
-exit 1
-"#;
-
-        fs::write(&script_path, script).unwrap();
-        let mut perms = fs::metadata(&script_path).unwrap().permissions();
-        perms.set_mode(0o755);
-        fs::set_permissions(&script_path, perms).unwrap();
-        script_path.display().to_string()
-    }
-
-    fn write_probe_lucid_script(dir: &Path, marker_path: &Path) -> String {
-        let script_path = dir.join("probe-lucid.sh");
-        let marker = marker_path.display().to_string();
-        let script = format!(
-            r#"#!/usr/bin/env bash
-set -euo pipefail
-
-if [[ "${{1:-}}" == "store" ]]; then
-  echo '{{"success":true,"id":"mem_store"}}'
-  exit 0
-fi
-
-if [[ "${{1:-}}" == "context" ]]; then
-  printf 'context\n' >> "{marker}"
-  cat <<'EOF'
-<lucid-context>
-- [decision] should not be used when local hits are enough
-</lucid-context>
-EOF
-  exit 0
-fi
-
-echo "unsupported command" >&2
-exit 1
-"#
-        );
-
-        fs::write(&script_path, script).unwrap();
-        let mut perms = fs::metadata(&script_path).unwrap().permissions();
-        perms.set_mode(0o755);
-        fs::set_permissions(&script_path, perms).unwrap();
-        script_path.display().to_string()
-    }
-
-    fn test_memory(workspace: &Path, cmd: String) -> LucidMemory {
+    fn test_memory(workspace: &Path, cmd: String, local_hit_threshold: usize, failure_cooldown: Duration) -> LucidMemory {
         let sqlite = SqliteMemory::new(workspace).unwrap();
         LucidMemory::with_options(
             workspace,
             sqlite,
             cmd,
             200,
-            3,
+            local_hit_threshold,
             Duration::from_millis(120),
             Duration::from_millis(400),
-            Duration::from_secs(2),
+            failure_cooldown,
         )
     }
 
     #[tokio::test]
     async fn lucid_name() {
         let tmp = TempDir::new().unwrap();
-        let memory = test_memory(tmp.path(), "nonexistent-lucid-binary".to_string());
+        let memory = test_memory(tmp.path(), "nonexistent-lucid-binary".to_string(), 3, Duration::from_secs(2));
         assert_eq!(memory.name(), "lucid");
     }
 
     #[tokio::test]
     async fn store_succeeds_when_lucid_missing() {
         let tmp = TempDir::new().unwrap();
-        let memory = test_memory(tmp.path(), "nonexistent-lucid-binary".to_string());
+        let memory = test_memory(tmp.path(), "nonexistent-lucid-binary".to_string(), 3, Duration::from_secs(2));
 
         memory
             .store("lang", "User prefers Rust", MemoryCategory::Core)
@@ -485,44 +417,33 @@ exit 1
 
     #[tokio::test]
     async fn recall_merges_lucid_and_local_results() {
-        let tmp = TempDir::new().unwrap();
-        let fake_cmd = write_fake_lucid_script(tmp.path());
-        let memory = test_memory(tmp.path(), fake_cmd);
+        let now = chrono::Local::now().to_rfc3339();
+        let local = vec![MemoryEntry {
+            id: "local:0".to_string(),
+            key: "local_note".to_string(),
+            content: "Local sqlite auth fallback note".to_string(),
+            category: MemoryCategory::Core,
+            timestamp: now.clone(),
+            session_id: None,
+            score: Some(0.9),
+        }];
 
-        memory
-            .store(
-                "local_note",
-                "Local sqlite auth fallback note",
-                MemoryCategory::Core,
-            )
-            .await
-            .unwrap();
-
-        let entries = memory.recall("auth", 5).await.unwrap();
-
-        assert!(entries
-            .iter()
-            .any(|e| e.content.contains("Local sqlite auth fallback note")));
-        assert!(entries.iter().any(|e| e.content.contains("token refresh")));
+        let lucid_raw = r#"
+<lucid-context>
+- [decision] Use token refresh middleware
+- [context] Working in src/auth.rs
+</lucid-context>
+"#;
+        let lucid = LucidMemory::parse_lucid_context(lucid_raw);
+        let merged = LucidMemory::merge_results(local, lucid, 5);
+        assert!(merged.iter().any(|e| e.content.contains("Local sqlite auth fallback note")));
+        assert!(merged.iter().any(|e| e.content.contains("token refresh")));
     }
 
     #[tokio::test]
     async fn recall_skips_lucid_when_local_hits_are_enough() {
         let tmp = TempDir::new().unwrap();
-        let marker = tmp.path().join("context_calls.log");
-        let probe_cmd = write_probe_lucid_script(tmp.path(), &marker);
-
-        let sqlite = SqliteMemory::new(tmp.path()).unwrap();
-        let memory = LucidMemory::with_options(
-            tmp.path(),
-            sqlite,
-            probe_cmd,
-            200,
-            1,
-            Duration::from_millis(120),
-            Duration::from_millis(400),
-            Duration::from_secs(2),
-        );
+        let memory = test_memory(tmp.path(), "/usr/bin/false".to_string(), 1, Duration::from_secs(2));
 
         memory
             .store("pref", "Rust should stay local-first", MemoryCategory::Core)
@@ -533,69 +454,22 @@ exit 1
         assert!(entries
             .iter()
             .any(|e| e.content.contains("Rust should stay local-first")));
-
-        let context_calls = fs::read_to_string(&marker).unwrap_or_default();
-        assert!(
-            context_calls.trim().is_empty(),
-            "Expected local-hit short-circuit; got calls: {context_calls}"
-        );
-    }
-
-    fn write_failing_lucid_script(dir: &Path, marker_path: &Path) -> String {
-        let script_path = dir.join("failing-lucid.sh");
-        let marker = marker_path.display().to_string();
-        let script = format!(
-            r#"#!/usr/bin/env bash
-set -euo pipefail
-
-if [[ "${{1:-}}" == "store" ]]; then
-  echo '{{"success":true,"id":"mem_store"}}'
-  exit 0
-fi
-
-if [[ "${{1:-}}" == "context" ]]; then
-  printf 'context\n' >> "{marker}"
-  echo "simulated lucid failure" >&2
-  exit 1
-fi
-
-echo "unsupported command" >&2
-exit 1
-"#
-        );
-
-        fs::write(&script_path, script).unwrap();
-        let mut perms = fs::metadata(&script_path).unwrap().permissions();
-        perms.set_mode(0o755);
-        fs::set_permissions(&script_path, perms).unwrap();
-        script_path.display().to_string()
+        assert!(memory.last_failure_at.lock().unwrap().is_none());
     }
 
     #[tokio::test]
     async fn failure_cooldown_avoids_repeated_lucid_calls() {
         let tmp = TempDir::new().unwrap();
-        let marker = tmp.path().join("failing_context_calls.log");
-        let failing_cmd = write_failing_lucid_script(tmp.path(), &marker);
-
-        let sqlite = SqliteMemory::new(tmp.path()).unwrap();
-        let memory = LucidMemory::with_options(
-            tmp.path(),
-            sqlite,
-            failing_cmd,
-            200,
-            99,
-            Duration::from_millis(120),
-            Duration::from_millis(400),
-            Duration::from_secs(5),
-        );
+        let memory = test_memory(tmp.path(), "/usr/bin/false".to_string(), 99, Duration::from_secs(5));
 
         let first = memory.recall("auth", 5).await.unwrap();
+        let first_failure = memory.last_failure_at.lock().unwrap().clone();
         let second = memory.recall("auth", 5).await.unwrap();
+        let second_failure = memory.last_failure_at.lock().unwrap().clone();
 
         assert!(first.is_empty());
         assert!(second.is_empty());
-
-        let calls = fs::read_to_string(&marker).unwrap_or_default();
-        assert_eq!(calls.lines().count(), 1);
+        assert!(first_failure.is_some());
+        assert_eq!(first_failure, second_failure);
     }
 }

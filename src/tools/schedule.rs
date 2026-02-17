@@ -11,11 +11,11 @@ use std::sync::Arc;
 /// Tool that lets the agent manage recurring and one-shot scheduled tasks.
 pub struct ScheduleTool {
     security: Arc<SecurityPolicy>,
-    config: Config,
+    config: Arc<Config>,
 }
 
 impl ScheduleTool {
-    pub fn new(security: Arc<SecurityPolicy>, config: Config) -> Self {
+    pub fn new(security: Arc<SecurityPolicy>, config: Arc<Config>) -> Self {
         Self { security, config }
     }
 }
@@ -154,7 +154,7 @@ impl ScheduleTool {
         if jobs.is_empty() {
             return Ok(ToolResult {
                 success: true,
-                output: "No scheduled jobs.".to_string(),
+                output: "No scheduled tasks yet.".to_string(),
                 error: None,
             });
         }
@@ -172,7 +172,7 @@ impl ScheduleTool {
                 .map_or_else(|| "never".to_string(), |value| value.to_rfc3339());
             let last_status = job.last_status.unwrap_or_else(|| "n/a".to_string());
             lines.push(format!(
-                "- {} | {} | next={} | last={} ({}){} | cmd: {}",
+                "- {} | {} | next={} | last={} ({}){}\n    cmd: {}",
                 job.id,
                 job.expression,
                 job.next_run.to_rfc3339(),
@@ -185,7 +185,7 @@ impl ScheduleTool {
 
         Ok(ToolResult {
             success: true,
-            output: format!("Scheduled jobs ({}):\n{}", lines.len(), lines.join("\n")),
+            output: format!("🕒 Scheduled jobs ({}):\n{}", lines.len(), lines.join("\n")),
             error: None,
         })
     }
@@ -366,13 +366,13 @@ mod tests {
     use crate::security::AutonomyLevel;
     use tempfile::TempDir;
 
-    fn test_setup() -> (TempDir, Config, Arc<SecurityPolicy>) {
+    fn test_setup() -> (TempDir, Arc<Config>, Arc<SecurityPolicy>) {
         let tmp = TempDir::new().unwrap();
-        let config = Config {
+        let config = Arc::new(Config {
             workspace_dir: tmp.path().join("workspace"),
             config_path: tmp.path().join("config.toml"),
             ..Config::default()
-        };
+        });
         std::fs::create_dir_all(&config.workspace_dir).unwrap();
         let security = Arc::new(SecurityPolicy::from_config(
             &config.autonomy,
@@ -478,7 +478,7 @@ mod tests {
     #[tokio::test]
     async fn readonly_blocks_mutating_actions() {
         let tmp = TempDir::new().unwrap();
-        let config = Config {
+        let config = Arc::new(Config {
             workspace_dir: tmp.path().join("workspace"),
             config_path: tmp.path().join("config.toml"),
             autonomy: crate::config::AutonomyConfig {
@@ -486,7 +486,7 @@ mod tests {
                 ..Default::default()
             },
             ..Config::default()
-        };
+        });
         std::fs::create_dir_all(&config.workspace_dir).unwrap();
         let security = Arc::new(SecurityPolicy::from_config(
             &config.autonomy,

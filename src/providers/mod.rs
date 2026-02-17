@@ -1,5 +1,7 @@
 pub mod anthropic;
 pub mod compatible;
+pub mod delay;
+pub mod echo;
 pub mod gemini;
 pub mod ollama;
 pub mod openai;
@@ -185,6 +187,8 @@ pub fn create_provider(name: &str, api_key: Option<&str>) -> anyhow::Result<Box<
         "openrouter" => Ok(Box::new(openrouter::OpenRouterProvider::new(key))),
         "anthropic" => Ok(Box::new(anthropic::AnthropicProvider::new(key))),
         "openai" => Ok(Box::new(openai::OpenAiProvider::new(key))),
+        "delay" => Ok(Box::new(delay::DelayProvider::new())),
+        "echo" => Ok(Box::new(echo::EchoProvider::new())),
         // Ollama is a local service that doesn't use API keys.
         // The api_key parameter is ignored to avoid it being misinterpreted as a base_url.
         "ollama" => Ok(Box::new(ollama::OllamaProvider::new(None))),

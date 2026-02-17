@@ -8,8 +8,8 @@ pub use schema::{
     HttpRequestConfig, IMessageConfig, IdentityConfig, LarkConfig, MatrixConfig, MemoryConfig,
     ModelRouteConfig, ObservabilityConfig, PeripheralBoardConfig, PeripheralsConfig,
     ReliabilityConfig, ResourceLimitsConfig, RuntimeConfig, SandboxBackend, SandboxConfig,
-    SchedulerConfig, SecretsConfig, SecurityConfig, SlackConfig, TelegramConfig, TunnelConfig,
-    WebhookConfig,
+    SchedulerConfig, SecretsConfig, SecurityConfig, SlackConfig, SwarmConfig, TelegramConfig,
+    TunnelConfig, WebhookConfig,
 };
 
 #[cfg(test)]

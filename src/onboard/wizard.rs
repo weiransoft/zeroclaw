@@ -128,6 +128,7 @@ pub fn run_wizard() -> Result<Config> {
         cost: crate::config::CostConfig::default(),
         peripherals: crate::config::PeripheralsConfig::default(),
         agent: crate::config::AgentConfig::default(),
+        swarm: crate::config::SwarmConfig::default(),
         agents: std::collections::HashMap::new(),
         hardware: hardware_config,
     };
@@ -332,6 +333,7 @@ pub fn run_quick_setup(
         cost: crate::config::CostConfig::default(),
         peripherals: crate::config::PeripheralsConfig::default(),
         agent: crate::config::AgentConfig::default(),
+        swarm: crate::config::SwarmConfig::default(),
         agents: std::collections::HashMap::new(),
         hardware: crate::config::HardwareConfig::default(),
     };

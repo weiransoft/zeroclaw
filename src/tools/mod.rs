@@ -14,8 +14,10 @@ pub mod memory_forget;
 pub mod memory_recall;
 pub mod memory_store;
 pub mod schedule;
+pub mod sessions_spawn;
 pub mod screenshot;
 pub mod shell;
+pub mod subagents;
 pub mod traits;
 
 pub use browser::{BrowserTool, ComputerUseConfig};
@@ -34,8 +36,10 @@ pub use memory_forget::MemoryForgetTool;
 pub use memory_recall::MemoryRecallTool;
 pub use memory_store::MemoryStoreTool;
 pub use schedule::ScheduleTool;
+pub use sessions_spawn::SessionsSpawnTool;
 pub use screenshot::ScreenshotTool;
 pub use shell::ShellTool;
+pub use subagents::SubagentsTool;
 pub use traits::Tool;
 #[allow(unused_imports)]
 pub use traits::{ToolResult, ToolSpec};
@@ -44,6 +48,7 @@ use crate::config::DelegateAgentConfig;
 use crate::memory::Memory;
 use crate::runtime::{NativeRuntime, RuntimeAdapter};
 use crate::security::SecurityPolicy;
+use crate::swarm::{manager_for_workspace, SwarmContext};
 use std::collections::HashMap;
 use std::sync::Arc;
 
@@ -76,7 +81,7 @@ pub fn all_tools(
     workspace_dir: &std::path::Path,
     agents: &HashMap<String, DelegateAgentConfig>,
     fallback_api_key: Option<&str>,
-    config: &crate::config::Config,
+    config: Arc<crate::config::Config>,
 ) -> Vec<Box<dyn Tool>> {
     all_tools_with_runtime(
         security,
@@ -106,8 +111,41 @@ pub fn all_tools_with_runtime(
     workspace_dir: &std::path::Path,
     agents: &HashMap<String, DelegateAgentConfig>,
     fallback_api_key: Option<&str>,
-    config: &crate::config::Config,
+    config: Arc<crate::config::Config>,
 ) -> Vec<Box<dyn Tool>> {
+    all_tools_with_runtime_swarm_context(
+        security,
+        runtime,
+        memory,
+        composio_key,
+        composio_entity_id,
+        browser_config,
+        http_config,
+        workspace_dir,
+        agents,
+        fallback_api_key,
+        config.clone(),
+        SwarmContext::root(),
+    )
+}
+
+#[allow(clippy::implicit_hasher, clippy::too_many_arguments)]
+pub fn all_tools_with_runtime_swarm_context(
+    security: &Arc<SecurityPolicy>,
+    runtime: Arc<dyn RuntimeAdapter>,
+    memory: Arc<dyn Memory>,
+    composio_key: Option<&str>,
+    composio_entity_id: Option<&str>,
+    browser_config: &crate::config::BrowserConfig,
+    http_config: &crate::config::HttpRequestConfig,
+    workspace_dir: &std::path::Path,
+    agents: &HashMap<String, DelegateAgentConfig>,
+    fallback_api_key: Option<&str>,
+    config: Arc<crate::config::Config>,
+    swarm_ctx: SwarmContext,
+) -> Vec<Box<dyn Tool>> {
+    let max_concurrent = config.swarm.subagent_max_concurrent;
+    
     let mut tools: Vec<Box<dyn Tool>> = vec![
         Box::new(ShellTool::new(security.clone(), runtime)),
         Box::new(FileReadTool::new(security.clone())),
@@ -174,6 +212,23 @@ pub fn all_tools_with_runtime(
             agents.clone(),
             fallback_api_key.map(String::from),
         )));
+
+        if let Ok(mgr) =
+            manager_for_workspace(workspace_dir, max_concurrent)
+        {
+            tools.push(Box::new(SessionsSpawnTool::new(
+                security.clone(),
+                config.clone(),
+                mgr.clone(),
+                swarm_ctx,
+            )));
+            tools.push(Box::new(SubagentsTool::new(
+                security.clone(),
+                config.clone(),
+                mgr,
+                swarm_ctx,
+            )));
+        }
     }
 
     tools
@@ -230,7 +285,7 @@ mod tests {
             tmp.path(),
             &HashMap::new(),
             None,
-            &cfg,
+            Arc::new(cfg),
         );
         let names: Vec<&str> = tools.iter().map(|t| t.name()).collect();
         assert!(!names.contains(&"browser_open"));
@@ -267,7 +322,7 @@ mod tests {
             tmp.path(),
             &HashMap::new(),
             None,
-            &cfg,
+            Arc::new(cfg),
         );
         let names: Vec<&str> = tools.iter().map(|t| t.name()).collect();
         assert!(names.contains(&"browser_open"));
@@ -405,7 +460,7 @@ mod tests {
             tmp.path(),
             &agents,
             Some("sk-test"),
-            &cfg,
+            Arc::new(cfg),
         );
         let names: Vec<&str> = tools.iter().map(|t| t.name()).collect();
         assert!(names.contains(&"delegate"));
@@ -436,7 +491,7 @@ mod tests {
             tmp.path(),
             &HashMap::new(),
             None,
-            &cfg,
+            Arc::new(cfg),
         );
         let names: Vec<&str> = tools.iter().map(|t| t.name()).collect();
         assert!(!names.contains(&"delegate"));

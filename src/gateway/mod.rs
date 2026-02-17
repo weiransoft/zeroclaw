@@ -74,6 +74,7 @@ async fn gateway_agent_reply(state: &AppState, message: &str) -> Result<String> 
         &state.model,
         state.temperature,
         true, // silent — gateway responses go over HTTP
+        state.max_tool_iterations,
     )
     .await?;
 
@@ -208,6 +209,7 @@ pub struct AppState {
     pub whatsapp: Option<Arc<WhatsAppChannel>>,
     /// `WhatsApp` app secret for webhook signature verification (`X-Hub-Signature-256`)
     pub whatsapp_app_secret: Option<Arc<str>>,
+    pub max_tool_iterations: usize,
 }
 
 /// Run the HTTP gateway using axum with proper HTTP/1.1 compliance.
@@ -261,6 +263,7 @@ pub async fn run_gateway(host: &str, port: u16, config: Config) -> Result<()> {
         (None, None)
     };
 
+    let config_arc = Arc::new(config.clone());
     let tools_registry = Arc::new(tools::all_tools_with_runtime(
         &security,
         runtime,
@@ -272,7 +275,7 @@ pub async fn run_gateway(host: &str, port: u16, config: Config) -> Result<()> {
         &config.workspace_dir,
         &config.agents,
         config.api_key.as_deref(),
-        &config,
+        config_arc,
     ));
     let skills = crate::skills::load_skills(&config.workspace_dir);
     let tool_descs: Vec<(&str, &str)> = tools_registry
@@ -408,6 +411,7 @@ pub async fn run_gateway(host: &str, port: u16, config: Config) -> Result<()> {
         idempotency_store,
         whatsapp: whatsapp_channel,
         whatsapp_app_secret,
+        max_tool_iterations: config.agent.max_tool_iterations,
     };
 
     // Build router with middleware
@@ -987,6 +991,7 @@ mod tests {
             idempotency_store: Arc::new(IdempotencyStore::new(Duration::from_secs(300))),
             whatsapp: None,
             whatsapp_app_secret: None,
+            max_tool_iterations: 10,
         }
     }
 

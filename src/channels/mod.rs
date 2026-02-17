@@ -61,6 +61,7 @@ struct ChannelRuntimeContext {
     model: Arc<String>,
     temperature: f64,
     auto_save_memory: bool,
+    max_tool_iterations: usize,
 }
 
 fn conversation_memory_key(msg: &traits::ChannelMessage) -> String {
@@ -193,6 +194,7 @@ async fn process_channel_message(ctx: Arc<ChannelRuntimeContext>, msg: traits::C
             ctx.model.as_str(),
             ctx.temperature,
             true, // silent — channels don't write to stdout
+            ctx.max_tool_iterations,
         ),
     )
     .await;
@@ -348,7 +350,7 @@ pub fn build_system_prompt(
         prompt.push_str("To use a tool, wrap a JSON object in <tool_call></tool_call> tags:\n\n");
         prompt.push_str("```\n<tool_call>\n{\"name\": \"tool_name\", \"arguments\": {\"param\": \"value\"}}\n</tool_call>\n```\n\n");
         prompt.push_str("You may use multiple tool calls in a single response. ");
-        prompt.push_str("After tool execution, results appear in <tool_result> tags. ");
+        prompt.push_str("After tool execution, results appear as plain text. ");
         prompt
             .push_str("Continue reasoning with the results until you can give a final answer.\n\n");
     }
@@ -785,6 +787,7 @@ pub async fn start_channels(config: Config) -> Result<()> {
     } else {
         (None, None)
     };
+    let config_arc = Arc::new(config.clone());
     let tools_registry = Arc::new(tools::all_tools_with_runtime(
         &security,
         runtime,
@@ -796,7 +799,7 @@ pub async fn start_channels(config: Config) -> Result<()> {
         &config.workspace_dir,
         &config.agents,
         config.api_key.as_deref(),
-        &config,
+        config_arc,
     ));
 
     // Build system prompt from workspace identity files + skills
@@ -851,6 +854,14 @@ pub async fn start_channels(config: Config) -> Result<()> {
         tool_descs.push((
             "delegate",
             "Delegate a subtask to a specialized agent. Use when: a task benefits from a different model (e.g. fast summarization, deep reasoning, code generation). The sub-agent runs a single prompt and returns its response.",
+        ));
+        tool_descs.push((
+            "sessions_spawn",
+            "Spawn a sub-agent run (swarm). Returns run_id; use subagents action=wait to fetch results.",
+        ));
+        tool_descs.push((
+            "subagents",
+            "Manage sub-agent runs: list/get/wait/kill/steer.",
         ));
     }
 
@@ -1028,6 +1039,7 @@ pub async fn start_channels(config: Config) -> Result<()> {
         model: Arc::new(model.clone()),
         temperature,
         auto_save_memory: config.memory.auto_save,
+        max_tool_iterations: config.agent.max_tool_iterations,
     });
 
     run_message_dispatch_loop(rx, runtime_ctx, max_in_flight_messages).await;
@@ -1220,6 +1232,7 @@ mod tests {
             model: Arc::new("test-model".to_string()),
             temperature: 0.0,
             auto_save_memory: false,
+            max_tool_iterations: 10,
         });
 
         process_channel_message(
@@ -1310,6 +1323,7 @@ mod tests {
             model: Arc::new("test-model".to_string()),
             temperature: 0.0,
             auto_save_memory: false,
+            max_tool_iterations: 10,
         });
 
         let (tx, rx) = tokio::sync::mpsc::channel::<traits::ChannelMessage>(4);

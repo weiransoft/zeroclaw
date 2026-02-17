@@ -81,6 +81,9 @@ pub struct Config {
     #[serde(default)]
     pub agent: AgentConfig,
 
+    #[serde(default)]
+    pub swarm: SwarmConfig,
+
     /// Delegate agent configurations for multi-agent workflows.
     #[serde(default)]
     pub agents: HashMap<String, DelegateAgentConfig>,
@@ -97,12 +100,38 @@ pub struct AgentConfig {
     /// When true: bootstrap_max_chars=6000, rag_chunk_limit=2. Use for 13B or smaller models.
     #[serde(default)]
     pub compact_context: bool,
+    /// Maximum agentic tool-use iterations per user message to prevent runaway loops.
+    #[serde(default = "default_max_tool_iterations")]
+    pub max_tool_iterations: usize,
 }
 
 impl Default for AgentConfig {
     fn default() -> Self {
         Self {
             compact_context: false,
+            max_tool_iterations: default_max_tool_iterations(),
+        }
+    }
+}
+
+fn default_max_tool_iterations() -> usize {
+    10
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SwarmConfig {
+    #[serde(default = "default_subagent_max_concurrent")]
+    pub subagent_max_concurrent: usize,
+}
+
+fn default_subagent_max_concurrent() -> usize {
+    4
+}
+
+impl Default for SwarmConfig {
+    fn default() -> Self {
+        Self {
+            subagent_max_concurrent: default_subagent_max_concurrent(),
         }
     }
 }
@@ -1521,6 +1550,7 @@ impl Default for Config {
             cost: CostConfig::default(),
             peripherals: PeripheralsConfig::default(),
             agent: AgentConfig::default(),
+            swarm: SwarmConfig::default(),
             agents: HashMap::new(),
             hardware: HardwareConfig::default(),
         }
@@ -1877,6 +1907,7 @@ mod tests {
             cost: CostConfig::default(),
             peripherals: PeripheralsConfig::default(),
             agent: AgentConfig::default(),
+            swarm: SwarmConfig::default(),
             agents: HashMap::new(),
             hardware: HardwareConfig::default(),
         };
@@ -1955,6 +1986,7 @@ default_temperature = 0.7
             cost: CostConfig::default(),
             peripherals: PeripheralsConfig::default(),
             agent: AgentConfig::default(),
+            swarm: SwarmConfig::default(),
             agents: HashMap::new(),
             hardware: HardwareConfig::default(),
         };

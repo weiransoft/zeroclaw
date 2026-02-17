@@ -1,7 +1,16 @@
-/target
-firmware/*/target
-*.db
-*.db-journal
-.DS_Store
-.wt-pr37/
-.env
+# Test and temporary files
+AGENT_GROUP_TEST.md
+AGENT_GROUP_TEST_REPORT.md
+FINAL_TEST_SUMMARY.md
+MACOS_AUTOMATION_PERMISSIONS.md
+PERMISSIONS_TEST_SUMMARY.md
+PERMISSIONS_TROUBLESHOOTING.md
+PROJECT_SUMMARY.md
+RETEST_REPORT.md
+check_permissions.sh
+check_permissions_no_sudo.sh
+test_agent_group.sh
+
+# Config files
+config.toml
+zeroclaw_config.toml
