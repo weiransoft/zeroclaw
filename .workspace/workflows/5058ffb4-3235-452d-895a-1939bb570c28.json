@@ -1,0 +1,18 @@
+{
+  "id": "5058ffb4-3235-452d-895a-1939bb570c28",
+  "name": "Auto-Generated Workflow for: 创建一个Scrum团队工作流，包括产品待办列表梳理、Sprint计划会议、每日站会、Sprint评审和回顾会议等标准Scrum流程",
+  "description": "创建一个Scrum团队工作流，包括产品待办列表梳理、Sprint计划会议、每日站会、Sprint评审和回顾会议等标准Scrum流程",
+  "roles": [],
+  "steps": [
+    {
+      "name": "Project Delivery",
+      "description": "最终评审和项目交付",
+      "assigned_to": "scrum_master",
+      "dependencies": [],
+      "status": "pending"
+    }
+  ],
+  "status": "created",
+  "created_at": "2026-02-18T06:32:01.915672+00:00",
+  "updated_at": "2026-02-18T06:32:01.915672+00:00"
+}

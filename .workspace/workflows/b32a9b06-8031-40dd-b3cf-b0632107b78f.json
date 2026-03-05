@@ -1,0 +1,44 @@
+{
+  "id": "b32a9b06-8031-40dd-b3cf-b0632107b78f",
+  "name": "测试工作流",
+  "description": "一个用于测试的工作流",
+  "roles": [
+    "产品经理",
+    "架构师",
+    "开发工程师",
+    "测试工程师"
+  ],
+  "steps": [
+    {
+      "name": "需求分析",
+      "description": "分析项目需求",
+      "assigned_to": "产品经理",
+      "dependencies": [],
+      "status": "pending"
+    },
+    {
+      "name": "设计阶段",
+      "description": "设计系统架构",
+      "assigned_to": "架构师",
+      "dependencies": [],
+      "status": "pending"
+    },
+    {
+      "name": "开发实现",
+      "description": "编写代码实现功能",
+      "assigned_to": "开发工程师",
+      "dependencies": [],
+      "status": "pending"
+    },
+    {
+      "name": "测试验证",
+      "description": "执行测试用例",
+      "assigned_to": "测试工程师",
+      "dependencies": [],
+      "status": "pending"
+    }
+  ],
+  "status": "created",
+  "created_at": "2026-02-18T06:46:44.254539+00:00",
+  "updated_at": "2026-02-18T06:46:44.254539+00:00"
+}

@@ -1,0 +1,68 @@
+{
+  "id": "8a851ddd-52ba-4f32-a114-5fb993c301a5",
+  "name": "Scrum团队标准工作流",
+  "description": "完整的Scrum团队工作流，包含产品待办列表梳理、Sprint计划会议、每日站会、Sprint评审和回顾会议等标准Scrum流程",
+  "roles": [
+    "product_owner",
+    "scrum_master",
+    "development_team",
+    "stakeholders"
+  ],
+  "steps": [
+    {
+      "name": "产品待办列表梳理",
+      "description": "Product Owner与团队一起梳理产品待办列表，明确需求优先级，确保PBI（Product Backlog Item）清晰且可估算",
+      "assigned_to": "product_owner",
+      "dependencies": [],
+      "status": "pending"
+    },
+    {
+      "name": "Sprint计划会议",
+      "description": "召开Sprint计划会议，确定Sprint目标，选择要完成的PBI，制定Sprint待办列表（Sprint Backlog）",
+      "assigned_to": "scrum_master",
+      "dependencies": [
+        "产品待办列表梳理"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "Sprint执行与每日站会",
+      "description": "开发团队执行Sprint任务，每天举行15分钟站会，同步进展、计划和障碍",
+      "assigned_to": "development_team",
+      "dependencies": [
+        "Sprint计划会议"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "Sprint评审会议",
+      "description": "Sprint结束时召开评审会议，向利益相关者演示已完成的工作增量，收集反馈",
+      "assigned_to": "product_owner",
+      "dependencies": [
+        "Sprint执行与每日站会"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "Sprint回顾会议",
+      "description": "团队回顾Sprint过程，识别改进点，制定行动计划，持续改进团队效能",
+      "assigned_to": "scrum_master",
+      "dependencies": [
+        "Sprint评审会议"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "Sprint交付与总结",
+      "description": "完成Sprint交付，更新产品待办列表，准备下一个Sprint",
+      "assigned_to": "scrum_master",
+      "dependencies": [
+        "Sprint回顾会议"
+      ],
+      "status": "pending"
+    }
+  ],
+  "status": "created",
+  "created_at": "2026-02-18T06:32:28.973537+00:00",
+  "updated_at": "2026-02-18T06:32:28.973537+00:00"
+}

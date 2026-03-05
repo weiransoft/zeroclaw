@@ -1,0 +1,87 @@
+{
+  "id": "69f5dffb-b7a2-4d2c-89c8-05c274a4d95f",
+  "name": "Scrum团队开发工作流",
+  "description": "敏捷Scrum团队开发流程，包含完整的Sprint周期管理",
+  "roles": [
+    "Product Owner",
+    "Scrum Master",
+    "Development Team",
+    "QA Engineer",
+    "Tech Lead"
+  ],
+  "steps": [
+    {
+      "name": "产品待办事项梳理",
+      "description": "Product Owner梳理和优先级排序产品待办事项",
+      "assigned_to": "Product Owner",
+      "dependencies": [],
+      "status": "pending"
+    },
+    {
+      "name": "Sprint计划会议",
+      "description": "团队共同规划Sprint目标和任务",
+      "assigned_to": "Scrum Master",
+      "dependencies": [
+        "产品待办事项梳理"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "每日站会",
+      "description": "团队每日同步进度和阻碍",
+      "assigned_to": "Scrum Master",
+      "dependencies": [
+        "Sprint计划会议"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "开发执行",
+      "description": "开发团队进行功能开发和代码实现",
+      "assigned_to": "Development Team",
+      "dependencies": [
+        "Sprint计划会议"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "代码评审",
+      "description": "Tech Lead进行代码审查和质量把控",
+      "assigned_to": "Tech Lead",
+      "dependencies": [
+        "开发执行"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "测试验证",
+      "description": "QA工程师进行功能测试和质量验证",
+      "assigned_to": "QA Engineer",
+      "dependencies": [
+        "代码评审"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "Sprint评审",
+      "description": "团队展示Sprint成果并收集反馈",
+      "assigned_to": "Product Owner",
+      "dependencies": [
+        "测试验证"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "Sprint回顾",
+      "description": "团队反思改进流程和实践",
+      "assigned_to": "Scrum Master",
+      "dependencies": [
+        "Sprint评审"
+      ],
+      "status": "pending"
+    }
+  ],
+  "status": "created",
+  "created_at": "2026-02-18T06:31:16.048236+00:00",
+  "updated_at": "2026-02-18T06:31:16.048236+00:00"
+}

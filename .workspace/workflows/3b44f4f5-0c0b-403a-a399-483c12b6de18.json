@@ -1,0 +1,79 @@
+{
+  "id": "3b44f4f5-0c0b-403a-a399-483c12b6de18",
+  "name": "运营团队",
+  "description": "运营团队协作工作流，用于管理运营相关任务和项目",
+  "roles": [
+    "运营经理",
+    "内容运营",
+    "用户运营",
+    "数据分析师",
+    "设计师"
+  ],
+  "steps": [
+    {
+      "name": "需求分析",
+      "description": "分析运营需求和目标",
+      "assigned_to": "运营经理",
+      "dependencies": [],
+      "status": "pending"
+    },
+    {
+      "name": "方案制定",
+      "description": "制定运营方案和执行计划",
+      "assigned_to": "运营经理",
+      "dependencies": [
+        "需求分析"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "内容创作",
+      "description": "创作运营所需的内容素材",
+      "assigned_to": "内容运营",
+      "dependencies": [
+        "方案制定"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "设计制作",
+      "description": "制作运营所需的视觉素材",
+      "assigned_to": "设计师",
+      "dependencies": [
+        "方案制定"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "执行推广",
+      "description": "执行运营活动并推广",
+      "assigned_to": "用户运营",
+      "dependencies": [
+        "内容创作",
+        "设计制作"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "数据分析",
+      "description": "分析运营效果和数据",
+      "assigned_to": "数据分析师",
+      "dependencies": [
+        "执行推广"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "总结优化",
+      "description": "总结经验并优化流程",
+      "assigned_to": "运营经理",
+      "dependencies": [
+        "数据分析"
+      ],
+      "status": "pending"
+    }
+  ],
+  "status": "created",
+  "created_at": "2026-02-23T12:31:19.673219+00:00",
+  "updated_at": "2026-02-23T12:31:19.673219+00:00"
+}

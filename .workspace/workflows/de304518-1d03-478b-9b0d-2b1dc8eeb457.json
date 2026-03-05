@@ -1,0 +1,70 @@
+{
+  "id": "de304518-1d03-478b-9b0d-2b1dc8eeb457",
+  "name": "产品运营工作流",
+  "description": "完整的产品运营工作流程，涵盖从需求分析到效果优化的全流程管理，支持数据驱动的产品运营决策",
+  "roles": [
+    "产品运营经理",
+    "数据分析师",
+    "用户运营专员",
+    "内容运营专员",
+    "活动运营专员"
+  ],
+  "steps": [
+    {
+      "name": "需求分析与目标设定",
+      "description": "分析产品运营需求，设定运营目标和KPI指标",
+      "assigned_to": "产品运营经理",
+      "dependencies": [],
+      "status": "running"
+    },
+    {
+      "name": "数据收集与分析",
+      "description": "收集产品数据，进行深度分析，识别问题和机会",
+      "assigned_to": "数据分析师",
+      "dependencies": [
+        "需求分析与目标设定"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "用户调研与洞察",
+      "description": "开展用户调研，收集用户反馈，形成用户洞察报告",
+      "assigned_to": "用户运营专员",
+      "dependencies": [
+        "需求分析与目标设定"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "内容策划与制作",
+      "description": "制定内容运营策略，策划并制作运营内容",
+      "assigned_to": "内容运营专员",
+      "dependencies": [
+        "用户调研与洞察"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "活动策划与执行",
+      "description": "策划运营活动方案，协调资源并执行活动",
+      "assigned_to": "活动运营专员",
+      "dependencies": [
+        "内容策划与制作",
+        "数据收集与分析"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "效果评估与优化",
+      "description": "评估运营效果，总结经验，提出优化方案",
+      "assigned_to": "产品运营经理",
+      "dependencies": [
+        "活动策划与执行"
+      ],
+      "status": "pending"
+    }
+  ],
+  "status": "running",
+  "created_at": "2026-02-21T02:44:59.903156+00:00",
+  "updated_at": "2026-02-21T02:45:07.679151+00:00"
+}

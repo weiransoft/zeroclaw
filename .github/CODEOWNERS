@@ -1,0 +1,21 @@
+# Default owner for all files
+* @theonlyhennygod
+
+# High-risk surfaces
+/src/security/** @theonlyhennygod
+/src/runtime/** @theonlyhennygod
+/src/memory/** @theonlyhennygod
+/.github/** @theonlyhennygod
+/Cargo.toml @theonlyhennygod
+/Cargo.lock @theonlyhennygod
+
+# CI
+/.github/workflows/**  @chumyin
+
+# Docs & governance
+/docs/**                @chumyin
+/AGENTS.md              @chumyin
+/CONTRIBUTING.md        @chumyin
+/docs/pr-workflow.md    @chumyin
+/docs/reviewer-playbook.md @chumyin
+/docs/ci-map.md         @chumyin

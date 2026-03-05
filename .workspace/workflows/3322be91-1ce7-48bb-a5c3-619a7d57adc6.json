@@ -1,0 +1,59 @@
+{
+  "id": "3322be91-1ce7-48bb-a5c3-619a7d57adc6",
+  "name": "标准Scrum团队工作流",
+  "description": "完整的Scrum团队工作流，包含Sprint规划、每日站会、开发执行、评审和回顾等关键环节",
+  "roles": [
+    "scrum_master",
+    "product_owner",
+    "development_team",
+    "stakeholders"
+  ],
+  "steps": [
+    {
+      "name": "Sprint规划会议",
+      "description": "产品负责人介绍产品待办事项，团队评估并承诺Sprint目标，制定Sprint待办列表",
+      "assigned_to": "scrum_master",
+      "dependencies": [],
+      "status": "running"
+    },
+    {
+      "name": "每日站会准备",
+      "description": "团队成员准备每日站会内容：昨天完成了什么、今天计划做什么、遇到什么障碍",
+      "assigned_to": "development_team",
+      "dependencies": [
+        "Sprint规划会议"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "开发执行",
+      "description": "团队按照Sprint待办列表进行开发工作，持续集成和代码审查",
+      "assigned_to": "development_team",
+      "dependencies": [
+        "每日站会准备"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "Sprint评审会议",
+      "description": "团队展示Sprint成果，收集利益相关者反馈，更新产品待办列表",
+      "assigned_to": "product_owner",
+      "dependencies": [
+        "开发执行"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "Sprint回顾会议",
+      "description": "团队反思Sprint过程，识别改进点，制定行动计划",
+      "assigned_to": "scrum_master",
+      "dependencies": [
+        "Sprint评审会议"
+      ],
+      "status": "pending"
+    }
+  ],
+  "status": "running",
+  "created_at": "2026-02-18T06:36:24.574710+00:00",
+  "updated_at": "2026-02-18T06:36:50.530622+00:00"
+}

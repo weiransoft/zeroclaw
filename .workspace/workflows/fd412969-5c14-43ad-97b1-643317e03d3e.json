@@ -1,0 +1,40 @@
+{
+  "id": "fd412969-5c14-43ad-97b1-643317e03d3e",
+  "name": "Scrum Sprint Workflow",
+  "description": "Complete Scrum workflow for software development",
+  "roles": [
+    "product_owner",
+    "scrum_master",
+    "architect"
+  ],
+  "steps": [
+    {
+      "name": "Product Requirement Analysis",
+      "description": "Analyze and document product requirements",
+      "assigned_to": "product_owner",
+      "dependencies": [],
+      "status": "pending"
+    },
+    {
+      "name": "Architecture Design",
+      "description": "Design system architecture",
+      "assigned_to": "architect",
+      "dependencies": [
+        "Product Requirement Analysis"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "Sprint Planning",
+      "description": "Plan sprint backlog",
+      "assigned_to": "scrum_master",
+      "dependencies": [
+        "Architecture Design"
+      ],
+      "status": "pending"
+    }
+  ],
+  "status": "created",
+  "created_at": "2026-02-18T05:19:29.660947+00:00",
+  "updated_at": "2026-02-18T05:19:29.660947+00:00"
+}

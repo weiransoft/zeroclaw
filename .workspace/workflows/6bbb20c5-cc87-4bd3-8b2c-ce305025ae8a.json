@@ -1,0 +1,98 @@
+{
+  "id": "6bbb20c5-cc87-4bd3-8b2c-ce305025ae8a",
+  "name": "产品运营工作流",
+  "description": "完整的产品运营工作流程，涵盖数据分析、用户运营、内容运营、活动运营等核心模块，实现从洞察到执行的闭环管理",
+  "roles": [
+    "产品运营经理",
+    "数据分析师",
+    "用户运营专员",
+    "内容运营专员",
+    "活动运营专员",
+    "产品经理"
+  ],
+  "steps": [
+    {
+      "name": "数据收集与监测",
+      "description": "收集产品关键指标数据，监测用户行为和产品表现",
+      "assigned_to": "数据分析师",
+      "dependencies": [],
+      "status": "pending"
+    },
+    {
+      "name": "数据分析与洞察",
+      "description": "分析数据趋势，识别问题和机会点，生成数据报告",
+      "assigned_to": "数据分析师",
+      "dependencies": [
+        "数据收集与监测"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "用户研究与反馈收集",
+      "description": "通过问卷、访谈等方式收集用户反馈，了解用户需求",
+      "assigned_to": "用户运营专员",
+      "dependencies": [],
+      "status": "pending"
+    },
+    {
+      "name": "运营策略制定",
+      "description": "基于数据洞察和用户反馈，制定运营策略和目标",
+      "assigned_to": "产品运营经理",
+      "dependencies": [
+        "数据分析与洞察",
+        "用户研究与反馈收集"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "内容策划与生产",
+      "description": "根据运营策略策划内容，制作运营素材",
+      "assigned_to": "内容运营专员",
+      "dependencies": [
+        "运营策略制定"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "活动策划与执行",
+      "description": "策划并执行运营活动，推动用户增长和活跃",
+      "assigned_to": "活动运营专员",
+      "dependencies": [
+        "运营策略制定"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "产品优化建议",
+      "description": "基于运营数据和用户反馈，向产品团队提出优化建议",
+      "assigned_to": "产品运营经理",
+      "dependencies": [
+        "数据分析与洞察",
+        "用户研究与反馈收集"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "运营执行与推广",
+      "description": "执行运营方案，进行多渠道推广和用户触达",
+      "assigned_to": "用户运营专员",
+      "dependencies": [
+        "内容策划与生产",
+        "活动策划与执行"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "效果评估与复盘",
+      "description": "评估运营效果，进行复盘总结，优化运营策略",
+      "assigned_to": "产品运营经理",
+      "dependencies": [
+        "运营执行与推广"
+      ],
+      "status": "pending"
+    }
+  ],
+  "status": "created",
+  "created_at": "2026-02-20T14:29:32.493539+00:00",
+  "updated_at": "2026-02-20T14:29:32.493539+00:00"
+}

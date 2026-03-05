@@ -1,0 +1,70 @@
+{
+  "id": "3c93a623-7258-46e8-a174-536e129c9ee3",
+  "name": "在线商城开发",
+  "description": "构建一个完整的在线商城系统，包含商品管理、购物车、支付和订单管理功能",
+  "roles": [
+    "product_owner",
+    "scrum_master",
+    "frontend_developer",
+    "backend_developer",
+    "qa_engineer"
+  ],
+  "steps": [
+    {
+      "name": "需求分析",
+      "description": "分析在线商城的业务需求和用户场景",
+      "assigned_to": "product_owner",
+      "dependencies": [],
+      "status": "running"
+    },
+    {
+      "name": "系统设计",
+      "description": "设计在线商城的系统架构和技术方案",
+      "assigned_to": "backend_developer",
+      "dependencies": [
+        "需求分析"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "前端开发",
+      "description": "开发在线商城的用户界面和交互功能",
+      "assigned_to": "frontend_developer",
+      "dependencies": [
+        "系统设计"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "后端开发",
+      "description": "开发在线商城的服务器端功能和API",
+      "assigned_to": "backend_developer",
+      "dependencies": [
+        "系统设计"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "系统测试",
+      "description": "测试在线商城的功能和性能",
+      "assigned_to": "qa_engineer",
+      "dependencies": [
+        "前端开发",
+        "后端开发"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "项目交付",
+      "description": "最终审核和项目交付",
+      "assigned_to": "scrum_master",
+      "dependencies": [
+        "系统测试"
+      ],
+      "status": "pending"
+    }
+  ],
+  "status": "stopped",
+  "created_at": "2026-02-18T03:00:53.552456+00:00",
+  "updated_at": "2026-02-18T03:00:53.563183+00:00"
+}

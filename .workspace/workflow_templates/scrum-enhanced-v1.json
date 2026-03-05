@@ -1,0 +1,304 @@
+{
+  "id": "scrum-enhanced-v1",
+  "name": "增强型 Scrum 工作流",
+  "description": "融合上下文工程优化的 Scrum 工作流模板，支持智能阶段划分",
+  "version": "2.0.0",
+  "author": "ZeroClaw Team",
+  "categories": ["software-development", "agile", "scrum"],
+  "roles": [
+    {
+      "name": "Analyst",
+      "description": "业务分析师，负责市场调研、竞品分析、需求梳理",
+      "permissions": ["read_market_data", "read_competitor_info", "write_analysis_report"],
+      "responsibilities": ["进行市场调研和趋势分析", "分析竞品功能和定位", "梳理和澄清业务需求", "产出项目简报和需求文档"],
+      "role_type": "Analyst",
+      "skills": ["市场分析", "竞品研究", "需求工程", "数据可视化"],
+      "deliverables": [
+        {"name": "项目简报", "description": "包含市场背景、目标用户、核心价值的项目概述", "required": true},
+        {"name": "竞品分析报告", "description": "竞品功能对比、优劣势分析", "required": false}
+      ],
+      "collaborators": ["ProductManager", "Architect"],
+      "decision_authority": "仅提供建议，需要上级审批",
+      "generate_prompt": false
+    },
+    {
+      "name": "ProductManager",
+      "description": "产品经理，负责产品规划、需求管理、产品决策",
+      "permissions": ["read_all", "write_prd", "manage_backlog"],
+      "responsibilities": ["编写PRD文档", "需求优先级排序", "产品决策", "验收确认"],
+      "role_type": "ProductManager",
+      "skills": ["产品规划", "需求管理", "用户研究", "数据分析"],
+      "deliverables": [
+        {"name": "PRD文档", "description": "产品需求文档，包含功能需求、非功能需求、验收标准", "required": true}
+      ],
+      "collaborators": ["Analyst", "Architect", "Developer"],
+      "decision_authority": "可独立决策产品相关事项",
+      "generate_prompt": false
+    },
+    {
+      "name": "Architect",
+      "description": "架构师，负责系统架构设计、技术选型、技术决策",
+      "permissions": ["read_all_code", "write_architecture_doc", "make_tech_decisions"],
+      "responsibilities": ["设计系统整体架构", "进行技术选型和评估", "定义技术规范和标准", "评审技术方案"],
+      "role_type": "Architect",
+      "skills": ["系统架构设计", "技术选型", "性能优化", "安全设计"],
+      "deliverables": [
+        {"name": "架构设计文档", "description": "包含系统架构图、模块划分、接口定义", "required": true},
+        {"name": "技术选型报告", "description": "技术栈选择及理由", "required": true},
+        {"name": "API契约文档", "description": "接口定义和数据模型", "required": true}
+      ],
+      "collaborators": ["ProductManager", "Developer", "QAEngineer"],
+      "decision_authority": "可独立决策技术相关事项",
+      "generate_prompt": false
+    },
+    {
+      "name": "ScrumMaster",
+      "description": "Scrum Master，负责敏捷流程管理、团队协调、障碍清除",
+      "permissions": ["manage_sprint", "facilitate_meetings", "track_progress"],
+      "responsibilities": ["任务拆解和分配", "进度管理和跟踪", "障碍清除", "团队协调"],
+      "role_type": "ScrumMaster",
+      "skills": ["敏捷管理", "团队协调", "问题解决", "沟通 facilitation"],
+      "deliverables": [
+        {"name": "Sprint计划", "description": "Sprint目标和任务分解", "required": true},
+        {"name": "回顾会议记录", "description": "Sprint回顾和改进计划", "required": true}
+      ],
+      "collaborators": ["ProductManager", "Developer", "QAEngineer"],
+      "decision_authority": "仅提供建议，需要上级审批",
+      "generate_prompt": false
+    },
+    {
+      "name": "Developer",
+      "description": "开发工程师，负责代码实现、单元测试、代码评审",
+      "permissions": ["read_code", "write_code", "run_tests"],
+      "responsibilities": ["代码实现", "单元测试编写", "代码评审", "技术文档编写"],
+      "role_type": "Developer",
+      "skills": ["编程", "调试", "测试", "代码优化"],
+      "deliverables": [
+        {"name": "源代码", "description": "可工作的代码实现", "required": true},
+        {"name": "单元测试", "description": "单元测试代码", "required": true}
+      ],
+      "collaborators": ["Architect", "QAEngineer", "ScrumMaster"],
+      "decision_authority": "可独立决策代码实现细节",
+      "generate_prompt": false
+    },
+    {
+      "name": "QAEngineer",
+      "description": "测试工程师，负责测试用例设计、测试执行、缺陷跟踪",
+      "permissions": ["read_code", "write_tests", "report_bugs"],
+      "responsibilities": ["测试用例设计", "测试执行", "缺陷跟踪和验证", "测试报告编写"],
+      "role_type": "QAEngineer",
+      "skills": ["测试设计", "自动化测试", "缺陷分析", "性能测试"],
+      "deliverables": [
+        {"name": "测试用例", "description": "完整的测试用例集", "required": true},
+        {"name": "测试报告", "description": "测试结果和缺陷报告", "required": true}
+      ],
+      "collaborators": ["Developer", "ProductManager", "ScrumMaster"],
+      "decision_authority": "仅提供建议，需要上级审批",
+      "generate_prompt": false
+    }
+  ],
+  "phases": [
+    {
+      "id": "analysis",
+      "name": "分析阶段",
+      "description": "市场调研、竞品分析、需求梳理",
+      "duration_days": 3,
+      "activity_ids": ["market_research", "competitor_analysis", "requirement_clarification"],
+      "required_roles": ["Analyst"],
+      "exit_conditions": [
+        {"type": "deliverable_complete", "description": "项目简报已完成"},
+        {"type": "boss_approval", "description": "Boss 审批通过"}
+      ]
+    },
+    {
+      "id": "planning",
+      "name": "规划阶段",
+      "description": "PRD编写、架构设计",
+      "duration_days": 5,
+      "activity_ids": ["prd_writing", "architecture_drafting"],
+      "required_roles": ["ProductManager", "Architect"],
+      "exit_conditions": [
+        {"type": "deliverable_complete", "description": "PRD文档已完成"},
+        {"type": "deliverable_complete", "description": "架构设计草案已完成"},
+        {"type": "boss_approval", "description": "Boss 审批通过"}
+      ]
+    },
+    {
+      "id": "design",
+      "name": "设计阶段",
+      "description": "详细设计、API契约、数据库设计",
+      "duration_days": 3,
+      "activity_ids": ["detailed_design", "api_contract", "database_design"],
+      "required_roles": ["Architect"],
+      "exit_conditions": [
+        {"type": "deliverable_complete", "description": "架构设计文档已完成"},
+        {"type": "deliverable_complete", "description": "API契约文档已完成"}
+      ]
+    },
+    {
+      "id": "implementation",
+      "name": "实施阶段",
+      "description": "开发、测试、部署",
+      "duration_days": 10,
+      "activity_ids": ["development", "testing", "deployment"],
+      "required_roles": ["ScrumMaster", "Developer", "QAEngineer"],
+      "exit_conditions": [
+        {"type": "all_tasks_complete", "description": "所有任务已完成"},
+        {"type": "tests_pass", "description": "测试通过"},
+        {"type": "boss_approval", "description": "Boss 审批通过"}
+      ]
+    }
+  ],
+  "activities": [
+    {
+      "id": "market_research",
+      "name": "市场调研",
+      "description": "调研市场趋势和用户需求",
+      "assigned_roles": ["Analyst"],
+      "duration_minutes": 480,
+      "deliverables": ["市场调研报告"],
+      "dependencies": [],
+      "inputs": [],
+      "outputs": [{"name": "市场调研报告", "type": "document", "required": true}],
+      "risk_level": "Low"
+    },
+    {
+      "id": "competitor_analysis",
+      "name": "竞品分析",
+      "description": "分析竞品功能和定位",
+      "assigned_roles": ["Analyst"],
+      "duration_minutes": 240,
+      "deliverables": ["竞品分析报告"],
+      "dependencies": [],
+      "inputs": [],
+      "outputs": [{"name": "竞品分析报告", "type": "document", "required": false}],
+      "risk_level": "Low"
+    },
+    {
+      "id": "requirement_clarification",
+      "name": "需求梳理",
+      "description": "梳理和澄清业务需求",
+      "assigned_roles": ["Analyst"],
+      "duration_minutes": 240,
+      "deliverables": ["项目简报"],
+      "dependencies": ["market_research", "competitor_analysis"],
+      "inputs": [
+        {"name": "市场调研报告", "from_activity": "market_research"},
+        {"name": "竞品分析报告", "from_activity": "competitor_analysis"}
+      ],
+      "outputs": [{"name": "项目简报", "type": "document", "required": true}],
+      "risk_level": "Low"
+    },
+    {
+      "id": "prd_writing",
+      "name": "PRD编写",
+      "description": "编写产品需求文档",
+      "assigned_roles": ["ProductManager"],
+      "duration_minutes": 480,
+      "deliverables": ["PRD文档"],
+      "dependencies": ["requirement_clarification"],
+      "inputs": [{"name": "项目简报", "from_activity": "requirement_clarification"}],
+      "outputs": [{"name": "PRD文档", "type": "document", "required": true, "acceptance_criteria": ["需求背景清晰", "用户故事完整", "验收标准明确"]}],
+      "risk_level": "Medium"
+    },
+    {
+      "id": "architecture_drafting",
+      "name": "架构设计草案",
+      "description": "设计初步架构方案",
+      "assigned_roles": ["Architect"],
+      "duration_minutes": 480,
+      "deliverables": ["架构设计草案"],
+      "dependencies": ["requirement_clarification"],
+      "inputs": [{"name": "项目简报", "from_activity": "requirement_clarification"}],
+      "outputs": [{"name": "架构设计草案", "type": "document", "required": true}],
+      "risk_level": "Medium"
+    },
+    {
+      "id": "detailed_design",
+      "name": "详细设计",
+      "description": "详细架构设计",
+      "assigned_roles": ["Architect"],
+      "duration_minutes": 480,
+      "deliverables": ["架构设计文档"],
+      "dependencies": ["prd_writing", "architecture_drafting"],
+      "inputs": [
+        {"name": "PRD文档", "from_activity": "prd_writing"},
+        {"name": "架构设计草案", "from_activity": "architecture_drafting"}
+      ],
+      "outputs": [{"name": "架构设计文档", "type": "document", "required": true}],
+      "risk_level": "Medium"
+    },
+    {
+      "id": "api_contract",
+      "name": "API契约设计",
+      "description": "定义接口和数据模型",
+      "assigned_roles": ["Architect"],
+      "duration_minutes": 240,
+      "deliverables": ["API契约文档"],
+      "dependencies": ["detailed_design"],
+      "inputs": [{"name": "架构设计文档", "from_activity": "detailed_design"}],
+      "outputs": [{"name": "API契约文档", "type": "document", "required": true}],
+      "risk_level": "Medium"
+    },
+    {
+      "id": "database_design",
+      "name": "数据库设计",
+      "description": "设计数据模型",
+      "assigned_roles": ["Architect"],
+      "duration_minutes": 240,
+      "deliverables": ["数据库设计文档"],
+      "dependencies": ["detailed_design"],
+      "inputs": [{"name": "架构设计文档", "from_activity": "detailed_design"}],
+      "outputs": [{"name": "数据库设计文档", "type": "document", "required": true}],
+      "risk_level": "Medium"
+    },
+    {
+      "id": "development",
+      "name": "开发实现",
+      "description": "代码实现和单元测试",
+      "assigned_roles": ["Developer"],
+      "duration_minutes": 2880,
+      "deliverables": ["源代码", "单元测试"],
+      "dependencies": ["api_contract", "database_design"],
+      "inputs": [
+        {"name": "API契约文档", "from_activity": "api_contract"},
+        {"name": "数据库设计文档", "from_activity": "database_design"}
+      ],
+      "outputs": [
+        {"name": "源代码", "type": "code", "required": true},
+        {"name": "单元测试", "type": "code", "required": true}
+      ],
+      "risk_level": "High"
+    },
+    {
+      "id": "testing",
+      "name": "测试验证",
+      "description": "集成测试和验收测试",
+      "assigned_roles": ["QAEngineer"],
+      "duration_minutes": 960,
+      "deliverables": ["测试报告"],
+      "dependencies": ["development"],
+      "inputs": [{"name": "源代码", "from_activity": "development"}],
+      "outputs": [{"name": "测试报告", "type": "document", "required": true}],
+      "risk_level": "Medium"
+    },
+    {
+      "id": "deployment",
+      "name": "部署发布",
+      "description": "部署到生产环境",
+      "assigned_roles": ["ScrumMaster", "Developer"],
+      "duration_minutes": 240,
+      "deliverables": ["部署记录"],
+      "dependencies": ["testing"],
+      "inputs": [{"name": "测试报告", "from_activity": "testing"}],
+      "outputs": [{"name": "部署记录", "type": "document", "required": true}],
+      "risk_level": "High"
+    }
+  ],
+  "events": [],
+  "integrations": [],
+  "skills": [],
+  "risk_rules": [],
+  "variables": [],
+  "applicable_scenarios": ["新项目开发", "大型功能开发", "系统重构"]
+}

@@ -1,0 +1,115 @@
+# ============ 日志文件 ============
+*.log
+
+# ============ 临时文件 ============
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+.tmp_*
+temp_*.log
+
+# ============ 构建产物 ============
+target/
+build/
+dist/
+*.o
+*.so
+*.dylib
+*.dll
+*.exe
+*.bin
+*.out
+
+# ============ 配置文件（包含敏感信息） ============
+config.toml
+zeroclaw_config.toml
+*.local.toml
+*.local.yaml
+*.local.yml
+.env
+.env.local
+.env.*.local
+
+# ============ 依赖目录 ============
+vendor/
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+.Python
+*.egg-info/
+.eggs/
+
+# ============ Rust 构建产物（但保留 lock 文件） ============
+!Cargo.lock
+
+# ============ IDE 和编辑器 ============
+.idea/
+.vscode/
+*.iml
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+.project
+.classpath
+.settings/
+
+# ============ 文档文件（不提交） ============
+*.md
+!README.md
+*.pdf
+*.doc
+*.docx
+*.xls
+*.xlsx
+*.ppt
+*.pptx
+
+# ============ 图片和媒体文件 ============
+*.svg
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.ico
+*.mp4
+*.avi
+*.mov
+*.webm
+*.mp3
+*.wav
+
+# ============ 压缩文件 ============
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+
+# ============ 数据库和大型数据文件 ============
+*.sqlite
+*.sqlite3
+*.db
+data/
+*.csv
+*.tsv
+
+# ============ 缓存 ============
+.cache/
+*.cache
+.npm/
+.yarn/
+
+# ============ 其他 ============
+*.pid
+*.lock
+*.lockfile
+*.seed
+*.state

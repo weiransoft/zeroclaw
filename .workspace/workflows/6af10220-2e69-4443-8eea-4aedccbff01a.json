@@ -1,0 +1,38 @@
+{
+  "id": "6af10220-2e69-4443-8eea-4aedccbff01a",
+  "name": "Auto-Generated Workflow for: 产品运营工作流，包含需求分析、产品规划、内容运营、用户运营、数据分析、活动策划和效果评估等核心环节",
+  "description": "产品运营工作流，包含需求分析、产品规划、内容运营、用户运营、数据分析、活动策划和效果评估等核心环节",
+  "roles": [
+    "product_owner",
+    "data_analyst",
+    "scrum_master"
+  ],
+  "steps": [
+    {
+      "name": "产品需求分析",
+      "description": "分析并记录产品需求",
+      "assigned_to": "product_owner",
+      "dependencies": [],
+      "status": "pending"
+    },
+    {
+      "name": "数据分析",
+      "description": "分析数据并提供洞察",
+      "assigned_to": "data_analyst",
+      "dependencies": [],
+      "status": "pending"
+    },
+    {
+      "name": "交付",
+      "description": "最终评审和项目交付",
+      "assigned_to": "scrum_master",
+      "dependencies": [
+        "数据分析"
+      ],
+      "status": "pending"
+    }
+  ],
+  "status": "created",
+  "created_at": "2026-02-21T16:08:46.098954+00:00",
+  "updated_at": "2026-02-21T16:08:46.098954+00:00"
+}

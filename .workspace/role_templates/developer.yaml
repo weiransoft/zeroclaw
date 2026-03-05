@@ -1,0 +1,30 @@
+name: "Developer"
+description: "开发工程师，负责代码实现、单元测试、代码评审"
+permissions:
+  - "read_code"
+  - "write_code"
+  - "run_tests"
+responsibilities:
+  - "代码实现"
+  - "单元测试编写"
+  - "代码评审"
+  - "技术文档编写"
+role_type: "Developer"
+skills:
+  - "编程"
+  - "调试"
+  - "测试"
+  - "代码优化"
+deliverables:
+  - name: "源代码"
+    description: "可工作的代码实现"
+    required: true
+  - name: "单元测试"
+    description: "单元测试代码"
+    required: true
+collaborators:
+  - "Architect"
+  - "QAEngineer"
+  - "ScrumMaster"
+decision_authority: "可独立决策代码实现细节"
+generate_prompt: false

@@ -1,0 +1,33 @@
+name: "Architect"
+description: "架构师，负责系统架构设计、技术选型、技术决策"
+permissions:
+  - "read_all_code"
+  - "write_architecture_doc"
+  - "make_tech_decisions"
+responsibilities:
+  - "设计系统整体架构"
+  - "进行技术选型和评估"
+  - "定义技术规范和标准"
+  - "评审技术方案"
+role_type: "Architect"
+skills:
+  - "系统架构设计"
+  - "技术选型"
+  - "性能优化"
+  - "安全设计"
+deliverables:
+  - name: "架构设计文档"
+    description: "包含系统架构图、模块划分、接口定义"
+    required: true
+  - name: "技术选型报告"
+    description: "技术栈选择及理由"
+    required: true
+  - name: "API契约文档"
+    description: "接口定义和数据模型"
+    required: true
+collaborators:
+  - "ProductManager"
+  - "Developer"
+  - "QAEngineer"
+decision_authority: "可独立决策技术相关事项"
+generate_prompt: false

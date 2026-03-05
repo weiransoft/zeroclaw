@@ -1,0 +1,67 @@
+{
+  "id": "db0571cb-8f88-451b-ba4a-20baa776b272",
+  "name": "Scrum团队工作流",
+  "description": "Scrum敏捷开发团队工作流，包含完整的冲刺周期管理",
+  "roles": [
+    "Product Owner",
+    "Scrum Master",
+    "Development Team"
+  ],
+  "steps": [
+    {
+      "name": "Product Backlog梳理",
+      "description": "Product Owner维护和优先级排序产品待办事项",
+      "assigned_to": "Product Owner",
+      "dependencies": [],
+      "status": "running"
+    },
+    {
+      "name": "Sprint Planning",
+      "description": "团队规划下一个冲刺的目标和任务",
+      "assigned_to": "Scrum Master",
+      "dependencies": [
+        "Product Backlog梳理"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "Daily Standup",
+      "description": "每日站会同步进度和障碍",
+      "assigned_to": "Scrum Master",
+      "dependencies": [
+        "Sprint Planning"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "Sprint Development",
+      "description": "开发团队执行冲刺任务",
+      "assigned_to": "Development Team",
+      "dependencies": [
+        "Sprint Planning"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "Sprint Review",
+      "description": "展示和评审冲刺成果",
+      "assigned_to": "Product Owner",
+      "dependencies": [
+        "Sprint Development"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "Sprint Retrospective",
+      "description": "团队回顾和改进",
+      "assigned_to": "Scrum Master",
+      "dependencies": [
+        "Sprint Review"
+      ],
+      "status": "pending"
+    }
+  ],
+  "status": "running",
+  "created_at": "2026-02-18T06:40:32.552744+00:00",
+  "updated_at": "2026-02-18T06:40:54.881110+00:00"
+}

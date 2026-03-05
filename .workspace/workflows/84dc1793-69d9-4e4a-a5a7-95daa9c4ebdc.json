@@ -1,0 +1,30 @@
+{
+  "id": "84dc1793-69d9-4e4a-a5a7-95daa9c4ebdc",
+  "name": "Test Workflow",
+  "description": "Test workflow for validation",
+  "roles": [
+    "product_owner",
+    "scrum_master"
+  ],
+  "steps": [
+    {
+      "name": "Requirement Analysis",
+      "description": "Analyze product requirements",
+      "assigned_to": "product_owner",
+      "dependencies": [],
+      "status": "pending"
+    },
+    {
+      "name": "Sprint Planning",
+      "description": "Plan sprint backlog",
+      "assigned_to": "scrum_master",
+      "dependencies": [
+        "Requirement Analysis"
+      ],
+      "status": "pending"
+    }
+  ],
+  "status": "created",
+  "created_at": "2026-02-18T02:52:29.603259+00:00",
+  "updated_at": "2026-02-18T02:52:29.603259+00:00"
+}

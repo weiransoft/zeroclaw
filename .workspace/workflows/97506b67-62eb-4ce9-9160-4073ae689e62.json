@@ -1,0 +1,40 @@
+{
+  "id": "97506b67-62eb-4ce9-9160-4073ae689e62",
+  "name": "Auto-Generated Workflow for: Build a website",
+  "description": "Build a website with user authentication and product catalog",
+  "roles": [
+    "product_owner",
+    "frontend_developer",
+    "scrum_master"
+  ],
+  "steps": [
+    {
+      "name": "Product Requirement Analysis",
+      "description": "Analyze and document product requirements",
+      "assigned_to": "product_owner",
+      "dependencies": [],
+      "status": "pending"
+    },
+    {
+      "name": "Frontend Development",
+      "description": "Implement user interface and frontend functionality",
+      "assigned_to": "frontend_developer",
+      "dependencies": [
+        "Product Requirement Analysis"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "Project Delivery",
+      "description": "Final review and project delivery",
+      "assigned_to": "scrum_master",
+      "dependencies": [
+        "Frontend Development"
+      ],
+      "status": "pending"
+    }
+  ],
+  "status": "created",
+  "created_at": "2026-02-18T05:19:18.811289+00:00",
+  "updated_at": "2026-02-18T05:19:18.811289+00:00"
+}

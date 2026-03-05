@@ -1,0 +1,40 @@
+{
+  "id": "08186514-db8b-4540-9709-7332b1276128",
+  "name": "Auto-Generated Workflow for: Build an e-commerce",
+  "description": "Build an e-commerce website with product catalog, shopping cart, and payment integration",
+  "roles": [
+    "product_owner",
+    "frontend_developer",
+    "scrum_master"
+  ],
+  "steps": [
+    {
+      "name": "Product Requirement Analysis",
+      "description": "Analyze and document product requirements",
+      "assigned_to": "product_owner",
+      "dependencies": [],
+      "status": "pending"
+    },
+    {
+      "name": "Frontend Development",
+      "description": "Implement user interface and frontend functionality",
+      "assigned_to": "frontend_developer",
+      "dependencies": [
+        "Product Requirement Analysis"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "Project Delivery",
+      "description": "Final review and project delivery",
+      "assigned_to": "scrum_master",
+      "dependencies": [
+        "Frontend Development"
+      ],
+      "status": "pending"
+    }
+  ],
+  "status": "created",
+  "created_at": "2026-02-18T05:18:54.933447+00:00",
+  "updated_at": "2026-02-18T05:18:54.933447+00:00"
+}

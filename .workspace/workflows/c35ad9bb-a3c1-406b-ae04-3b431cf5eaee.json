@@ -1,0 +1,49 @@
+{
+  "id": "c35ad9bb-a3c1-406b-ae04-3b431cf5eaee",
+  "name": "测试工作流",
+  "description": "这是一个用于测试的工作流，包含基本的开发和测试步骤",
+  "roles": [
+    "开发工程师",
+    "测试工程师",
+    "项目经理"
+  ],
+  "steps": [
+    {
+      "name": "需求分析",
+      "description": "分析项目需求并制定计划",
+      "assigned_to": "项目经理",
+      "dependencies": [],
+      "status": "pending"
+    },
+    {
+      "name": "代码开发",
+      "description": "根据需求进行代码开发",
+      "assigned_to": "开发工程师",
+      "dependencies": [
+        "需求分析"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "代码测试",
+      "description": "对开发完成的代码进行测试",
+      "assigned_to": "测试工程师",
+      "dependencies": [
+        "代码开发"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "项目验收",
+      "description": "验收项目成果",
+      "assigned_to": "项目经理",
+      "dependencies": [
+        "代码测试"
+      ],
+      "status": "pending"
+    }
+  ],
+  "status": "created",
+  "created_at": "2026-02-18T06:28:35.758842+00:00",
+  "updated_at": "2026-02-18T06:28:35.758842+00:00"
+}

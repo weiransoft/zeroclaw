@@ -1,0 +1,17 @@
+{
+  "id": "8dcd18c8-892e-4043-9ad7-0f3e8e7b5da7",
+  "name": "Scrum Sprint Workflow",
+  "description": "Scrum workflow template with roles, ceremonies, and activities",
+  "version": "1.0.0",
+  "author": "system",
+  "categories": [],
+  "roles": [],
+  "phases": [],
+  "activities": [],
+  "events": [],
+  "integrations": [],
+  "skills": [],
+  "risk_rules": [],
+  "variables": [],
+  "applicable_scenarios": []
+}

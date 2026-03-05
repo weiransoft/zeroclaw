@@ -1,0 +1,18 @@
+{
+  "id": "816321ca-b02b-4900-b1db-8b96ad7510cb",
+  "name": "Auto-Generated Workflow for: 创建一个标准的Scrum团队工作流，包含Sprint规划、每日站会、开发执行、评审和回顾等关键环节",
+  "description": "创建一个标准的Scrum团队工作流，包含Sprint规划、每日站会、开发执行、评审和回顾等关键环节",
+  "roles": [],
+  "steps": [
+    {
+      "name": "Project Delivery",
+      "description": "最终评审和项目交付",
+      "assigned_to": "scrum_master",
+      "dependencies": [],
+      "status": "pending"
+    }
+  ],
+  "status": "created",
+  "created_at": "2026-02-18T06:35:33.417595+00:00",
+  "updated_at": "2026-02-18T06:35:33.417595+00:00"
+}

@@ -1,0 +1,69 @@
+{
+  "id": "7de9f73f-573d-4ba1-b18f-c5ff5176305f",
+  "name": "新产品团队",
+  "description": "新产品开发团队协作工作流，涵盖从需求分析到产品发布的完整流程",
+  "roles": [
+    "产品经理",
+    "设计师",
+    "开发工程师",
+    "测试工程师",
+    "项目经理"
+  ],
+  "steps": [
+    {
+      "name": "需求分析",
+      "description": "产品经理收集和分析用户需求，输出需求文档",
+      "assigned_to": "产品经理",
+      "dependencies": [],
+      "status": "pending"
+    },
+    {
+      "name": "产品设计",
+      "description": "设计师根据需求文档完成产品原型和UI设计",
+      "assigned_to": "设计师",
+      "dependencies": [
+        "需求分析"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "技术方案设计",
+      "description": "开发团队制定技术架构和开发计划",
+      "assigned_to": "开发工程师",
+      "dependencies": [
+        "产品设计"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "开发实现",
+      "description": "开发团队按照设计方案进行功能开发",
+      "assigned_to": "开发工程师",
+      "dependencies": [
+        "技术方案设计"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "测试验证",
+      "description": "测试工程师进行全面的功能和性能测试",
+      "assigned_to": "测试工程师",
+      "dependencies": [
+        "开发实现"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "产品发布",
+      "description": "项目经理协调各方完成产品上线发布",
+      "assigned_to": "项目经理",
+      "dependencies": [
+        "测试验证"
+      ],
+      "status": "pending"
+    }
+  ],
+  "status": "created",
+  "created_at": "2026-02-23T12:27:46.002109+00:00",
+  "updated_at": "2026-02-23T12:27:46.002109+00:00"
+}

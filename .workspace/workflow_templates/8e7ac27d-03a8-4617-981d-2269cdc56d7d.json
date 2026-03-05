@@ -1,0 +1,17 @@
+{
+  "id": "8e7ac27d-03a8-4617-981d-2269cdc56d7d",
+  "name": "Test Template",
+  "description": "Test workflow template",
+  "version": "1.0.0",
+  "author": "test_user",
+  "categories": [],
+  "roles": [],
+  "phases": [],
+  "activities": [],
+  "events": [],
+  "integrations": [],
+  "skills": [],
+  "risk_rules": [],
+  "variables": [],
+  "applicable_scenarios": []
+}

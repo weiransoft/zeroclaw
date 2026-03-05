@@ -1,0 +1,60 @@
+{
+  "id": "d2685009-9c29-492d-9ce0-47f01adc7d72",
+  "name": "测试工作流",
+  "description": "软件开发团队完整工作流程，从需求分析到最终交付",
+  "roles": [
+    "产品经理",
+    "架构师",
+    "开发工程师",
+    "测试工程师",
+    "运维工程师"
+  ],
+  "steps": [
+    {
+      "name": "产品需求分析",
+      "description": "收集和分析用户需求，编写产品需求文档",
+      "assigned_to": "产品经理",
+      "dependencies": [],
+      "status": "running"
+    },
+    {
+      "name": "架构设计",
+      "description": "设计系统架构和技术方案",
+      "assigned_to": "架构师",
+      "dependencies": [
+        "产品需求分析"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "开发",
+      "description": "按照设计文档进行代码开发",
+      "assigned_to": "开发工程师",
+      "dependencies": [
+        "架构设计"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "测试",
+      "description": "执行功能测试、集成测试和性能测试",
+      "assigned_to": "测试工程师",
+      "dependencies": [
+        "开发"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "交付",
+      "description": "部署上线并交付给客户",
+      "assigned_to": "运维工程师",
+      "dependencies": [
+        "测试"
+      ],
+      "status": "pending"
+    }
+  ],
+  "status": "running",
+  "created_at": "2026-02-18T06:43:17.083628+00:00",
+  "updated_at": "2026-02-18T06:43:49.778932+00:00"
+}
