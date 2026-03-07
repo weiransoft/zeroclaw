@@ -4,15 +4,14 @@
 //! 支持防抖动机制，避免频繁重载
 
 use anyhow::{Context, Result};
-use notify::{Config, Event, RecommendedWatcher, RecursiveMode, Watcher};
+use notify::{Event, RecommendedWatcher, RecursiveMode, Watcher};
 use std::path::{Path, PathBuf};
-use std::sync::Arc;
 use std::time::Duration;
 use tokio::sync::broadcast;
-use tokio::time::{sleep, timeout};
-use tracing::{debug, error, info, warn};
+use tokio::time::sleep;
+use tracing::{debug, error, info};
 
-use crate::config::schema::{Config, HotConfig};
+use crate::config::schema::{Config as AppConfig, HotConfig};
 
 /// 配置热重载管理器
 /// 
@@ -75,7 +74,7 @@ impl HotReloadManager {
                     let _ = tx.blocking_send(event);
                 }
             },
-            Config::default(),
+            notify::Config::default(),
         )?;
         
         // 监听配置文件
@@ -168,7 +167,7 @@ impl HotReloadManager {
             .map_err(|e| anyhow::anyhow!("读取配置文件失败：{}", e))?;
         
         // 解析 TOML 配置
-        let mut new_config: Config = toml::from_str(&contents)
+        let mut new_config: AppConfig = toml::from_str(&contents)
             .map_err(|e| anyhow::anyhow!("解析配置文件失败：{}", e))?;
         
         // 保留计算字段（这些字段不序列化，需要手动设置）
@@ -207,7 +206,7 @@ impl HotReloadManager {
     /// * `Err(anyhow::Error)` - 验证失败，包含具体原因
     async fn validate_config_change(
         old_config: &HotConfig,
-        new_config: &Config,
+        new_config: &AppConfig,
     ) -> Result<(), anyhow::Error> {
         let old_guard = old_config.read().await;
         
@@ -248,7 +247,7 @@ impl HotReloadManager {
     /// # Returns
     /// * `Ok(())` - 验证通过
     /// * `Err(anyhow::Error)` - 验证失败
-    async fn validate_hot_reload_fields(config: &Config) -> Result<(), anyhow::Error> {
+    async fn validate_hot_reload_fields(config: &AppConfig) -> Result<(), anyhow::Error> {
         // 验证温度范围 (0.0 - 2.0)
         if config.default_temperature < 0.0 || config.default_temperature > 2.0 {
             return Err(anyhow::anyhow!(
@@ -352,7 +351,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_hot_config_creation() {
-        let config = Config::default();
+        let config = AppConfig::default();
         let hot_config = HotConfig::new(config.clone());
         
         assert_eq!(hot_config.version(), 0);
@@ -363,10 +362,10 @@ mod tests {
 
     #[tokio::test]
     async fn test_hot_config_write() {
-        let config = Config::default();
+        let config = AppConfig::default();
         let hot_config = HotConfig::new(config);
         
-        let mut new_config = Config::default();
+        let mut new_config = AppConfig::default();
         new_config.default_temperature = 0.8;
         
         hot_config.write(new_config).await.unwrap();
@@ -381,7 +380,7 @@ mod tests {
         let temp_dir = TempDir::new().unwrap();
         let config_path = temp_dir.path().join("config.toml");
         
-        let config = Config::default();
+        let config = AppConfig::default();
         let hot_config = HotConfig::new(config);
         
         let manager = HotReloadManager::new(hot_config.clone(), config_path);
@@ -390,7 +389,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_validate_temperature() {
-        let mut config = Config::default();
+        let mut config = AppConfig::default();
         
         // 有效温度
         config.default_temperature = 0.5;

@@ -9,7 +9,7 @@ use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Arc;
-use tokio::sync::{RwLock, RwLockReadGuard, RwLockWriteGuard};
+use tokio::sync::{RwLock, RwLockReadGuard};
 
 // ══════════════════════════════════════════════════════════════════════════════
 // 配置热重载支持
@@ -72,7 +72,7 @@ impl HotConfig {
     /// ```rust
     /// let config_value = hot_config.read().await.default_model.clone();
     /// ```
-    pub async fn read(&self) -> RwLockReadGuard<Config> {
+    pub async fn read(&self) -> RwLockReadGuard<'_, Config> {
         self.config.read().await
     }
 

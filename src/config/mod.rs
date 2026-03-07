@@ -13,7 +13,7 @@ pub use schema::{
     TelegramConfig, TunnelConfig, WebhookConfig,
 };
 
-pub use hot_reload::{ConfigChangeAudit, HotReloadManager};
+pub use hot_reload::HotReloadManager;
 
 #[cfg(test)]
 mod tests {

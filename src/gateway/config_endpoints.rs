@@ -2,7 +2,6 @@
 //!
 //! 提供配置状态查询、手动重载等 HTTP API
 
-use crate::config::{HotConfig, HotReloadManager};
 use axum::{
     extract::State,
     http::StatusCode,
@@ -51,12 +50,10 @@ pub async fn handle_config_status(
 ) -> Result<Json<ConfigStatusResponse>, StatusCode> {
     let config = state.config.clone();
     
-    // 从 HotConfig 读取配置
-    let config_guard = config.read().await;
-    
+    // 从 Config 读取配置
     Ok(Json(ConfigStatusResponse {
         version: state.config_version.load(std::sync::atomic::Ordering::SeqCst),
-        config_path: config_guard.config_path.display().to_string(),
+        config_path: config.config_path.display().to_string(),
         last_updated: Utc::now(),
         hot_reload_enabled: state.hot_reload_manager.is_some(),
     }))

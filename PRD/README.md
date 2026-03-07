@@ -501,6 +501,7 @@ For high-throughput collaboration and consistent reviews:
 - Reviewer playbook (triage + deep review): [docs/reviewer-playbook.md](docs/reviewer-playbook.md)
 - CI ownership and triage map: [docs/ci-map.md](docs/ci-map.md)
 - Security disclosure policy: [SECURITY.md](SECURITY.md)
+- Feature Update Design: [FEATURE_UPDATE_DESIGN.md](../docs/FEATURE_UPDATE_DESIGN.md) - ZeroClaw v0.2.0 功能增强设计文档（Agent Swarm + Soul + Workflow + Store）
 
 ## Support
 

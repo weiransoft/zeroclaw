@@ -1,0 +1,113 @@
+# ZeroClaw Configuration
+
+# API Key for LLM providers
+# api_key = "your-api-key-here"
+
+# Default provider and model
+default_provider = "openrouter"
+default_model = "anthropic/claude-sonnet-4"
+default_temperature = 0.7
+
+# Agent configuration
+[agent]
+compact_context = false
+max_tool_iterations = 20
+
+# Swarm configuration
+[swarm]
+subagent_max_concurrent = 4
+
+# Memory configuration
+[memory]
+backend = "sqlite"
+auto_save = true
+
+enabled = true
+backend = "log"
+
+# Autonomy configuration
+[autonomy]
+level = "supervised"
+workspace_only = true
+allowed_commands = ["git", "npm", "cargo", "ls", "cat", "grep", "find", "echo", "pwd", "wc", "head", "tail"]
+forbidden_paths = ["/etc", "/root", "/home", "/usr", "/bin", "/sbin", "/lib", "/opt", "/boot", "/dev", "/proc", "/sys", "/var", "/tmp", "~/.ssh", "~/.gnupg", "~/.aws", "~/.config"]
+max_actions_per_hour = 20
+max_cost_per_day_cents = 500
+
+# Runtime configuration
+[runtime]
+kind = "native"
+
+# Reliability configuration
+[reliability]
+provider_retries = 2
+provider_backoff_ms = 500
+
+# Scheduler configuration
+[scheduler]
+enabled = true
+max_tasks = 64
+max_concurrent = 4
+
+# Heartbeat configuration
+[heartbeat]
+enabled = false
+interval_minutes = 30
+
+# Tunnel configuration
+[tunnel]
+provider = "none"
+
+# Browser configuration
+[browser]
+enabled = false
+allowed_domains = []
+
+# HTTP Request configuration
+[http_request]
+enabled = true
+allowed_domains = []
+max_response_size = 1048576
+timeout_secs = 30
+
+# Identity configuration
+[identity]
+format = "openclaw"
+
+# Cost configuration
+[cost]
+enabled = false
+daily_limit_usd = 10.0
+monthly_limit_usd = 100.0
+warn_at_percent = 80
+
+# Peripherals configuration
+[peripherals]
+enabled = false
+
+# Hardware configuration
+[hardware]
+enabled = false
+
+# Gateway configuration
+[gateway]
+port = 3000
+host = "127.0.0.1"
+
+# Composio configuration
+[composio]
+enabled = false
+
+# Secrets configuration
+[secrets]
+encrypt = true
+
+# Channels configuration
+[channels_config]
+cli = true
+
+# Model routes
+# [[model_routes]]
+# hint = "reasoning"
+# provider = "openrouter"
+# model = "anthropic/claude-opus-4-20250514"
