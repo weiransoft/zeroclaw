@@ -347,7 +347,6 @@ impl ConfigChangeAudit {
 mod tests {
     use super::*;
     use tempfile::TempDir;
-    use tokio::fs;
 
     #[tokio::test]
     async fn test_hot_config_creation() {

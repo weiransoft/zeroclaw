@@ -74,6 +74,10 @@ pub mod tunnel;
 pub mod util;
 pub mod workflow;
 
+// GUI Agent module (optional)
+#[cfg(feature = "gui-agent")]
+pub mod gui;
+
 pub use config::Config;
 
 /// Service management subcommands

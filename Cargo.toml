@@ -151,6 +151,8 @@ sandbox-bubblewrap = []
 browser-native = ["fantoccini"]
 # duckdb = DuckDB backend for trace storage (analytical workloads)
 duckdb = ["dep:duckdb"]
+# gui-agent = GUI Agent for screen monitoring and automation
+gui-agent = []
 
 [profile.release]
 opt-level = "z"      # Optimize for size
