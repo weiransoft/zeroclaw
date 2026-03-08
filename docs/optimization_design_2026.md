@@ -1907,8 +1907,609 @@ impl SandboxEnvironment {
 
 ---
 
-## 7. 总结
+## 8. ZeroClaw 组件集成（经验、知识、记忆）
 
-ZeroClaw GUI Agent 2026 优化设计方案通过引入多模态感知、智能推理、长期记忆和自适应错误恢复等先进技术，将显著提升 GUI Agent 的智能化水平和实用性。该方案保持了 Rust 的轻量级优势，同时增强了 AI 驱动的自动化能力，使其能够更好地适应 2026 年 AI Agent 技术发展趋势。
+### 8.1 GUI Agent 经验系统集成
 
-通过分阶段实施和持续优化，ZeroClaw GUI Agent 将成为业界领先的桌面自动化解决方案，为用户提供更智能、更可靠的 GUI 操作体验。
+**目标**：GUI Agent 的经验管理完全使用 ZeroClaw 的记忆系统，避免重复实现
+
+**ZeroClaw 记忆系统集成**：
+
+```rust
+/// GUI Agent 经验系统 - 使用 ZeroClaw 的记忆系统
+pub struct GuiAgentExperienceSystem {
+    /// ZeroClaw 记忆系统（直接使用）
+    zero_claw_memory: Arc<dyn Memory>,
+    /// 经验缓存（可选，用于快速检索）
+    experience_cache: ExperienceCache,
+}
+
+impl GuiAgentExperienceSystem {
+    /// 创建新的 GUI Agent 经验系统
+    pub fn new(zero_claw_memory: Arc<dyn Memory>) -> Self {
+        Self {
+            zero_claw_memory,
+            experience_cache: ExperienceCache::new(),
+        }
+    }
+    
+    /// 存储 GUI 操作经验
+    /// 
+    /// 使用 ZeroClaw 记忆系统存储，标签：gui_experience
+    pub async fn store_gui_operation_experience(
+        &self,
+        experience: &GuiOperationExperience,
+    ) -> Result<()> {
+        // 使用 ZeroClaw 记忆系统存储
+        self.zero_claw_memory.store(
+            "gui_experience",
+            &serde_json::to_string(experience)?,
+            Some(vec![
+                "gui".to_string(),
+                "experience".to_string(),
+                "operation".to_string(),
+            ]),
+        ).await?;
+        
+        // 更新经验缓存（可选）
+        self.experience_cache.update(experience.clone())?;
+        
+        Ok(())
+    }
+    
+    /// 检索相关 GUI 操作经验
+    /// 
+    /// 从 ZeroClaw 记忆系统检索，并结合经验缓存
+    pub async fn retrieve_gui_operation_experience(&self, query: &str) -> Result<Vec<GuiOperationExperience>> {
+        // 从 ZeroClaw 记忆系统检索
+        let memory_results = self.zero_claw_memory.recall(query, 10).await?;
+        
+        // 解析记忆结果
+        let mut experiences = Vec::new();
+        for result in memory_results {
+            if let Ok(experience) = serde_json::from_str::<GuiOperationExperience>(&result.content) {
+                experiences.push(experience);
+            }
+        }
+        
+        // 从经验缓存中检索（可选）
+        let cached_experiences = self.experience_cache.search(query)?;
+        experiences.extend(cached_experiences);
+        
+        Ok(experiences)
+    }
+    
+    /// 从成功操作创建经验
+    pub fn create_success_experience(
+        &self,
+        action: &Action,
+        result: &ExecutionResult,
+    ) -> GuiOperationExperience {
+        GuiOperationExperience {
+            id: uuid::Uuid::new_v4().to_string(),
+            target_description: action.description.clone().unwrap_or_default(),
+            operation_type: GuiOperationType::from_action(action),
+            result: GuiOperationResult::Success,
+            timestamp: chrono::Utc::now().timestamp(),
+            success: true,
+            failure_reason: None,
+            recovery_strategy: None,
+        }
+    }
+    
+    /// 从失败操作创建经验
+    pub fn create_failure_experience(
+        &self,
+        action: &Action,
+        result: &ExecutionResult,
+        failure_reason: &str,
+        recovery_strategy: &str,
+    ) -> GuiOperationExperience {
+        GuiOperationExperience {
+            id: uuid::Uuid::new_v4().to_string(),
+            target_description: action.description.clone().unwrap_or_default(),
+            operation_type: GuiOperationType::from_action(action),
+            result: GuiOperationResult::RetryLater,
+            timestamp: chrono::Utc::now().timestamp(),
+            success: false,
+            failure_reason: Some(failure_reason.to_string()),
+            recovery_strategy: Some(recovery_strategy.to_string()),
+        }
+    }
+}
+
+/// GUI Agent 经验缓存
+/// 
+/// 用于快速检索最近的经验，避免频繁访问 ZeroClaw 记忆系统
+pub struct ExperienceCache {
+    /// 缓存容量
+    capacity: usize,
+    /// 缓存项
+    items: HashMap<String, GuiOperationExperience>,
+}
+
+impl ExperienceCache {
+    /// 创建新的经验缓存
+    pub fn new() -> Self {
+        Self {
+            capacity: 100,
+            items: HashMap::new(),
+        }
+    }
+    
+    /// 更新缓存
+    pub fn update(&mut self, experience: GuiOperationExperience) -> Result<()> {
+        let key = experience.id.clone();
+        
+        // 如果缓存已满，移除最旧的项
+        if self.items.len() >= self.capacity {
+            if let Some(oldest_key) = self.items.keys().next().cloned() {
+                self.items.remove(&oldest_key);
+            }
+        }
+        
+        self.items.insert(key, experience);
+        
+        Ok(())
+    }
+    
+    /// 搜索缓存
+    pub fn search(&self, query: &str) -> Result<Vec<GuiOperationExperience>> {
+        // 简单的关键词匹配
+        let query_lower = query.to_lowercase();
+        let mut results = Vec::new();
+        
+        for experience in self.items.values() {
+            if experience.target_description.to_lowercase().contains(&query_lower) {
+                results.push(experience.clone());
+            }
+        }
+        
+        Ok(results)
+    }
+}
+```
+
+### 8.2 GUI Agent 知识系统集成
+
+**目标**：GUI Agent 的知识管理使用 ZeroClaw 的记忆系统
+
+**ZeroClaw 记忆系统集成**：
+
+```rust
+/// GUI Agent 知识系统 - 使用 ZeroClaw 的记忆系统
+pub struct GuiAgentKnowledgeSystem {
+    /// ZeroClaw 记忆系统（直接使用）
+    zero_claw_memory: Arc<dyn Memory>,
+}
+
+impl GuiAgentKnowledgeSystem {
+    /// 创建新的 GUI Agent 知识系统
+    pub fn new(zero_claw_memory: Arc<dyn Memory>) -> Self {
+        Self { zero_claw_memory }
+    }
+    
+    /// 存储 GUI 知识
+    /// 
+    /// 使用 ZeroClaw 记忆系统存储，标签：gui_knowledge
+    pub async fn store_gui_knowledge(
+        &self,
+        knowledge: &GuiKnowledge,
+    ) -> Result<()> {
+        // 使用 ZeroClaw 记忆系统存储
+        self.zero_claw_memory.store(
+            "gui_knowledge",
+            &serde_json::to_string(knowledge)?,
+            Some(vec![
+                "gui".to_string(),
+                "knowledge".to_string(),
+                "ui".to_string(),
+            ]),
+        ).await?;
+        
+        Ok(())
+    }
+    
+    /// 检索相关 GUI 知识
+    /// 
+    /// 从 ZeroClaw 记忆系统检索
+    pub async fn retrieve_gui_knowledge(&self, query: &str) -> Result<Vec<GuiKnowledge>> {
+        // 使用 ZeroClaw 记忆系统检索
+        let results = self.zero_claw_memory.recall(query, 10).await?;
+        
+        // 解析记忆结果
+        let mut knowledge_list = Vec::new();
+        for result in results {
+            if let Ok(knowledge) = serde_json::from_str::<GuiKnowledge>(&result.content) {
+                knowledge_list.push(knowledge);
+            }
+        }
+        
+        Ok(knowledge_list)
+    }
+    
+    /// 存储 UI 元素知识
+    /// 
+    /// 使用 ZeroClaw 记忆系统存储，标签：ui_element_knowledge
+    pub async fn store_ui_element_knowledge(
+        &self,
+        ui_element: &UiElementKnowledge,
+    ) -> Result<()> {
+        // 使用 ZeroClaw 记忆系统存储
+        self.zero_claw_memory.store(
+            "ui_element_knowledge",
+            &serde_json::to_string(ui_element)?,
+            Some(vec![
+                "ui".to_string(),
+                "element".to_string(),
+                "gui".to_string(),
+            ]),
+        ).await?;
+        
+        Ok(())
+    }
+    
+    /// 检索 UI 元素知识
+    /// 
+    /// 从 ZeroClaw 记忆系统检索
+    pub async fn retrieve_ui_element_knowledge(&self, element_type: &str) -> Result<Vec<UiElementKnowledge>> {
+        // 使用 ZeroClaw 记忆系统检索
+        let results = self.zero_claw_memory.recall(element_type, 10).await?;
+        
+        // 解析记忆结果
+        let mut knowledge_list = Vec::new();
+        for result in results {
+            if let Ok(knowledge) = serde_json::from_str::<UiElementKnowledge>(&result.content) {
+                knowledge_list.push(knowledge);
+            }
+        }
+        
+        Ok(knowledge_list)
+    }
+    
+    /// 存储操作模式知识
+    /// 
+    /// 使用 ZeroClaw 记忆系统存储，标签：operation_pattern_knowledge
+    pub async fn store_operation_pattern_knowledge(
+        &self,
+        pattern: &OperationPatternKnowledge,
+    ) -> Result<()> {
+        // 使用 ZeroClaw 记忆系统存储
+        self.zero_claw_memory.store(
+            "operation_pattern_knowledge",
+            &serde_json::to_string(pattern)?,
+            Some(vec![
+                "operation".to_string(),
+                "pattern".to_string(),
+                "gui".to_string(),
+            ]),
+        ).await?;
+        
+        Ok(())
+    }
+    
+    /// 检索操作模式知识
+    /// 
+    /// 从 ZeroClaw 记忆系统检索
+    pub async fn retrieve_operation_pattern_knowledge(&self, pattern_name: &str) -> Result<Vec<OperationPatternKnowledge>> {
+        // 使用 ZeroClaw 记忆系统检索
+        let results = self.zero_claw_memory.recall(pattern_name, 10).await?;
+        
+        // 解析记忆结果
+        let mut knowledge_list = Vec::new();
+        for result in results {
+            if let Ok(pattern) = serde_json::from_str::<OperationPatternKnowledge>(&result.content) {
+                knowledge_list.push(pattern);
+            }
+        }
+        
+        Ok(knowledge_list)
+    }
+}
+```
+
+### 8.3 GUI Agent 记忆系统集成
+
+**目标**：GUI Agent 的记忆管理完全使用 ZeroClaw 的记忆系统
+
+**ZeroClaw 记忆系统集成**：
+
+```rust
+/// GUI Agent 记忆系统 - 使用 ZeroClaw 的记忆系统
+pub struct GuiAgentMemorySystem {
+    /// ZeroClaw 记忆系统（直接使用）
+    zero_claw_memory: Arc<dyn Memory>,
+}
+
+impl GuiAgentMemorySystem {
+    /// 创建新的 GUI Agent 记忆系统
+    pub fn new(zero_claw_memory: Arc<dyn Memory>) -> Self {
+        Self { zero_claw_memory }
+    }
+    
+    /// 存储 GUI 识别结果
+    /// 
+    /// 使用 ZeroClaw 记忆系统存储，标签：gui_recognition
+    pub async fn store_recognition_result(
+        &self,
+        recognition_result: &RecognitionResult,
+    ) -> Result<()> {
+        // 使用 ZeroClaw 记忆系统存储
+        self.zero_claw_memory.store(
+            "gui_recognition",
+            &serde_json::to_string(recognition_result)?,
+            Some(vec![
+                "screen".to_string(),
+                "recognition".to_string(),
+                "gui".to_string(),
+            ]),
+        ).await?;
+        
+        Ok(())
+    }
+    
+    /// 检索相关 GUI 识别经验
+    /// 
+    /// 从 ZeroClaw 记忆系统检索
+    pub async fn retrieve_recognition_experience(&self, query: &str) -> Result<Vec<RecognitionResult>> {
+        // 使用 ZeroClaw 记忆系统检索
+        let results = self.zero_claw_memory.recall(query, 10).await?;
+        
+        // 解析记忆结果
+        let mut experiences = Vec::new();
+        for result in results {
+            if let Ok(recognition) = serde_json::from_str::<RecognitionResult>(&result.content) {
+                experiences.push(recognition);
+            }
+        }
+        
+        Ok(experiences)
+    }
+    
+    /// 存储 GUI 操作经验
+    /// 
+    /// 使用 ZeroClaw 记忆系统存储，标签：gui_experience
+    pub async fn store_gui_operation_experience(
+        &self,
+        experience: &GuiOperationExperience,
+    ) -> Result<()> {
+        // 使用 ZeroClaw 记忆系统存储
+        self.zero_claw_memory.store(
+            "gui_experience",
+            &serde_json::to_string(experience)?,
+            Some(vec![
+                "gui".to_string(),
+                "experience".to_string(),
+                "operation".to_string(),
+            ]),
+        ).await?;
+        
+        Ok(())
+    }
+    
+    /// 检索相关 GUI 操作经验
+    /// 
+    /// 从 ZeroClaw 记忆系统检索
+    pub async fn retrieve_gui_operation_experience(&self, query: &str) -> Result<Vec<GuiOperationExperience>> {
+        // 使用 ZeroClaw 记忆系统检索
+        let results = self.zero_claw_memory.recall(query, 10).await?;
+        
+        // 解析记忆结果
+        let mut experiences = Vec::new();
+        for result in results {
+            if let Ok(experience) = serde_json::from_str::<GuiOperationExperience>(&result.content) {
+                experiences.push(experience);
+            }
+        }
+        
+        Ok(experiences)
+    }
+    
+    /// 存储 GUI 上下文
+    /// 
+    /// 使用 ZeroClaw 记忆系统存储，标签：gui_context
+    pub async fn store_gui_context(&self, context: &GuiContext) -> Result<()> {
+        // 使用 ZeroClaw 记忆系统存储
+        self.zero_claw_memory.store(
+            "gui_context",
+            &serde_json::to_string(context)?,
+            Some(vec![
+                "gui".to_string(),
+                "context".to_string(),
+                "state".to_string(),
+            ]),
+        ).await?;
+        
+        Ok(())
+    }
+    
+    /// 检索相关 GUI 上下文
+    /// 
+    /// 从 ZeroClaw 记忆系统检索
+    pub async fn retrieve_gui_context(&self, query: &str) -> Result<Vec<GuiContext>> {
+        // 使用 ZeroClaw 记忆系统检索
+        let results = self.zero_claw_memory.recall(query, 10).await?;
+        
+        // 解析记忆结果
+        let mut contexts = Vec::new();
+        for result in results {
+            if let Ok(context) = serde_json::from_str::<GuiContext>(&result.content) {
+                contexts.push(context);
+            }
+        }
+        
+        Ok(contexts)
+    }
+}
+```
+
+### 8.4 GUI Agent 上下文构建器集成
+
+**目标**：GUI Agent 的上下文构建使用 ZeroClaw 的 ContextBuilder
+
+**ZeroClaw 上下文构建器集成**：
+
+```rust
+/// GUI Agent 上下文构建器 - 使用 ZeroClaw 的 ContextBuilder
+pub struct GuiAgentContextBuilder {
+    /// ZeroClaw 上下文构建器
+    zero_claw_context_builder: ContextBuilder,
+    /// GUI Agent 任务管理器
+    gui_task_manager: Arc<GuiTaskManager>,
+}
+
+impl GuiAgentContextBuilder {
+    /// 创建新的 GUI Agent 上下文构建器
+    pub fn new(
+        zero_claw_context_builder: ContextBuilder,
+        gui_task_manager: Arc<GuiTaskManager>,
+    ) -> Self {
+        Self {
+            zero_claw_context_builder,
+            gui_task_manager,
+        }
+    }
+    
+    /// 构建 GUI Agent 任务的上下文
+    /// 
+    /// 使用 ZeroClaw 的 ContextBuilder 构建上下文，
+    /// 包含依赖产出物、记忆、知识、经验等引用
+    pub async fn build_gui_agent_context(
+        &self,
+        gui_task: &GuiAgentTask,
+    ) -> Result<TaskContext> {
+        // 获取任务依赖
+        let dependencies = self.gui_task_manager.get_dependencies(&gui_task.id).await?;
+        
+        // 获取已完成的任务
+        let completed_tasks = self.gui_task_manager.get_completed_tasks().await?;
+        
+        // 使用 ZeroClaw 上下文构建器构建上下文
+        let context = self.zero_claw_context_builder.build_context(
+            &gui_task.agent_task,
+            &dependencies,
+            &completed_tasks,
+        );
+        
+        Ok(context)
+    }
+    
+    /// 构建 GUI Agent 任务的执行 Prompt
+    /// 
+    /// 使用 ZeroClaw 的 ContextBuilder 构建执行 prompt
+    pub fn build_gui_agent_execution_prompt(
+        &self,
+        gui_task: &GuiAgentTask,
+        context: &TaskContext,
+    ) -> String {
+        // 使用 ZeroClaw 的 ContextBuilder 构建执行 prompt
+        let role_prompt = "你是一个 GUI Agent，负责根据界面状态和任务目标选择下一步操作。";
+        
+        self.zero_claw_context_builder.build_execution_prompt(
+            &gui_task.agent_task,
+            context,
+            role_prompt,
+        )
+    }
+}
+```
+
+### 8.5 ZeroClaw 组件使用总结
+
+**GUI Agent 使用 ZeroClaw 组件的完整列表**：
+
+| 组件 | ZeroClaw 组件 | 用途 | 标签/类型 |
+|------|--------------|------|----------|
+| 记忆系统 | `Arc<dyn Memory>` | 存储和检索 GUI 识别结果、操作经验、上下文 | `gui_recognition`, `gui_experience`, `gui_context` |
+| 知识系统 | `Arc<dyn Memory>` | 存储和检索 UI 元素知识、操作模式知识 | `gui_knowledge`, `ui_element_knowledge`, `operation_pattern_knowledge` |
+| 经验系统 | `Arc<dyn Memory>` + `ExperienceCache` | 存储和检索操作经验 | `gui_experience` |
+| 上下文构建器 | `ContextBuilder` | 构建 GUI Agent 任务的上下文 | Token Budget, Dependency Outputs, Memory/Knowledge/Experience References |
+| 任务管理器 | `AgentTask` + `TaskManager` | 管理 GUI Agent 任务 | `TaskSource::GuiAgent`, `TaskSource::GuiAgentAuto`, `TaskSource::GuiAgentLlmDriven` |
+| 产出物引用 | `DeliverableRef` | 依赖任务的产出物 | `task_id`, `name`, `path`, `summary` |
+| 记忆引用 | `MemoryRef` | 相关记忆引用 | `id`, `summary`, `importance`, `memory_type` |
+| 知识引用 | `KnowledgeRef` | 相关知识引用 | `id`, `title`, `summary`, `relevance` |
+| 经验引用 | `ExperienceRef` | 相关经验引用 | `id`, `title`, `lessons_summary`, `confidence` |
+
+**ZeroClaw 记忆标签系统**：
+
+```rust
+/// GUI Agent 记忆标签
+pub mod gui_memory_tags {
+    /// GUI 识别结果标签
+    pub const GUI_RECOGNITION: &str = "gui_recognition";
+    /// GUI 操作经验标签
+    pub const GUI_EXPERIENCE: &str = "gui_experience";
+    /// GUI 上下文标签
+    pub const GUI_CONTEXT: &str = "gui_context";
+    /// GUI 知识标签
+    pub const GUI_KNOWLEDGE: &str = "gui_knowledge";
+    /// UI 元素知识标签
+    pub const UI_ELEMENT_KNOWLEDGE: &str = "ui_element_knowledge";
+    /// 操作模式知识标签
+    pub const OPERATION_PATTERN_KNOWLEDGE: &str = "operation_pattern_knowledge";
+    /// 屏幕捕获标签
+    pub const SCREEN_CAPTURE: &str = "screen_capture";
+}
+
+/// GUI Agent 任务源枚举
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum TaskSource {
+    /// GUI Agent 用户任务
+    GuiAgent,
+    /// GUI Agent 自动任务
+    GuiAgentAuto,
+    /// GUI Agent LLM 驱动任务
+    GuiAgentLlmDriven,
+}
+
+impl Default for TaskSource {
+    fn default() -> Self {
+        TaskSource::GuiAgent
+    }
+}
+```
+
+**优势**：
+
+1. **避免重复实现**：直接使用 ZeroClaw 的成熟机制，无需重新实现记忆、知识、经验系统
+2. **统一管理**：GUI Agent 的经验、知识、记忆都存储在 ZeroClaw 系统中，统一管理
+3. **共享机制**：GUI Agent 可以访问 ZeroClaw 的所有知识和经验，实现知识共享
+4. **扩展性好**：新增知识类型只需使用 ZeroClaw 的记忆标签，无需修改 GUI Agent 代码
+5. **性能优化**：ZeroClaw 的记忆系统支持多种后端（SqliteMemory, LucidMemory, MarkdownMemory），可根据需求选择
+6. **可维护性高**：清晰的职责分离，GUI Agent 只负责业务逻辑，ZeroClaw 负责底层存储和检索
+
+**集成示例**：
+
+```rust
+// 创建 GUI Agent 组件
+let zero_claw_memory: Arc<dyn Memory> = Arc::new(SqliteMemory::new("zeroclaw.db")?);
+let zero_claw_context_builder = ContextBuilder::new(TokenBudgetConfig::default())?;
+
+let gui_agent_memory_system = GuiAgentMemorySystem::new(zero_claw_memory.clone());
+let gui_agent_knowledge_system = GuiAgentKnowledgeSystem::new(zero_claw_memory.clone());
+let gui_agent_experience_system = GuiAgentExperienceSystem::new(zero_claw_memory);
+
+let gui_agent_context_builder = GuiAgentContextBuilder::new(
+    zero_claw_context_builder,
+    gui_task_manager,
+);
+
+// 存储 GUI 识别结果
+let recognition_result = RecognitionResult {
+    elements: elements,
+    text_regions: text_regions,
+    timestamp: chrono::Utc::now().timestamp(),
+    confidence: 0.95,
+};
+
+gui_agent_memory_system.store_recognition_result(&recognition_result).await?;
+
+// 检索相关 GUI 操作经验
+let experiences = gui_agent_experience_system.retrieve_gui_operation_experience("点击按钮").await?;
+
+// 构建 GUI Agent 任务的上下文
+let context = gui_agent_context_builder.build_gui_agent_context(&gui_task).await?;
+
+// 构建 GUI Agent 任务的执行 Prompt
+let prompt = gui_agent_context_builder.build_gui_agent_execution_prompt(&gui_task, &context);
+```
