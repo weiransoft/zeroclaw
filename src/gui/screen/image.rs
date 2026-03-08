@@ -196,8 +196,8 @@ impl ImageAnalyzer {
     /// 
     /// # 参数
     /// 
-    /// * `_screen` - 屏幕截图数据
-    /// * `_name` - 模板名称
+    /// * `screen` - 屏幕截图数据
+    /// * `name` - 模板名称
     /// 
     /// # 返回
     /// 
@@ -218,9 +218,15 @@ impl ImageAnalyzer {
     /// //     println!("找到按钮: {:?}", rect);
     /// // }
     /// ```
-    pub fn find_template(&self, _screen: &[u8], _name: &str) -> Result<Option<Rect>> {
+    pub fn find_template(&self, screen: &[u8], name: &str) -> Result<Option<Rect>> {
+        // 检查模板是否已加载
+        let template_data = self.template_cache.get(name)
+            .ok_or_else(|| ImageAnalyzerError::TemplateLoadFailed(format!("模板 '{}' 未加载", name)))?;
+        
         // TODO: 实现模板匹配
-        unimplemented!("模板匹配待实现")
+        // 使用 OpenCV 或 imageproc 库进行模板匹配
+        // 这里返回 None 表示待实现
+        Ok(None)
     }
     
     /// OCR 识别 (Tesseract + LLM 辅助)
@@ -299,7 +305,9 @@ impl ImageAnalyzer {
     #[cfg(feature = "ocr")]
     async fn ocr_region_tesseract(&self, image: &[u8]) -> Result<String> {
         // TODO: 实现 Tesseract OCR 识别
-        unimplemented!("Tesseract OCR 待实现")
+        // 使用 tesseract-rs 库进行 OCR 识别
+        // 这里返回错误表示待实现
+        Err(ImageAnalyzerError::OcrFailed("Tesseract OCR 待实现".to_string()))
     }
     
     /// 设置 LLM 客户端

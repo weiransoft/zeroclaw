@@ -74,7 +74,7 @@ impl ZeroClawGuiBridge {
     /// bridge.register_gui_tools().unwrap();
     /// ```
     pub fn register_gui_tools(&self) -> Result<(), String> {
-        // TODO: 实现 GUI Tools 注册
+        // 实现 GUI Tools 注册
         // 需要实现以下 Tools：
         // - launch_app: 启动应用
         // - click_screen: 点击屏幕
@@ -85,6 +85,8 @@ impl ZeroClawGuiBridge {
         // - activate_window: 激活窗口
         // - close_window: 关闭窗口
         
+        // TODO: 实现 GUI Tools 注册逻辑
+        // 这里返回成功表示待实现
         Ok(())
     }
     
@@ -104,7 +106,7 @@ impl ZeroClawGuiBridge {
     /// bridge.notify_gui_event(GuiAgentEvent::ScreenCaptured { ... });
     /// ```
     pub fn notify_gui_event(&self, event: GuiAgentEvent) {
-        // TODO: 实现 GUI 事件通知
+        // 实现 GUI 事件通知
         // 将事件发送到 ZeroClaw 的事件总线或直接通知 AI Agent
         
         let _ = self.event_sender.send(event);
@@ -129,9 +131,10 @@ impl ZeroClawGuiBridge {
     /// bridge.llm_driven_action("点击屏幕上的按钮").unwrap();
     /// ```
     pub fn llm_driven_action(&self, _instruction: &str) -> Result<(), String> {
-        // TODO: 实现 LLM 驱动的 GUI 操作
+        // 实现 LLM 驱动的 GUI 操作
         // 解析 LLM 指令，执行相应的 GUI 操作
         
+        // TODO: 实现 LLM 驱动的 GUI 操作逻辑
         Err("LLM 驱动的 GUI 操作待实现".to_string())
     }
     
