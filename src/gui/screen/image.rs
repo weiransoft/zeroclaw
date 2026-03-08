@@ -218,14 +218,41 @@ impl ImageAnalyzer {
     /// //     println!("找到按钮: {:?}", rect);
     /// // }
     /// ```
+    #[cfg(feature = "gui-agent")]
     pub fn find_template(&self, screen: &[u8], name: &str) -> Result<Option<Rect>> {
         // 检查模板是否已加载
         let template_data = self.template_cache.get(name)
             .ok_or_else(|| ImageAnalyzerError::TemplateLoadFailed(format!("模板 '{}' 未加载", name)))?;
         
-        // TODO: 实现模板匹配
-        // 使用 OpenCV 或 imageproc 库进行模板匹配
-        // 这里返回 None 表示待实现
+        // 使用 imageproc 库进行模板匹配
+        // 步骤 1: 将屏幕和模板数据转换为图像
+        let screen_img = image::load_from_memory(screen)
+            .map_err(|e| ImageAnalyzerError::FileError(format!("加载屏幕图像失败: {}", e)))?;
+        
+        let template_img = image::load_from_memory(template_data)
+            .map_err(|e| ImageAnalyzerError::FileError(format!("加载模板图像失败: {}", e)))?;
+        
+        // 步骤 2: 使用模板匹配算法
+        // 使用 match_template 函数进行模板匹配
+        // 返回最佳匹配位置和置信度
+        #[cfg(feature = "imageproc")]
+        {
+            use imageproc::template_matching;
+            
+            // 进行模板匹配
+            let matches = template_matching::match_template(&screen_img, &template_img, template_matching::TemplateMatchingMetric::NormalizedCrossCorrelation);
+            
+            // 找到最佳匹配位置
+            let (max_val, max_loc) = template_matching::min_max_loc(&matches);
+            
+            // 如果置信度高于阈值,返回模板位置
+            if max_val > 0.8 {
+                let rect = Rect::new(max_loc.x as i32, max_loc.y as i32, template_img.width() as i32, template_img.height() as i32);
+                return Ok(Some(rect));
+            }
+        }
+        
+        // 模板匹配待实现
         Ok(None)
     }
     
@@ -304,8 +331,13 @@ impl ImageAnalyzer {
     /// * `ImageAnalyzerError::OcrFailed` - OCR 失败
     #[cfg(feature = "ocr")]
     async fn ocr_region_tesseract(&self, image: &[u8]) -> Result<String> {
-        // TODO: 实现 Tesseract OCR 识别
         // 使用 tesseract-rs 库进行 OCR 识别
+        // 步骤 1: 创建 Tesseract 识别器
+        // 步骤 2: 设置语言和配置
+        // 步骤 3: 执行 OCR 识别
+        // 步骤 4: 返回识别结果
+        
+        // TODO: 实现 Tesseract OCR 识别
         // 这里返回错误表示待实现
         Err(ImageAnalyzerError::OcrFailed("Tesseract OCR 待实现".to_string()))
     }

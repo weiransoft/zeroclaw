@@ -18,13 +18,9 @@ use axum::{
     extract::Query,
     http::StatusCode,
     response::Json,
-    body::Body,
 };
 use serde::{Deserialize, Serialize};
-use futures_util::stream::{self, StreamExt};
-use tokio::time::{self, Duration};
-use tokio_stream::wrappers::IntervalStream;
-use tokio::sync::mpsc;
+use tokio::time;
 use std::convert::Infallible;
 
 use crate::gui::screen::capture::ScreenCapture;
@@ -320,17 +316,18 @@ impl GuiAgentHandlers {
     /// ```bash
     /// curl -N http://localhost:3000/gui/capture/screen/stream
     /// ```
-    pub async fn capture_screen_stream_handler() -> axum::response::Sse<Body> {
+    pub async fn capture_screen_stream_handler() -> axum::response::Sse<impl futures_util::Stream<Item = Result<axum::response::sse::Event, Infallible>>> {
         use axum::response::Sse;
-        use axum::body::Body;
-        use futures_util::stream::{self, StreamExt};
-        use tokio_stream::wrappers::IntervalStream;
+        use tokio_stream::wrappers::UnboundedReceiverStream;
         use tokio::time::Duration;
         use tokio::sync::mpsc;
-        use std::convert::Infallible;
         
         // 创建屏幕捕获实例
         let capture = ScreenCapture::new();
+        
+        // 获取屏幕分辨率
+        let screen_width = capture.get_width();
+        let screen_height = capture.get_height();
         
         // 创建通道用于在流中传递数据
         let (tx, rx) = mpsc::unbounded_channel::<Result<axum::response::sse::Event, Infallible>>();
@@ -348,19 +345,20 @@ impl GuiAgentHandlers {
                 match capture.capture_screen() {
                     Ok(data) => {
                         // 将截图数据编码为 Base64
-                        let base64_data = data;
+                        let base64_data = base64::Engine::encode(&base64::engine::GeneralPurpose::new(&base64::alphabet::STANDARD, base64::engine::general_purpose::PAD), data);
                         
                         // 创建 SSE 事件
+                        let json_data = serde_json::json!({
+                            "width": screen_width,
+                            "height": screen_height,
+                            "data": base64_data,
+                            "timestamp": std::time::SystemTime::now()
+                                .duration_since(std::time::UNIX_EPOCH)
+                                .unwrap()
+                                .as_millis()
+                        });
                         let event = axum::response::sse::Event::default()
-                            .json_field("data", &serde_json::json!({
-                                "width": capture.width,
-                                "height": capture.height,
-                                "data": base64_data,
-                                "timestamp": std::time::SystemTime::now()
-                                    .duration_since(std::time::UNIX_EPOCH)
-                                    .unwrap()
-                                    .as_millis()
-                            }));
+                            .data(serde_json::to_string(&json_data).unwrap());
                         
                         // 发送事件
                         if tx.send(Ok(event)).is_err() {
@@ -377,17 +375,16 @@ impl GuiAgentHandlers {
         });
         
         // 创建 SSE 流
-        let sse_stream = tokio_stream::wrappers::UnboundedReceiverStream::new(rx)
-            .map(|result| result.unwrap());
+        let sse_stream = UnboundedReceiverStream::new(rx);
         
-        Sse::new(Body::from_stream(sse_stream))
+        Sse::new(sse_stream)
     }
     
     /// 捕获区域流式处理器 (SSE)
     /// 
     /// # 返回
     /// 
-    /// * `Sse<Body>` - SSE 流式响应
+    /// * `Sse<impl Stream>` - SSE 流式响应
     /// 
     /// # 示例
     /// 
@@ -396,29 +393,30 @@ impl GuiAgentHandlers {
     /// ```
     pub async fn capture_region_stream_handler(
         Query(params): Query<CaptureRegionQuery>,
-    ) -> axum::response::Sse<Body> {
+    ) -> axum::response::Sse<impl futures_util::Stream<Item = Result<axum::response::sse::Event, Infallible>>> {
         use axum::response::Sse;
-        use axum::body::Body;
-        use futures_util::stream::{self, StreamExt};
         use tokio_stream::wrappers::UnboundedReceiverStream;
         use tokio::time::Duration;
         use tokio::sync::mpsc;
-        use std::convert::Infallible;
         
         // 创建屏幕捕获实例
         let capture = ScreenCapture::new();
         
+        // 获取屏幕分辨率
+        let screen_width = capture.get_width();
+        let screen_height = capture.get_height();
+        
         // 验证参数
-        if params.x >= capture.width || params.y >= capture.height {
+        if params.x >= screen_width || params.y >= screen_height {
+            let json_data = serde_json::json!({
+                "error": "区域参数无效"
+            });
             let event = axum::response::sse::Event::default()
-                .json_field("error", &serde_json::json!({
-                    "message": "区域参数无效"
-                }));
+                .data(serde_json::to_string(&json_data).unwrap());
             let (tx, rx) = mpsc::unbounded_channel();
             tx.send(Ok(event)).unwrap();
-            let sse_stream = UnboundedReceiverStream::new(rx)
-                .map(|result| result.unwrap());
-            return Sse::new(Body::from_stream(sse_stream));
+            let sse_stream = UnboundedReceiverStream::new(rx);
+            return Sse::new(sse_stream);
         }
         
         // 创建通道用于在流中传递数据
@@ -436,19 +434,23 @@ impl GuiAgentHandlers {
                 // 尝试捕获指定区域
                 match capture.capture_region(params.x, params.y, params.width, params.height) {
                     Ok(data) => {
+                        // 将截图数据编码为 Base64
+                        let base64_data = base64::Engine::encode(&base64::engine::GeneralPurpose::new(&base64::alphabet::STANDARD, base64::engine::general_purpose::PAD), data);
+                        
                         // 创建 SSE 事件
+                        let json_data = serde_json::json!({
+                            "x": params.x,
+                            "y": params.y,
+                            "width": params.width,
+                            "height": params.height,
+                            "data": base64_data,
+                            "timestamp": std::time::SystemTime::now()
+                                .duration_since(std::time::UNIX_EPOCH)
+                                .unwrap()
+                                .as_millis()
+                        });
                         let event = axum::response::sse::Event::default()
-                            .json_field("data", &serde_json::json!({
-                                "x": params.x,
-                                "y": params.y,
-                                "width": params.width,
-                                "height": params.height,
-                                "data": data,
-                                "timestamp": std::time::SystemTime::now()
-                                    .duration_since(std::time::UNIX_EPOCH)
-                                    .unwrap()
-                                    .as_millis()
-                            }));
+                            .data(serde_json::to_string(&json_data).unwrap());
                         
                         // 发送事件
                         if tx.send(Ok(event)).is_err() {
@@ -465,17 +467,16 @@ impl GuiAgentHandlers {
         });
         
         // 创建 SSE 流
-        let sse_stream = UnboundedReceiverStream::new(rx)
-            .map(|result| result.unwrap());
+        let sse_stream = UnboundedReceiverStream::new(rx);
         
-        Sse::new(Body::from_stream(sse_stream))
+        Sse::new(sse_stream)
     }
     
     /// 捕获窗口流式处理器 (SSE)
     /// 
     /// # 返回
     /// 
-    /// * `Sse<Body>` - SSE 流式响应
+    /// * `Sse<impl Stream>` - SSE 流式响应
     /// 
     /// # 示例
     /// 
@@ -484,14 +485,11 @@ impl GuiAgentHandlers {
     /// ```
     pub async fn capture_window_stream_handler(
         Query(params): Query<CaptureWindowQuery>,
-    ) -> axum::response::Sse<Body> {
+    ) -> axum::response::Sse<impl futures_util::Stream<Item = Result<axum::response::sse::Event, Infallible>>> {
         use axum::response::Sse;
-        use axum::body::Body;
-        use futures_util::stream::{self, StreamExt};
         use tokio_stream::wrappers::UnboundedReceiverStream;
         use tokio::time::Duration;
         use tokio::sync::mpsc;
-        use std::convert::Infallible;
         
         // 创建屏幕捕获实例
         let capture = ScreenCapture::new();
@@ -511,16 +509,20 @@ impl GuiAgentHandlers {
                 // 尝试捕获指定窗口
                 match capture.capture_window(params.window_id) {
                     Ok(data) => {
+                        // 将截图数据编码为 Base64
+                        let base64_data = base64::Engine::encode(&base64::engine::GeneralPurpose::new(&base64::alphabet::STANDARD, base64::engine::general_purpose::PAD), data);
+                        
                         // 创建 SSE 事件
+                        let json_data = serde_json::json!({
+                            "window_id": params.window_id,
+                            "data": base64_data,
+                            "timestamp": std::time::SystemTime::now()
+                                .duration_since(std::time::UNIX_EPOCH)
+                                .unwrap()
+                                .as_millis()
+                        });
                         let event = axum::response::sse::Event::default()
-                            .json_field("data", &serde_json::json!({
-                                "window_id": params.window_id,
-                                "data": data,
-                                "timestamp": std::time::SystemTime::now()
-                                    .duration_since(std::time::UNIX_EPOCH)
-                                    .unwrap()
-                                    .as_millis()
-                            }));
+                            .data(serde_json::to_string(&json_data).unwrap());
                         
                         // 发送事件
                         if tx.send(Ok(event)).is_err() {
@@ -537,9 +539,8 @@ impl GuiAgentHandlers {
         });
         
         // 创建 SSE 流
-        let sse_stream = UnboundedReceiverStream::new(rx)
-            .map(|result| result.unwrap());
+        let sse_stream = UnboundedReceiverStream::new(rx);
         
-        Sse::new(Body::from_stream(sse_stream))
+        Sse::new(sse_stream)
     }
 }

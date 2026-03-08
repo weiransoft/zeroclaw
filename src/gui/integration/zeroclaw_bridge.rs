@@ -138,6 +138,44 @@ impl ZeroClawGuiBridge {
         Err("LLM 驱动的 GUI 操作待实现".to_string())
     }
     
+    /// 验证 GUI Agent 配置
+    /// 
+    /// # 返回
+    /// 
+    /// * `Result<(), String>` - 验证结果
+    /// 
+    /// # 示例
+    /// 
+    /// ```rust
+    /// let bridge = ZeroClawGuiBridge::new(...);
+    /// bridge.validate_config().unwrap();
+    /// ```
+    pub fn validate_config(&self) -> Result<(), String> {
+        // TODO: 实现配置验证逻辑
+        // 验证 GUI Agent 配置的有效性
+        
+        Ok(())
+    }
+    
+    /// 持久化 GUI Agent 配置
+    /// 
+    /// # 返回
+    /// 
+    /// * `Result<(), String>` - 持久化结果
+    /// 
+    /// # 示例
+    /// 
+    /// ```rust
+    /// let bridge = ZeroClawGuiBridge::new(...);
+    /// bridge.persist_config().unwrap();
+    /// ```
+    pub fn persist_config(&self) -> Result<(), String> {
+        // TODO: 实现配置持久化逻辑
+        // 将 GUI Agent 配置保存到文件或数据库
+        
+        Ok(())
+    }
+    
     /// 获取 GUI Agent 状态
     /// 
     /// # 返回

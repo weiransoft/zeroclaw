@@ -7,6 +7,7 @@ use std::result;
 use std::sync::Mutex;
 
 use crate::gui::automation::executor::{AutomationExecutor, AutomationError};
+use crate::gui::screen::capture::ScreenCaptureError;
 
 /// 任务调度器结果类型
 pub type Result<T> = result::Result<T, TaskSchedulerError>;
@@ -20,6 +21,8 @@ pub enum TaskSchedulerError {
     TaskNotFound(String),
     /// 参数无效
     InvalidParameter(String),
+    /// 屏幕捕获失败
+    ScreenCaptureFailed(String),
     /// 其他错误
     Other(String),
 }
@@ -30,12 +33,19 @@ impl From<AutomationError> for TaskSchedulerError {
     }
 }
 
+impl From<ScreenCaptureError> for TaskSchedulerError {
+    fn from(err: ScreenCaptureError) -> Self {
+        TaskSchedulerError::ScreenCaptureFailed(format!("屏幕捕获失败: {}", err))
+    }
+}
+
 impl std::fmt::Display for TaskSchedulerError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             TaskSchedulerError::TaskExecutionFailed(msg) => write!(f, "任务执行失败: {}", msg),
             TaskSchedulerError::TaskNotFound(msg) => write!(f, "任务未找到: {}", msg),
             TaskSchedulerError::InvalidParameter(msg) => write!(f, "参数无效: {}", msg),
+            TaskSchedulerError::ScreenCaptureFailed(msg) => write!(f, "屏幕捕获失败: {}", msg),
             TaskSchedulerError::Other(msg) => write!(f, "其他错误: {}", msg),
         }
     }
@@ -413,8 +423,10 @@ impl TaskScheduler {
                     "screenshot" => {
                         // 截图操作
                         let capture = crate::gui::screen::capture::ScreenCapture::new();
-                        let _ = capture.capture_screen()?;
-                        Ok(())
+                        match capture.capture_screen() {
+                            Ok(_) => Ok(()),
+                            Err(e) => Err(TaskSchedulerError::from(e)),
+                        }
                     }
                     _ => Err(TaskSchedulerError::InvalidParameter(format!(
                         "未知的自定义操作: {}",

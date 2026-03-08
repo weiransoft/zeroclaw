@@ -24,6 +24,8 @@ use std::result;
 use std::process::Command;
 use std::fs;
 
+use crate::gui::screen::window::WindowInfo;
+
 /// 屏幕捕获结果类型
 pub type Result<T> = result::Result<T, ScreenCaptureError>;
 
