@@ -135,6 +135,17 @@ rppal = { version = "0.14", optional = true }
 
 futures = "0.3"
 
+# GUI Agent dependencies (macOS, Windows, Linux)
+# Template matching and image processing
+image = { version = "0.25", default-features = false, features = ["png"] }
+imageproc = { version = "0.24", default-features = false }
+
+# OCR support (optional, enable with --features ocr)
+# tesseract = { version = "0.6", optional = true }
+
+# LLM integration for GUI operations
+# openai = { version = "0.13", optional = true }
+
 [features]
 default = ["hardware"]
 hardware = ["nusb", "tokio-serial"]
@@ -153,6 +164,10 @@ browser-native = ["fantoccini"]
 duckdb = ["dep:duckdb"]
 # gui-agent = GUI Agent for screen monitoring and automation
 gui-agent = []
+# ocr = Enable Tesseract OCR support
+ocr = []
+# llm-gui = Enable LLM-driven GUI operations
+llm-gui = []
 
 [profile.release]
 opt-level = "z"      # Optimize for size

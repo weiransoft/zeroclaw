@@ -4,3 +4,5 @@
 
 /// LLM 图像识别
 pub mod llm;
+/// 图像分析器
+pub mod analyzer;
