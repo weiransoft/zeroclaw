@@ -241,3 +241,26 @@ pub enum PeripheralCommands {
     /// Flash ZeroClaw firmware to Nucleo-F401RE (builds + probe-rs run)
     FlashNucleo,
 }
+
+/// Model management subcommands
+/// 
+/// 管理提供商模型目录，支持刷新和缓存模型列表
+#[derive(Subcommand, Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub enum ModelCommands {
+    /// Refresh and cache provider models
+    /// 
+    /// 刷新并缓存提供商的模型列表
+    Refresh {
+        /// Provider name (defaults to configured default provider)
+        /// 
+        /// 提供商名称（默认使用配置的默认提供商）
+        #[arg(long)]
+        provider: Option<String>,
+
+        /// Force live refresh and ignore fresh cache
+        /// 
+        /// 强制实时刷新，忽略有效缓存
+        #[arg(long)]
+        force: bool,
+    },
+}

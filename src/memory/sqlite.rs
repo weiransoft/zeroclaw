@@ -145,20 +145,20 @@ impl SqliteMemory {
     }
 
     /// Deterministic content hash for embedding cache.
-    /// Uses SHA-256 (truncated) instead of DefaultHasher, which is
+    /// Uses SHA-256 (truncated to 128 bits) instead of DefaultHasher, which is
     /// explicitly documented as unstable across Rust versions.
+    /// 
+    /// 使用 128 位（16 字节）截断，在保持合理长度的同时显著降低碰撞概率。
+    /// 对于嵌入缓存场景，128 位提供约 2^128 的哈希空间，碰撞概率极低。
     fn content_hash(text: &str) -> String {
         use sha2::{Digest, Sha256};
         let hash = Sha256::digest(text.as_bytes());
-        // First 8 bytes → 16 hex chars, matching previous format length
-        format!(
-            "{:016x}",
-            u64::from_be_bytes(
-                hash[..8]
-                    .try_into()
-                    .expect("SHA-256 always produces >= 8 bytes")
-            )
-        )
+        // 使用前 16 字节（128 位）→ 32 个十六进制字符
+        // 这提供了足够的碰撞抗性，同时保持合理的存储长度
+        let bytes: [u8; 16] = hash[..16]
+            .try_into()
+            .expect("SHA-256 always produces >= 16 bytes");
+        format!("{:032x}", u128::from_be_bytes(bytes))
     }
 
     /// Get embedding from cache, or compute + cache it
@@ -518,6 +518,181 @@ impl Memory for SqliteMemory {
 
         results.truncate(limit);
         Ok(results)
+    }
+
+    /// 分页召回记忆
+    /// 
+    /// 支持大规模结果集的分页查询，返回结果和总数
+    /// 
+    /// # Arguments
+    /// * `query` - 搜索查询字符串
+    /// * `limit` - 返回结果的最大数量
+    /// * `offset` - 跳过的结果数量（用于分页）
+    /// 
+    /// # Returns
+    /// 返回元组 (结果列表, 匹配的总数量)
+    async fn recall_paginated(
+        &self,
+        query: &str,
+        limit: usize,
+        offset: usize,
+    ) -> anyhow::Result<(Vec<MemoryEntry>, usize)> {
+        if query.trim().is_empty() {
+            return Ok((Vec::new(), 0));
+        }
+
+        // 计算查询嵌入（异步，在获取锁之前）
+        let query_embedding = self.get_or_compute_embedding(query).await?;
+
+        let conn = self
+            .conn
+            .lock()
+            .map_err(|e| anyhow::anyhow!("Lock error: {e}"))?;
+
+        // FTS5 BM25 关键词搜索 - 获取更多结果用于分页
+        let search_limit = limit + offset + 100; // 额外获取一些结果以确保分页后仍有足够数据
+        let keyword_results = Self::fts5_search(&conn, query, search_limit).unwrap_or_default();
+
+        // 向量相似度搜索（如果有嵌入）
+        let vector_results = if let Some(ref qe) = query_embedding {
+            Self::vector_search(&conn, qe, search_limit).unwrap_or_default()
+        } else {
+            Vec::new()
+        };
+
+        // 混合合并
+        let merged = if vector_results.is_empty() {
+            // 没有嵌入 - 仅使用关键词结果
+            keyword_results
+                .iter()
+                .map(|(id, score)| vector::ScoredResult {
+                    id: id.clone(),
+                    vector_score: None,
+                    keyword_score: Some(*score),
+                    final_score: *score,
+                })
+                .collect::<Vec<_>>()
+        } else {
+            vector::hybrid_merge(
+                &vector_results,
+                &keyword_results,
+                self.vector_weight,
+                self.keyword_weight,
+                search_limit,
+            )
+        };
+
+        // 记录总数（在过滤之前）
+        let total_count = merged.len();
+
+        // 获取完整条目并应用相关性过滤
+        let mut results = Vec::new();
+        let relevance_threshold = 0.2;
+        
+        for scored in &merged {
+            // 跳过低相关性结果
+            if scored.final_score < relevance_threshold {
+                continue;
+            }
+            
+            let mut stmt = conn.prepare(
+                "SELECT id, key, content, category, created_at FROM memories WHERE id = ?1",
+            )?;
+            if let Ok(entry) = stmt.query_row(params![scored.id], |row| {
+                Ok(MemoryEntry {
+                    id: row.get(0)?,
+                    key: row.get(1)?,
+                    content: row.get(2)?,
+                    category: Self::str_to_category(&row.get::<_, String>(3)?),
+                    timestamp: row.get(4)?,
+                    session_id: None,
+                    score: Some(f64::from(scored.final_score)),
+                })
+            }) {
+                results.push(entry);
+            }
+        }
+
+        // 如果混合搜索没有结果，回退到 LIKE 搜索
+        if results.is_empty() {
+            let keywords: Vec<String> =
+                query.split_whitespace().map(|w| format!("%{w}%")).collect();
+            if !keywords.is_empty() {
+                let conditions: Vec<String> = keywords
+                    .iter()
+                    .enumerate()
+                    .map(|(i, _)| {
+                        format!("(content LIKE ?{} OR key LIKE ?{})", i * 2 + 1, i * 2 + 2)
+                    })
+                    .collect();
+                let where_clause = conditions.join(" OR ");
+                
+                // 先获取总数
+                let count_sql = format!(
+                    "SELECT COUNT(*) FROM memories WHERE {}",
+                    where_clause
+                );
+                let mut count_stmt = conn.prepare(&count_sql)?;
+                let mut count_params: Vec<Box<dyn rusqlite::types::ToSql>> = Vec::new();
+                for kw in &keywords {
+                    count_params.push(Box::new(kw.clone()));
+                    count_params.push(Box::new(kw.clone()));
+                }
+                let count_params_ref: Vec<&dyn rusqlite::types::ToSql> =
+                    count_params.iter().map(AsRef::as_ref).collect();
+                let fallback_total: usize = count_stmt.query_row(count_params_ref.as_slice(), |row| {
+                    row.get::<_, i64>(0).map(|n| n as usize)
+                }).unwrap_or(0);
+                
+                // 再获取分页数据
+                let sql = format!(
+                    "SELECT id, key, content, category, created_at FROM memories
+                     WHERE {}
+                     ORDER BY updated_at DESC
+                     LIMIT ?{} OFFSET ?{}",
+                    where_clause, keywords.len() * 2 + 1, keywords.len() * 2 + 2
+                );
+                let mut stmt = conn.prepare(&sql)?;
+                let mut param_values: Vec<Box<dyn rusqlite::types::ToSql>> = Vec::new();
+                for kw in &keywords {
+                    param_values.push(Box::new(kw.clone()));
+                    param_values.push(Box::new(kw.clone()));
+                }
+                #[allow(clippy::cast_possible_wrap)]
+                param_values.push(Box::new(limit as i64));
+                #[allow(clippy::cast_possible_wrap)]
+                param_values.push(Box::new(offset as i64));
+                let params_ref: Vec<&dyn rusqlite::types::ToSql> =
+                    param_values.iter().map(AsRef::as_ref).collect();
+                let rows = stmt.query_map(params_ref.as_slice(), |row| {
+                    Ok(MemoryEntry {
+                        id: row.get(0)?,
+                        key: row.get(1)?,
+                        content: row.get(2)?,
+                        category: Self::str_to_category(&row.get::<_, String>(3)?),
+                        timestamp: row.get(4)?,
+                        session_id: None,
+                        score: Some(1.0),
+                    })
+                })?;
+                
+                for row in rows {
+                    results.push(row?);
+                }
+                
+                return Ok((results, fallback_total));
+            }
+        }
+
+        // 应用分页
+        let paginated_results = if offset < results.len() {
+            let end = std::cmp::min(offset + limit, results.len());
+            results[offset..end].to_vec()
+        } else {
+            Vec::new()
+        };
+
+        Ok((paginated_results, total_count))
     }
 
     async fn get(&self, key: &str) -> anyhow::Result<Option<MemoryEntry>> {

@@ -185,6 +185,58 @@ impl Memory for MarkdownMemory {
         Ok(scored)
     }
 
+    /// 分页召回记忆
+    /// 
+    /// 支持大规模结果集的分页查询
+    async fn recall_paginated(
+        &self,
+        query: &str,
+        limit: usize,
+        offset: usize,
+    ) -> anyhow::Result<(Vec<MemoryEntry>, usize)> {
+        let all = self.read_all_entries().await?;
+        let query_lower = query.to_lowercase();
+        let keywords: Vec<&str> = query_lower.split_whitespace().collect();
+
+        let mut scored: Vec<MemoryEntry> = all
+            .into_iter()
+            .filter_map(|mut entry| {
+                let content_lower = entry.content.to_lowercase();
+                let matched = keywords
+                    .iter()
+                    .filter(|kw| content_lower.contains(**kw))
+                    .count();
+                if matched > 0 {
+                    #[allow(clippy::cast_precision_loss)]
+                    let score = matched as f64 / keywords.len() as f64;
+                    entry.score = Some(score);
+                    Some(entry)
+                } else {
+                    None
+                }
+            })
+            .collect();
+
+        scored.sort_by(|a, b| {
+            b.score
+                .partial_cmp(&a.score)
+                .unwrap_or(std::cmp::Ordering::Equal)
+        });
+        
+        // 记录总数
+        let total_count = scored.len();
+        
+        // 应用分页
+        let paginated = if offset < scored.len() {
+            let end = std::cmp::min(offset + limit, scored.len());
+            scored[offset..end].to_vec()
+        } else {
+            Vec::new()
+        };
+        
+        Ok((paginated, total_count))
+    }
+
     async fn get(&self, key: &str) -> anyhow::Result<Option<MemoryEntry>> {
         let all = self.read_all_entries().await?;
         Ok(all

@@ -92,13 +92,29 @@ impl WorkflowStore {
         Ok(())
     }
     
+    /// 获取指定工作流的所有阶段转换记录
+    /// 
+    /// 使用精确匹配：phase ID 格式为 `{workflow_id}-{phase_name}`
+    /// 通过检查 phase ID 是否以 `{workflow_id}-` 或 `{workflow_id}_` 开头来精确匹配
     pub async fn get_transitions(&self, workflow_id: &str) -> Vec<PhaseTransition> {
         let transitions = self.transitions.read().await;
         transitions
             .iter()
             .filter(|t| {
-                t.from_phase.as_ref().map(|p| p.contains(workflow_id)).unwrap_or(false)
-                    || t.to_phase.as_ref().map(|p| p.contains(workflow_id)).unwrap_or(false)
+                // 检查 from_phase 是否属于该工作流
+                let from_matches = t.from_phase.as_ref().map(|p| {
+                    // 精确匹配：phase ID 以 workflow_id 开头，后跟 "-" 或 "_"
+                    p.starts_with(&format!("{}-", workflow_id))
+                        || p == workflow_id
+                        || p.starts_with(&format!("{}_", workflow_id))
+                }).unwrap_or(false);
+                // 检查 to_phase 是否属于该工作流
+                let to_matches = t.to_phase.as_ref().map(|p| {
+                    p.starts_with(&format!("{}-", workflow_id))
+                        || p.starts_with(&format!("{}_", workflow_id))
+                }).unwrap_or(false);
+                // 任一匹配即可
+                from_matches || to_matches
             })
             .cloned()
             .collect()

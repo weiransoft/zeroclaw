@@ -71,6 +71,10 @@ impl DbPool {
     /// 
     /// # Returns
     /// 初始化好的 DbPool
+    /// 
+    /// # Notes
+    /// - 设置 min_size > 0 可以预热连接池，避免冷启动延迟
+    /// - min_size 不能超过 max_size
     pub fn new(config: SqliteConfig) -> Result<Self> {
         // 确保数据库目录存在
         if let Some(parent) = config.path.parent() {
@@ -80,13 +84,23 @@ impl DbPool {
             }
         }
         
+        // 确保 min_size 不超过 max_size
+        let min_size = config.min_size.min(config.max_size);
+        
         // 创建连接池
         let manager = SqliteConnectionManager::file(config.path.clone());
         let pool = Pool::builder()
             .max_size(config.max_size)
+            .min_idle(Some(min_size))
             .connection_timeout(Duration::from_secs(config.connection_timeout))
             .build(manager)
             .context("Failed to create database connection pool")?;
+        
+        // 记录连接池初始化信息
+        tracing::debug!(
+            "[DbPool] Initialized pool: path={:?}, max_size={}, min_idle={}",
+            config.path, config.max_size, min_size
+        );
         
         Ok(Self { pool, config })
     }

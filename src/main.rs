@@ -76,8 +76,11 @@ mod workflow;
 
 use config::Config;
 
-// Re-export so binary's hardware/peripherals modules can use crate::HardwareCommands etc.
-pub use zeroclaw::{HardwareCommands, PeripheralCommands};
+// 从 zeroclaw 库统一导入所有命令枚举，避免重复定义
+pub use zeroclaw::{
+    ChannelCommands, CronCommands, HardwareCommands, IntegrationCommands, MigrateCommands,
+    ModelCommands, PeripheralCommands, ServiceCommands, SkillCommands,
+};
 
 /// `ZeroClaw` - Zero overhead. Zero compromise. 100% Rust.
 #[derive(Parser, Debug)]
@@ -88,20 +91,6 @@ pub use zeroclaw::{HardwareCommands, PeripheralCommands};
 struct Cli {
     #[command(subcommand)]
     command: Commands,
-}
-
-#[derive(Subcommand, Debug)]
-enum ServiceCommands {
-    /// Install daemon service unit for auto-start and restart
-    Install,
-    /// Start daemon service
-    Start,
-    /// Stop daemon service
-    Stop,
-    /// Check daemon service status
-    Status,
-    /// Uninstall daemon service unit
-    Uninstall,
 }
 
 #[derive(Subcommand, Debug)]
@@ -238,116 +227,6 @@ enum Commands {
     ToolMarket {
         #[command(subcommand)]
         toolmarket_command: toolmarket::ToolMarketCommands,
-    },
-}
-
-#[derive(Subcommand, Debug)]
-enum MigrateCommands {
-    /// Import memory from an `OpenClaw` workspace into this `ZeroClaw` workspace
-    Openclaw {
-        /// Optional path to `OpenClaw` workspace (defaults to ~/.openclaw/workspace)
-        #[arg(long)]
-        source: Option<std::path::PathBuf>,
-
-        /// Validate and preview migration without writing any data
-        #[arg(long)]
-        dry_run: bool,
-    },
-}
-
-#[derive(Subcommand, Debug)]
-enum CronCommands {
-    /// List all scheduled tasks
-    List,
-    /// Add a new scheduled task
-    Add {
-        /// Cron expression
-        expression: String,
-        /// Command to run
-        command: String,
-    },
-    /// Add a one-shot delayed task (e.g. "30m", "2h", "1d")
-    Once {
-        /// Delay duration
-        delay: String,
-        /// Command to run
-        command: String,
-    },
-    /// Remove a scheduled task
-    Remove {
-        /// Task ID
-        id: String,
-    },
-    /// Pause a scheduled task
-    Pause {
-        /// Task ID
-        id: String,
-    },
-    /// Resume a paused task
-    Resume {
-        /// Task ID
-        id: String,
-    },
-}
-
-#[derive(Subcommand, Debug)]
-enum ModelCommands {
-    /// Refresh and cache provider models
-    Refresh {
-        /// Provider name (defaults to configured default provider)
-        #[arg(long)]
-        provider: Option<String>,
-
-        /// Force live refresh and ignore fresh cache
-        #[arg(long)]
-        force: bool,
-    },
-}
-
-#[derive(Subcommand, Debug)]
-enum ChannelCommands {
-    /// List configured channels
-    List,
-    /// Start all configured channels (Telegram, Discord, Slack)
-    Start,
-    /// Run health checks for configured channels
-    Doctor,
-    /// Add a new channel
-    Add {
-        /// Channel type
-        channel_type: String,
-        /// Configuration JSON
-        config: String,
-    },
-    /// Remove a channel
-    Remove {
-        /// Channel name
-        name: String,
-    },
-}
-
-#[derive(Subcommand, Debug)]
-enum SkillCommands {
-    /// List installed skills
-    List,
-    /// Install a skill from a GitHub URL or local path
-    Install {
-        /// GitHub URL or local path
-        source: String,
-    },
-    /// Remove an installed skill
-    Remove {
-        /// Skill name
-        name: String,
-    },
-}
-
-#[derive(Subcommand, Debug)]
-enum IntegrationCommands {
-    /// Show details about a specific integration
-    Info {
-        /// Integration name
-        name: String,
     },
 }
 

@@ -9,11 +9,25 @@ use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Arc;
-use tokio::sync::{RwLock, RwLockReadGuard};
+use tokio::sync::{broadcast, RwLock, RwLockReadGuard};
 
 // ══════════════════════════════════════════════════════════════════════════════
 // 配置热重载支持
 // ══════════════════════════════════════════════════════════════════════════════
+
+/// 配置变更事件
+/// 当配置发生变更时，通过 broadcast 通道发送给所有订阅者
+#[derive(Debug, Clone)]
+pub struct ConfigChangeEvent {
+    /// 变更前的版本号
+    pub old_version: u64,
+    /// 变更后的版本号
+    pub new_version: u64,
+    /// 变更时间
+    pub timestamp: DateTime<Utc>,
+    /// 变更来源
+    pub source: String,
+}
 
 /// 配置版本信息
 /// 用于跟踪配置的变更历史和版本控制
@@ -40,15 +54,54 @@ impl ConfigVersion {
 
 /// 可热重载的配置包装器
 /// 使用 Arc<RwLock<Config>> 实现线程安全的配置共享和更新
-#[derive(Debug, Clone)]
+/// 
+/// # 特性
+/// - 线程安全的配置读写
+/// - 版本追踪
+/// - 变更通知（通过 broadcast 通道）
+/// 
+/// # Example
+/// ```rust
+/// let hot_config = HotConfig::new(config);
+/// 
+/// // 订阅配置变更
+/// let mut rx = hot_config.subscribe();
+/// tokio::spawn(async move {
+///     while let Ok(event) = rx.recv().await {
+///         println!("Config changed: {:?}", event);
+///     }
+/// });
+/// 
+/// // 更新配置
+/// hot_config.write_with_source(new_config, "api").await?;
+/// ```
+#[derive(Debug)]
 pub struct HotConfig {
     /// 配置数据的共享锁
     config: Arc<RwLock<Config>>,
     /// 配置版本号，使用原子操作保证线程安全
     version: Arc<AtomicU64>,
+    /// 配置变更通知通道
+    /// 
+    /// 使用 broadcast 通道支持多个订阅者
+    /// 通道容量为 16，足够处理短时间的多次变更
+    change_tx: broadcast::Sender<ConfigChangeEvent>,
+}
+
+impl Clone for HotConfig {
+    fn clone(&self) -> Self {
+        Self {
+            config: Arc::clone(&self.config),
+            version: Arc::clone(&self.version),
+            change_tx: self.change_tx.clone(),
+        }
+    }
 }
 
 impl HotConfig {
+    /// broadcast 通道的默认容量
+    const CHANNEL_CAPACITY: usize = 16;
+
     /// 创建新的热重载配置包装器
     /// 
     /// # Arguments
@@ -57,10 +110,28 @@ impl HotConfig {
     /// # Returns
     /// 包含初始配置的 HotConfig 实例
     pub fn new(config: Config) -> Self {
+        let (change_tx, _) = broadcast::channel(Self::CHANNEL_CAPACITY);
         Self {
             config: Arc::new(RwLock::new(config)),
             version: Arc::new(AtomicU64::new(0)),
+            change_tx,
         }
+    }
+
+    /// 订阅配置变更事件
+    /// 
+    /// # Returns
+    /// 返回一个 broadcast 接收器，可用于异步接收配置变更通知
+    /// 
+    /// # Example
+    /// ```rust
+    /// let mut rx = hot_config.subscribe();
+    /// while let Ok(event) = rx.recv().await {
+    ///     println!("Config updated from {} to {}", event.old_version, event.new_version);
+    /// }
+    /// ```
+    pub fn subscribe(&self) -> broadcast::Receiver<ConfigChangeEvent> {
+        self.change_tx.subscribe()
     }
 
     /// 读取配置（共享锁）
@@ -86,11 +157,49 @@ impl HotConfig {
     /// * `Err(anyhow::Error)` - 配置更新失败
     /// 
     /// # Notes
-    /// 此方法会自动递增配置版本号
+    /// 此方法会自动递增配置版本号，并通知所有订阅者
     pub async fn write(&self, new_config: Config) -> Result<()> {
+        self.write_with_source(new_config, "unknown").await
+    }
+
+    /// 写入配置并指定变更来源
+    /// 
+    /// # Arguments
+    /// * `new_config` - 新的配置
+    /// * `source` - 变更来源标识（如 "auto_reload"、"api"、"cli"）
+    /// 
+    /// # Returns
+    /// * `Ok(())` - 配置更新成功
+    /// * `Err(anyhow::Error)` - 配置更新失败
+    /// 
+    /// # Notes
+    /// 此方法会：
+    /// 1. 递增配置版本号
+    /// 2. 更新配置数据
+    /// 3. 向所有订阅者发送变更通知
+    pub async fn write_with_source(&self, new_config: Config, source: &str) -> Result<()> {
+        let old_version = self.version.load(Ordering::SeqCst);
         let mut guard = self.config.write().await;
         *guard = new_config;
-        self.version.fetch_add(1, Ordering::SeqCst);
+        let new_version = self.version.fetch_add(1, Ordering::SeqCst) + 1;
+        drop(guard); // 提前释放锁，避免在发送通知时持有锁
+
+        // 发送变更通知
+        let event = ConfigChangeEvent {
+            old_version,
+            new_version,
+            timestamp: Utc::now(),
+            source: source.to_string(),
+        };
+        
+        // 忽略发送错误（可能没有订阅者）
+        let _ = self.change_tx.send(event);
+        
+        tracing::debug!(
+            "[HotConfig] Config updated: {} -> {} (source: {})",
+            old_version, new_version, source
+        );
+        
         Ok(())
     }
 

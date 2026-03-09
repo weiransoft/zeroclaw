@@ -12,6 +12,10 @@ pub struct SqliteConfig {
     pub path: PathBuf,
     /// 连接池最大连接数，默认 5
     pub max_size: u32,
+    /// 连接池最小连接数（预热连接），默认 1
+    /// 
+    /// 设置 min_size > 0 可以避免冷启动延迟，连接池会在初始化时预热指定数量的连接
+    pub min_size: u32,
     /// 连接超时时间（秒），默认 5
     pub connection_timeout: u64,
     /// 是否启用 WAL 模式，默认 true
@@ -28,6 +32,7 @@ impl Default for SqliteConfig {
         Self {
             path: PathBuf::from(":memory:"),
             max_size: 5,
+            min_size: 1,
             connection_timeout: 5,
             wal_mode: true,
             foreign_keys: true,

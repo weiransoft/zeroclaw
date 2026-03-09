@@ -51,6 +51,30 @@ pub trait Memory: Send + Sync {
     /// Recall memories matching a query (keyword search)
     async fn recall(&self, query: &str, limit: usize) -> anyhow::Result<Vec<MemoryEntry>>;
 
+    /// Recall memories matching a query with pagination support
+    /// 
+    /// # Arguments
+    /// * `query` - Search query string
+    /// * `limit` - Maximum number of results to return
+    /// * `offset` - Number of results to skip (for pagination)
+    /// 
+    /// # Returns
+    /// A tuple of (results, total_count) where total_count is the total number of matching records
+    /// 
+    /// # Example
+    /// ```rust
+    /// // Get first page (10 items)
+    /// let (page1, total) = memory.recall_paginated("rust", 10, 0).await?;
+    /// // Get second page (10 items)
+    /// let (page2, _) = memory.recall_paginated("rust", 10, 10).await?;
+    /// ```
+    async fn recall_paginated(
+        &self,
+        query: &str,
+        limit: usize,
+        offset: usize,
+    ) -> anyhow::Result<(Vec<MemoryEntry>, usize)>;
+
     /// Get a specific memory by key
     async fn get(&self, key: &str) -> anyhow::Result<Option<MemoryEntry>>;
 

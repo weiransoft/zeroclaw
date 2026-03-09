@@ -3863,6 +3863,15 @@ mod tests {
             Ok(Vec::new())
         }
 
+        async fn recall_paginated(
+            &self,
+            _query: &str,
+            _limit: usize,
+            _offset: usize,
+        ) -> anyhow::Result<(Vec<MemoryEntry>, usize)> {
+            Ok((Vec::new(), 0))
+        }
+
         async fn get(&self, _key: &str) -> anyhow::Result<Option<MemoryEntry>> {
             Ok(None)
         }
@@ -3932,6 +3941,15 @@ mod tests {
 
         async fn recall(&self, _query: &str, _limit: usize) -> anyhow::Result<Vec<MemoryEntry>> {
             Ok(Vec::new())
+        }
+
+        async fn recall_paginated(
+            &self,
+            _query: &str,
+            _limit: usize,
+            _offset: usize,
+        ) -> anyhow::Result<(Vec<MemoryEntry>, usize)> {
+            Ok((Vec::new(), 0))
         }
 
         async fn get(&self, _key: &str) -> anyhow::Result<Option<MemoryEntry>> {

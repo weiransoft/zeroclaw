@@ -42,6 +42,7 @@ impl SqliteTraceStore {
         let sqlite_config = SqliteConfig {
             path: db_path.clone(),
             max_size: config.max_connections,
+            min_size: 1, // 最小连接数（预热）
             connection_timeout: 5, // 连接超时（秒）
             wal_mode: true,
             foreign_keys: true,

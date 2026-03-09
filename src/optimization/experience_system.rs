@@ -948,6 +948,14 @@ mod tests {
         async fn recall(&self, _query: &str, _limit: usize) -> anyhow::Result<Vec<MemoryEntry>> {
             Ok(vec![])
         }
+        async fn recall_paginated(
+            &self,
+            _query: &str,
+            _limit: usize,
+            _offset: usize,
+        ) -> anyhow::Result<(Vec<MemoryEntry>, usize)> {
+            Ok((vec![], 0))
+        }
         async fn get(&self, _key: &str) -> anyhow::Result<Option<MemoryEntry>> {
             Ok(None)
         }

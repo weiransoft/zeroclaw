@@ -1566,6 +1566,15 @@ mod tests {
             Ok(Vec::new())
         }
 
+        async fn recall_paginated(
+            &self,
+            _query: &str,
+            _limit: usize,
+            _offset: usize,
+        ) -> anyhow::Result<(Vec<crate::memory::MemoryEntry>, usize)> {
+            Ok((Vec::new(), 0))
+        }
+
         async fn get(&self, _key: &str) -> anyhow::Result<Option<crate::memory::MemoryEntry>> {
             Ok(None)
         }

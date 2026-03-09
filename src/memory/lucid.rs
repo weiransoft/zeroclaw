@@ -353,6 +353,19 @@ impl Memory for LucidMemory {
         }
     }
 
+    /// 分页召回记忆
+    /// 
+    /// 委托给本地 SQLite 存储，因为 Lucid 主要用于增强搜索而非分页
+    async fn recall_paginated(
+        &self,
+        query: &str,
+        limit: usize,
+        offset: usize,
+    ) -> anyhow::Result<(Vec<MemoryEntry>, usize)> {
+        // Lucid 主要用于增强搜索，分页功能委托给本地 SQLite
+        self.local.recall_paginated(query, limit, offset).await
+    }
+
     async fn get(&self, key: &str) -> anyhow::Result<Option<MemoryEntry>> {
         self.local.get(key).await
     }
