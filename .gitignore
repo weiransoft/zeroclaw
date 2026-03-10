@@ -113,3 +113,6 @@ data/
 *.lockfile
 *.seed
 *.state
+
+# ============ 运行时工作目录 ============
+workspace/

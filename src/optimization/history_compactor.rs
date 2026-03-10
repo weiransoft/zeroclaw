@@ -118,10 +118,20 @@ impl SmartHistoryCompactor {
     
     pub fn truncate_to_budget(text: &str, max_tokens: usize) -> String {
         let max_chars = max_tokens * 4;
-        if text.chars().count() <= max_chars {
-            text.to_string()
-        } else {
-            format!("{}...", text.chars().take(max_chars - 3).collect::<String>())
+        // Optimization: Quick byte-length check
+        if text.len() <= max_chars {
+            return text.to_string();
+        }
+
+        // Find the byte index for the max_chars-th character
+        match text.char_indices().nth(max_chars.saturating_sub(3)) {
+            Some((idx, _)) => {
+                let mut s = String::with_capacity(idx + 3);
+                s.push_str(&text[..idx]);
+                s.push_str("...");
+                s
+            }
+            None => text.to_string(),
         }
     }
 }

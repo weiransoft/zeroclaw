@@ -34,7 +34,7 @@ impl WhatsAppChannel {
 
     /// Check if a phone number is allowed (E.164 format: +1234567890)
     fn is_number_allowed(&self, phone: &str) -> bool {
-        self.allowed_numbers.iter().any(|n| n == "*" || n == phone)
+        super::traits::is_user_allowed(&self.allowed_numbers, phone)
     }
 
     /// Get the verify token for webhook verification

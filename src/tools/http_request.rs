@@ -12,6 +12,7 @@ pub struct HttpRequestTool {
     allowed_domains: Vec<String>,
     max_response_size: usize,
     timeout_secs: u64,
+    client: reqwest::Client,
 }
 
 impl HttpRequestTool {
@@ -21,11 +22,17 @@ impl HttpRequestTool {
         max_response_size: usize,
         timeout_secs: u64,
     ) -> Self {
+        let client = reqwest::Client::builder()
+            .timeout(Duration::from_secs(timeout_secs))
+            .build()
+            .expect("Failed to build HTTP client");
+
         Self {
             security,
             allowed_domains: normalize_allowed_domains(allowed_domains),
             max_response_size,
             timeout_secs,
+            client,
         }
     }
 
@@ -114,11 +121,7 @@ impl HttpRequestTool {
         headers: Vec<(String, String)>,
         body: Option<&str>,
     ) -> anyhow::Result<reqwest::Response> {
-        let client = reqwest::Client::builder()
-            .timeout(Duration::from_secs(self.timeout_secs))
-            .build()?;
-
-        let mut request = client.request(method, url);
+        let mut request = self.client.request(method, url);
 
         for (key, value) in headers {
             request = request.header(&key, &value);
@@ -288,12 +291,13 @@ impl Tool for HttpRequestTool {
     }
 
     fn clone_box(&self) -> Box<dyn Tool> {
-        Box::new(HttpRequestTool::new(
-            self.security.clone(),
-            self.allowed_domains.clone(),
-            self.max_response_size,
-            self.timeout_secs
-        ))
+        Box::new(Self {
+            security: self.security.clone(),
+            allowed_domains: self.allowed_domains.clone(),
+            max_response_size: self.max_response_size,
+            timeout_secs: self.timeout_secs,
+            client: self.client.clone(),
+        })
     }
 }
 

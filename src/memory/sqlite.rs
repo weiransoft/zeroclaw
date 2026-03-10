@@ -438,16 +438,19 @@ impl Memory for SqliteMemory {
         let mut results = Vec::new();
         let relevance_threshold = 0.2; // Token-optimized threshold
         
-        for scored in &merged {
-            // Skip low-relevance results
-            if scored.final_score < relevance_threshold {
-                continue;
-            }
+        let filtered_scored: Vec<&vector::ScoredResult> = merged.iter()
+            .filter(|s| s.final_score >= relevance_threshold)
+            .collect();
+
+        if !filtered_scored.is_empty() {
+            let ids: Vec<String> = filtered_scored.iter().map(|s| s.id.clone()).collect();
+            let placeholders = std::iter::repeat("?").take(ids.len()).collect::<Vec<_>>().join(",");
+            let sql = format!("SELECT id, key, content, category, created_at FROM memories WHERE id IN ({})", placeholders);
             
-            let mut stmt = conn.prepare(
-                "SELECT id, key, content, category, created_at FROM memories WHERE id = ?1",
-            )?;
-            if let Ok(entry) = stmt.query_row(params![scored.id], |row| {
+            let mut stmt = conn.prepare(&sql)?;
+            let params = rusqlite::params_from_iter(ids.iter());
+            
+            let rows = stmt.query_map(params, |row| {
                 Ok(MemoryEntry {
                     id: row.get(0)?,
                     key: row.get(1)?,
@@ -455,10 +458,23 @@ impl Memory for SqliteMemory {
                     category: Self::str_to_category(&row.get::<_, String>(3)?),
                     timestamp: row.get(4)?,
                     session_id: None,
-                    score: Some(f64::from(scored.final_score)),
+                    score: None, // Will be filled later
                 })
-            }) {
-                results.push(entry);
+            })?;
+
+            // Create a map for quick lookup
+            let mut entry_map: std::collections::HashMap<String, MemoryEntry> = std::collections::HashMap::new();
+            for row in rows {
+                let entry = row?;
+                entry_map.insert(entry.id.clone(), entry);
+            }
+
+            // Reconstruct results in order and attach scores
+            for scored in filtered_scored {
+                if let Some(mut entry) = entry_map.remove(&scored.id) {
+                    entry.score = Some(f64::from(scored.final_score));
+                    results.push(entry);
+                }
             }
         }
 
@@ -585,31 +601,45 @@ impl Memory for SqliteMemory {
         // 记录总数（在过滤之前）
         let total_count = merged.len();
 
-        // 获取完整条目并应用相关性过滤
+        // Fetch full entries for merged results with relevance filtering
         let mut results = Vec::new();
         let relevance_threshold = 0.2;
         
-        for scored in &merged {
-            // 跳过低相关性结果
-            if scored.final_score < relevance_threshold {
-                continue;
-            }
+        let filtered_scored: Vec<&vector::ScoredResult> = merged.iter()
+            .filter(|s| s.final_score >= relevance_threshold)
+            .collect();
             
-            let mut stmt = conn.prepare(
-                "SELECT id, key, content, category, created_at FROM memories WHERE id = ?1",
-            )?;
-            if let Ok(entry) = stmt.query_row(params![scored.id], |row| {
-                Ok(MemoryEntry {
-                    id: row.get(0)?,
-                    key: row.get(1)?,
-                    content: row.get(2)?,
-                    category: Self::str_to_category(&row.get::<_, String>(3)?),
-                    timestamp: row.get(4)?,
-                    session_id: None,
-                    score: Some(f64::from(scored.final_score)),
-                })
-            }) {
-                results.push(entry);
+        if !filtered_scored.is_empty() {
+             let ids: Vec<String> = filtered_scored.iter().map(|s| s.id.clone()).collect();
+             let placeholders = std::iter::repeat("?").take(ids.len()).collect::<Vec<_>>().join(",");
+             let sql = format!("SELECT id, key, content, category, created_at FROM memories WHERE id IN ({})", placeholders);
+             
+             let mut stmt = conn.prepare(&sql)?;
+             let params = rusqlite::params_from_iter(ids.iter());
+             
+             let rows = stmt.query_map(params, |row| {
+                 Ok(MemoryEntry {
+                     id: row.get(0)?,
+                     key: row.get(1)?,
+                     content: row.get(2)?,
+                     category: Self::str_to_category(&row.get::<_, String>(3)?),
+                     timestamp: row.get(4)?,
+                     session_id: None,
+                     score: None,
+                 })
+             })?;
+
+            let mut entry_map: std::collections::HashMap<String, MemoryEntry> = std::collections::HashMap::new();
+            for row in rows {
+                let entry = row?;
+                entry_map.insert(entry.id.clone(), entry);
+            }
+
+            for scored in filtered_scored {
+                if let Some(mut entry) = entry_map.remove(&scored.id) {
+                    entry.score = Some(f64::from(scored.final_score));
+                    results.push(entry);
+                }
             }
         }
 

@@ -73,7 +73,7 @@ impl TelegramChannel {
     }
 
     fn is_user_allowed(&self, username: &str) -> bool {
-        self.allowed_users.iter().any(|u| u == "*" || u == username)
+        super::traits::is_user_allowed(&self.allowed_users, username)
     }
 
     fn is_any_user_allowed<'a, I>(&self, identities: I) -> bool

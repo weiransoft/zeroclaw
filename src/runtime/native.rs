@@ -41,6 +41,8 @@ impl RuntimeAdapter for NativeRuntime {
     ) -> anyhow::Result<tokio::process::Command> {
         let mut process = tokio::process::Command::new("sh");
         process.arg("-c").arg(command).current_dir(workspace_dir);
+        // Fix: Kill orphan processes if the handle is dropped (e.g. on timeout)
+        process.kill_on_drop(true);
         Ok(process)
     }
 }

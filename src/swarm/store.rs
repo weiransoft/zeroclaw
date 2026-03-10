@@ -11,6 +11,134 @@ use uuid::Uuid;
 // 使用统一的数据库连接池管理系统
 use crate::db::{DbPool, SqlLoader, DatabaseType, SqliteConfig};
 
+const FALLBACK_SCHEMA: &str = r#"
+CREATE TABLE IF NOT EXISTS subagent_runs (
+    run_id              TEXT PRIMARY KEY,
+    parent_run_id       TEXT,
+    agent_name          TEXT NOT NULL,
+    label               TEXT,
+    task                TEXT NOT NULL,
+    orchestrator        INTEGER NOT NULL DEFAULT 0,
+    status              TEXT NOT NULL,
+    depth               INTEGER NOT NULL,
+    started_at_unix     INTEGER NOT NULL,
+    ended_at_unix       INTEGER,
+    output              TEXT,
+    error               TEXT,
+    children_json       TEXT NOT NULL DEFAULT '[]',
+    cleanup             INTEGER NOT NULL DEFAULT 0,
+    owner_instance      TEXT NOT NULL,
+    last_heartbeat_unix INTEGER
+);
+CREATE INDEX IF NOT EXISTS idx_subagent_runs_parent ON subagent_runs(parent_run_id);
+CREATE INDEX IF NOT EXISTS idx_subagent_runs_status ON subagent_runs(status);
+CREATE INDEX IF NOT EXISTS idx_subagent_runs_heartbeat ON subagent_runs(last_heartbeat_unix);
+
+CREATE TABLE IF NOT EXISTS swarm_events (
+    id      INTEGER PRIMARY KEY AUTOINCREMENT,
+    ts_unix INTEGER NOT NULL,
+    run_id  TEXT,
+    kind    TEXT NOT NULL,
+    payload TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_swarm_events_run ON swarm_events(run_id);
+
+CREATE TABLE IF NOT EXISTS swarm_chat (
+    id      INTEGER PRIMARY KEY AUTOINCREMENT,
+    ts_unix INTEGER NOT NULL,
+    run_id  TEXT,
+    author  TEXT NOT NULL,
+    lang    TEXT NOT NULL,
+    content TEXT NOT NULL,
+    meta    TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_swarm_chat_run ON swarm_chat(run_id);
+
+CREATE TABLE IF NOT EXISTS swarm_chat_extended (
+    id          TEXT PRIMARY KEY,
+    ts_unix     INTEGER NOT NULL,
+    run_id      TEXT,
+    task_id     TEXT,
+    author      TEXT NOT NULL,
+    author_type TEXT NOT NULL,
+    message_type TEXT NOT NULL,
+    lang        TEXT NOT NULL,
+    content     TEXT NOT NULL,
+    parent_id   TEXT,
+    metadata    TEXT NOT NULL DEFAULT '{}'
+);
+CREATE INDEX IF NOT EXISTS idx_swarm_chat_extended_run ON swarm_chat_extended(run_id);
+CREATE INDEX IF NOT EXISTS idx_swarm_chat_extended_task ON swarm_chat_extended(task_id);
+CREATE INDEX IF NOT EXISTS idx_swarm_chat_extended_parent ON swarm_chat_extended(parent_id);
+
+CREATE TABLE IF NOT EXISTS progress_entries (
+    id              TEXT PRIMARY KEY,
+    run_id          TEXT,
+    task_id         TEXT,
+    status          TEXT NOT NULL,
+    title           TEXT NOT NULL,
+    description     TEXT,
+    progress        REAL NOT NULL DEFAULT 0.0,
+    total           REAL,
+    unit            TEXT,
+    started_at      INTEGER,
+    updated_at      INTEGER NOT NULL,
+    completed_at    INTEGER,
+    error           TEXT,
+    metadata        TEXT NOT NULL DEFAULT '{}'
+);
+CREATE INDEX IF NOT EXISTS idx_progress_run ON progress_entries(run_id);
+CREATE INDEX IF NOT EXISTS idx_progress_task ON progress_entries(task_id);
+CREATE INDEX IF NOT EXISTS idx_progress_status ON progress_entries(status);
+
+CREATE TABLE IF NOT EXISTS trace_entries (
+    id          TEXT PRIMARY KEY,
+    run_id      TEXT,
+    task_id     TEXT,
+    parent_id   TEXT,
+    timestamp   INTEGER NOT NULL,
+    level       TEXT NOT NULL,
+    message     TEXT NOT NULL,
+    lang        TEXT NOT NULL DEFAULT 'en',
+    metadata    TEXT NOT NULL DEFAULT '{}'
+);
+CREATE INDEX IF NOT EXISTS idx_trace_run ON trace_entries(run_id);
+CREATE INDEX IF NOT EXISTS idx_trace_task ON trace_entries(task_id);
+CREATE INDEX IF NOT EXISTS idx_trace_parent ON trace_entries(parent_id);
+CREATE INDEX IF NOT EXISTS idx_trace_timestamp ON trace_entries(timestamp);
+
+CREATE TABLE IF NOT EXISTS intelligent_tasks (
+    id                  TEXT PRIMARY KEY,
+    title               TEXT NOT NULL,
+    description         TEXT,
+    status              TEXT NOT NULL,
+    priority            TEXT NOT NULL DEFAULT 'medium',
+    assignee_type       TEXT NOT NULL DEFAULT 'unassigned',
+    assigned_by         TEXT NOT NULL,
+    parent_task_id      TEXT,
+    created_at          INTEGER NOT NULL,
+    updated_at          INTEGER NOT NULL,
+    due_date            INTEGER,
+    progress            REAL NOT NULL DEFAULT 0.0,
+    metadata            TEXT NOT NULL DEFAULT '{}',
+    FOREIGN KEY (parent_task_id) REFERENCES intelligent_tasks(id)
+);
+CREATE INDEX IF NOT EXISTS idx_intelligent_tasks_status ON intelligent_tasks(status);
+CREATE INDEX IF NOT EXISTS idx_intelligent_tasks_priority ON intelligent_tasks(priority);
+CREATE INDEX IF NOT EXISTS idx_intelligent_tasks_assignee ON intelligent_tasks(assignee_type);
+CREATE INDEX IF NOT EXISTS idx_intelligent_tasks_created ON intelligent_tasks(created_at DESC);
+
+CREATE TABLE IF NOT EXISTS task_assignees (
+    id              TEXT PRIMARY KEY,
+    task_id         TEXT NOT NULL,
+    assignee_name   TEXT NOT NULL,
+    assigned_at     INTEGER NOT NULL,
+    FOREIGN KEY (task_id) REFERENCES intelligent_tasks(id) ON DELETE CASCADE
+);
+CREATE INDEX IF NOT EXISTS idx_task_assignees_task ON task_assignees(task_id);
+CREATE INDEX IF NOT EXISTS idx_task_assignees_name ON task_assignees(assignee_name);
+"#;
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SwarmEvent {
     pub id: i64,
@@ -112,287 +240,25 @@ impl SwarmSqliteStore {
 
     fn init_schema(&self) {
         // 使用 SQL 加载器加载 swarm 数据库 schema
-        match SqlLoader::default() {
-            Ok(sql_loader) => {
-                match sql_loader.load_schema(DatabaseType::Swarm) {
-                    Ok(schema) => {
-                        self.with_connection(|conn| {
-                            conn.execute_batch(&schema)
-                                .context("Failed to initialize swarm schema")?;
-                            Ok(())
-                        }).unwrap_or_default();
-                    }
-                    Err(e) => {
-                        tracing::error!("[SwarmStore] Failed to load swarm schema: {:?}", e);
-                        // 如果加载失败，尝试使用内置的最小 schema
-                        self.with_connection(|conn| {
-                            conn.execute_batch(
-                                "CREATE TABLE IF NOT EXISTS subagent_runs (
-                                    run_id              TEXT PRIMARY KEY,
-                                    parent_run_id       TEXT,
-                                    agent_name          TEXT NOT NULL,
-                                    label               TEXT,
-                                    task                TEXT NOT NULL,
-                                    orchestrator        INTEGER NOT NULL DEFAULT 0,
-                                    status              TEXT NOT NULL,
-                                    depth               INTEGER NOT NULL,
-                                    started_at_unix     INTEGER NOT NULL,
-                                    ended_at_unix       INTEGER,
-                                    output              TEXT,
-                                    error               TEXT,
-                                    children_json       TEXT NOT NULL DEFAULT '[]',
-                                    cleanup             INTEGER NOT NULL DEFAULT 0,
-                                    owner_instance      TEXT NOT NULL,
-                                    last_heartbeat_unix INTEGER
-                                );
-                                CREATE INDEX IF NOT EXISTS idx_subagent_runs_parent ON subagent_runs(parent_run_id);
-                                CREATE INDEX IF NOT EXISTS idx_subagent_runs_status ON subagent_runs(status);
-                                CREATE INDEX IF NOT EXISTS idx_subagent_runs_heartbeat ON subagent_runs(last_heartbeat_unix);
+        let schema_result = SqlLoader::default()
+            .and_then(|loader| loader.load_schema(DatabaseType::Swarm));
 
-                                CREATE TABLE IF NOT EXISTS swarm_events (
-                                    id      INTEGER PRIMARY KEY AUTOINCREMENT,
-                                    ts_unix INTEGER NOT NULL,
-                                    run_id  TEXT,
-                                    kind    TEXT NOT NULL,
-                                    payload TEXT NOT NULL
-                                );
-                                CREATE INDEX IF NOT EXISTS idx_swarm_events_run ON swarm_events(run_id);
-
-                                CREATE TABLE IF NOT EXISTS swarm_chat (
-                                    id      INTEGER PRIMARY KEY AUTOINCREMENT,
-                                    ts_unix INTEGER NOT NULL,
-                                    run_id  TEXT,
-                                    author  TEXT NOT NULL,
-                                    lang    TEXT NOT NULL,
-                                    content TEXT NOT NULL,
-                                    meta    TEXT NOT NULL
-                                );
-                                CREATE INDEX IF NOT EXISTS idx_swarm_chat_run ON swarm_chat(run_id);
-
-                                CREATE TABLE IF NOT EXISTS swarm_chat_extended (
-                                    id          TEXT PRIMARY KEY,
-                                    ts_unix     INTEGER NOT NULL,
-                                    run_id      TEXT,
-                                    task_id     TEXT,
-                                    author      TEXT NOT NULL,
-                                    author_type TEXT NOT NULL,
-                                    message_type TEXT NOT NULL,
-                                    lang        TEXT NOT NULL,
-                                    content     TEXT NOT NULL,
-                                    parent_id   TEXT,
-                                    metadata    TEXT NOT NULL DEFAULT '{}'
-                                );
-                                CREATE INDEX IF NOT EXISTS idx_swarm_chat_extended_run ON swarm_chat_extended(run_id);
-                                CREATE INDEX IF NOT EXISTS idx_swarm_chat_extended_task ON swarm_chat_extended(task_id);
-                                CREATE INDEX IF NOT EXISTS idx_swarm_chat_extended_parent ON swarm_chat_extended(parent_id);
-
-                                CREATE TABLE IF NOT EXISTS progress_entries (
-                                    id              TEXT PRIMARY KEY,
-                                    run_id          TEXT,
-                                    task_id         TEXT,
-                                    status          TEXT NOT NULL,
-                                    title           TEXT NOT NULL,
-                                    description     TEXT,
-                                    progress        REAL NOT NULL DEFAULT 0.0,
-                                    total           REAL,
-                                    unit            TEXT,
-                                    started_at      INTEGER,
-                                    updated_at      INTEGER NOT NULL,
-                                    completed_at    INTEGER,
-                                    error           TEXT,
-                                    metadata        TEXT NOT NULL DEFAULT '{}'
-                                );
-                                CREATE INDEX IF NOT EXISTS idx_progress_run ON progress_entries(run_id);
-                                CREATE INDEX IF NOT EXISTS idx_progress_task ON progress_entries(task_id);
-                                CREATE INDEX IF NOT EXISTS idx_progress_status ON progress_entries(status);
-
-                                CREATE TABLE IF NOT EXISTS trace_entries (
-                                    id          TEXT PRIMARY KEY,
-                                    run_id      TEXT,
-                                    task_id     TEXT,
-                                    parent_id   TEXT,
-                                    timestamp   INTEGER NOT NULL,
-                                    level       TEXT NOT NULL,
-                                    message     TEXT NOT NULL,
-                                    lang        TEXT NOT NULL DEFAULT 'en',
-                                    metadata    TEXT NOT NULL DEFAULT '{}'
-                                );
-                                CREATE INDEX IF NOT EXISTS idx_trace_run ON trace_entries(run_id);
-                                CREATE INDEX IF NOT EXISTS idx_trace_task ON trace_entries(task_id);
-                                CREATE INDEX IF NOT EXISTS idx_trace_parent ON trace_entries(parent_id);
-                                CREATE INDEX IF NOT EXISTS idx_trace_timestamp ON trace_entries(timestamp);
-
-                                CREATE TABLE IF NOT EXISTS intelligent_tasks (
-                                    id                  TEXT PRIMARY KEY,
-                                    title               TEXT NOT NULL,
-                                    description         TEXT,
-                                    status              TEXT NOT NULL,
-                                    priority            TEXT NOT NULL DEFAULT 'medium',
-                                    assignee_type       TEXT NOT NULL DEFAULT 'unassigned',
-                                    assigned_by         TEXT NOT NULL,
-                                    parent_task_id      TEXT,
-                                    created_at          INTEGER NOT NULL,
-                                    updated_at          INTEGER NOT NULL,
-                                    due_date            INTEGER,
-                                    progress            REAL NOT NULL DEFAULT 0.0,
-                                    metadata            TEXT NOT NULL DEFAULT '{}',
-                                    FOREIGN KEY (parent_task_id) REFERENCES intelligent_tasks(id)
-                                );
-                                CREATE INDEX IF NOT EXISTS idx_intelligent_tasks_status ON intelligent_tasks(status);
-                                CREATE INDEX IF NOT EXISTS idx_intelligent_tasks_priority ON intelligent_tasks(priority);
-                                CREATE INDEX IF NOT EXISTS idx_intelligent_tasks_assignee ON intelligent_tasks(assignee_type);
-                                CREATE INDEX IF NOT EXISTS idx_intelligent_tasks_created ON intelligent_tasks(created_at DESC);
-
-                                CREATE TABLE IF NOT EXISTS task_assignees (
-                                    id              TEXT PRIMARY KEY,
-                                    task_id         TEXT NOT NULL,
-                                    assignee_name   TEXT NOT NULL,
-                                    assigned_at     INTEGER NOT NULL,
-                                    FOREIGN KEY (task_id) REFERENCES intelligent_tasks(id) ON DELETE CASCADE
-                                );
-                                CREATE INDEX IF NOT EXISTS idx_task_assignees_task ON task_assignees(task_id);
-                                CREATE INDEX IF NOT EXISTS idx_task_assignees_name ON task_assignees(assignee_name);
-                            ")
-                            .context("Failed to initialize swarm schema with fallback")?;
-                            Ok(())
-                        }).unwrap_or_default();
-                    }
-                }
+        match schema_result {
+            Ok(schema) => {
+                self.with_connection(|conn| {
+                    conn.execute_batch(&schema)
+                        .context("Failed to initialize swarm schema")?;
+                    Ok(())
+                }).unwrap_or_else(|e| tracing::error!("[SwarmStore] DB init failed: {:?}", e));
             }
             Err(e) => {
-                tracing::error!("[SwarmStore] Failed to create SQL loader: {:?}", e);
-                // 如果创建 SQL 加载器失败，尝试使用内置的最小 schema
+                tracing::error!("[SwarmStore] Failed to load swarm schema: {:?}. Using fallback.", e);
+                // 如果加载失败，尝试使用内置的最小 schema
                 self.with_connection(|conn| {
-                    conn.execute_batch(
-                        "CREATE TABLE IF NOT EXISTS subagent_runs (
-                            run_id              TEXT PRIMARY KEY,
-                            parent_run_id       TEXT,
-                            agent_name          TEXT NOT NULL,
-                            label               TEXT,
-                            task                TEXT NOT NULL,
-                            orchestrator        INTEGER NOT NULL DEFAULT 0,
-                            status              TEXT NOT NULL,
-                            depth               INTEGER NOT NULL,
-                            started_at_unix     INTEGER NOT NULL,
-                            ended_at_unix       INTEGER,
-                            output              TEXT,
-                            error               TEXT,
-                            children_json       TEXT NOT NULL DEFAULT '[]',
-                            cleanup             INTEGER NOT NULL DEFAULT 0,
-                            owner_instance      TEXT NOT NULL,
-                            last_heartbeat_unix INTEGER
-                        );
-                        CREATE INDEX IF NOT EXISTS idx_subagent_runs_parent ON subagent_runs(parent_run_id);
-                        CREATE INDEX IF NOT EXISTS idx_subagent_runs_status ON subagent_runs(status);
-                        CREATE INDEX IF NOT EXISTS idx_subagent_runs_heartbeat ON subagent_runs(last_heartbeat_unix);
-
-                        CREATE TABLE IF NOT EXISTS swarm_events (
-                            id      INTEGER PRIMARY KEY AUTOINCREMENT,
-                            ts_unix INTEGER NOT NULL,
-                            run_id  TEXT,
-                            kind    TEXT NOT NULL,
-                            payload TEXT NOT NULL
-                        );
-                        CREATE INDEX IF NOT EXISTS idx_swarm_events_run ON swarm_events(run_id);
-
-                        CREATE TABLE IF NOT EXISTS swarm_chat (
-                            id      INTEGER PRIMARY KEY AUTOINCREMENT,
-                            ts_unix INTEGER NOT NULL,
-                            run_id  TEXT,
-                            author  TEXT NOT NULL,
-                            lang    TEXT NOT NULL,
-                            content TEXT NOT NULL,
-                            meta    TEXT NOT NULL
-                        );
-                        CREATE INDEX IF NOT EXISTS idx_swarm_chat_run ON swarm_chat(run_id);
-
-                        CREATE TABLE IF NOT EXISTS swarm_chat_extended (
-                            id          TEXT PRIMARY KEY,
-                            ts_unix     INTEGER NOT NULL,
-                            run_id      TEXT,
-                            task_id     TEXT,
-                            author      TEXT NOT NULL,
-                            author_type TEXT NOT NULL,
-                            message_type TEXT NOT NULL,
-                            lang        TEXT NOT NULL,
-                            content     TEXT NOT NULL,
-                            parent_id   TEXT,
-                            metadata    TEXT NOT NULL DEFAULT '{}'
-                        );
-                        CREATE INDEX IF NOT EXISTS idx_swarm_chat_extended_run ON swarm_chat_extended(run_id);
-                        CREATE INDEX IF NOT EXISTS idx_swarm_chat_extended_task ON swarm_chat_extended(task_id);
-                        CREATE INDEX IF NOT EXISTS idx_swarm_chat_extended_parent ON swarm_chat_extended(parent_id);
-
-                        CREATE TABLE IF NOT EXISTS progress_entries (
-                            id              TEXT PRIMARY KEY,
-                            run_id          TEXT,
-                            task_id         TEXT,
-                            status          TEXT NOT NULL,
-                            title           TEXT NOT NULL,
-                            description     TEXT,
-                            progress        REAL NOT NULL DEFAULT 0.0,
-                            total           REAL,
-                            unit            TEXT,
-                            started_at      INTEGER,
-                            updated_at      INTEGER NOT NULL,
-                            completed_at    INTEGER,
-                            error           TEXT,
-                            metadata        TEXT NOT NULL DEFAULT '{}'
-                        );
-                        CREATE INDEX IF NOT EXISTS idx_progress_run ON progress_entries(run_id);
-                        CREATE INDEX IF NOT EXISTS idx_progress_task ON progress_entries(task_id);
-                        CREATE INDEX IF NOT EXISTS idx_progress_status ON progress_entries(status);
-
-                        CREATE TABLE IF NOT EXISTS trace_entries (
-                            id          TEXT PRIMARY KEY,
-                            run_id      TEXT,
-                            task_id     TEXT,
-                            parent_id   TEXT,
-                            timestamp   INTEGER NOT NULL,
-                            level       TEXT NOT NULL,
-                            message     TEXT NOT NULL,
-                            lang        TEXT NOT NULL DEFAULT 'en',
-                            metadata    TEXT NOT NULL DEFAULT '{}'
-                        );
-                        CREATE INDEX IF NOT EXISTS idx_trace_run ON trace_entries(run_id);
-                        CREATE INDEX IF NOT EXISTS idx_trace_task ON trace_entries(task_id);
-                        CREATE INDEX IF NOT EXISTS idx_trace_parent ON trace_entries(parent_id);
-                        CREATE INDEX IF NOT EXISTS idx_trace_timestamp ON trace_entries(timestamp);
-
-                        CREATE TABLE IF NOT EXISTS intelligent_tasks (
-                            id                  TEXT PRIMARY KEY,
-                            title               TEXT NOT NULL,
-                            description         TEXT,
-                            status              TEXT NOT NULL,
-                            priority            TEXT NOT NULL DEFAULT 'medium',
-                            assignee_type       TEXT NOT NULL DEFAULT 'unassigned',
-                            assigned_by         TEXT NOT NULL,
-                            parent_task_id      TEXT,
-                            created_at          INTEGER NOT NULL,
-                            updated_at          INTEGER NOT NULL,
-                            due_date            INTEGER,
-                            progress            REAL NOT NULL DEFAULT 0.0,
-                            metadata            TEXT NOT NULL DEFAULT '{}',
-                            FOREIGN KEY (parent_task_id) REFERENCES intelligent_tasks(id)
-                        );
-                        CREATE INDEX IF NOT EXISTS idx_intelligent_tasks_status ON intelligent_tasks(status);
-                        CREATE INDEX IF NOT EXISTS idx_intelligent_tasks_priority ON intelligent_tasks(priority);
-                        CREATE INDEX IF NOT EXISTS idx_intelligent_tasks_assignee ON intelligent_tasks(assignee_type);
-                        CREATE INDEX IF NOT EXISTS idx_intelligent_tasks_created ON intelligent_tasks(created_at DESC);
-
-                        CREATE TABLE IF NOT EXISTS task_assignees (
-                            id              TEXT PRIMARY KEY,
-                            task_id         TEXT NOT NULL,
-                            assignee_name   TEXT NOT NULL,
-                            assigned_at     INTEGER NOT NULL,
-                            FOREIGN KEY (task_id) REFERENCES intelligent_tasks(id) ON DELETE CASCADE
-                        );
-                        CREATE INDEX IF NOT EXISTS idx_task_assignees_task ON task_assignees(task_id);
-                        CREATE INDEX IF NOT EXISTS idx_task_assignees_name ON task_assignees(assignee_name);
-                    ")
-                    .context("Failed to initialize swarm schema with fallback")?;
+                    conn.execute_batch(FALLBACK_SCHEMA)
+                        .context("Failed to initialize swarm schema with fallback")?;
                     Ok(())
-                }).unwrap_or_default();
+                }).unwrap_or_else(|e| tracing::error!("[SwarmStore] Fallback DB init failed: {:?}", e));
             }
         }
     }

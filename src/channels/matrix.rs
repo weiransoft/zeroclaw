@@ -84,12 +84,7 @@ impl MatrixChannel {
     }
 
     fn is_user_allowed(&self, sender: &str) -> bool {
-        if self.allowed_users.iter().any(|u| u == "*") {
-            return true;
-        }
-        self.allowed_users
-            .iter()
-            .any(|u| u.eq_ignore_ascii_case(sender))
+        super::traits::is_user_allowed_ignore_case(&self.allowed_users, sender)
     }
 
     async fn get_my_user_id(&self) -> anyhow::Result<String> {

@@ -464,10 +464,11 @@ pub(crate) async fn run_tool_call_loop(
         
 
         
+        let last_content = history.last().map(|m| m.content.as_str()).unwrap_or("");
         let response = match provider
             .chat_with_system_and_tools(
                 history.first().map(|m| m.content.as_str()),
-                &history.last().unwrap().content,
+                last_content,
                 model,
                 temperature,
                 Some(&tool_specs),

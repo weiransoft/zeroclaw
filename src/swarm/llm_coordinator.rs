@@ -225,6 +225,17 @@ impl RateLimiter {
     }
     
     pub fn record_request(&self, tokens: u32) {
+        let _guard = self.lock.lock().unwrap();
+        
+        let now = now_unix();
+        let window_start = self.window_start.load(Ordering::Acquire);
+        
+        if now - window_start >= 60 {
+            self.window_start.store(now, Ordering::Release);
+            self.current_requests.store(0, Ordering::Release);
+            self.current_tokens.store(0, Ordering::Release);
+        }
+
         self.current_requests.fetch_add(1, Ordering::AcqRel);
         self.current_tokens.fetch_add(tokens, Ordering::AcqRel);
     }

@@ -10,6 +10,17 @@ pub struct ChannelMessage {
     pub timestamp: u64,
 }
 
+/// Helper to check if a user is allowed based on an allowlist.
+/// Supports wildcard "*" to allow all users.
+pub fn is_user_allowed(allowed_users: &[String], user_id: &str) -> bool {
+    allowed_users.iter().any(|u| u == "*" || u == user_id)
+}
+
+/// Helper to check if a user is allowed (case-insensitive).
+pub fn is_user_allowed_ignore_case(allowed_users: &[String], user_id: &str) -> bool {
+    allowed_users.iter().any(|u| u == "*" || u.eq_ignore_ascii_case(user_id))
+}
+
 /// Core channel trait — implement for any messaging platform
 #[async_trait]
 pub trait Channel: Send + Sync {
