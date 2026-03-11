@@ -137,6 +137,7 @@ fn resolve_api_key(name: &str, api_key: Option<&str>) -> Option<String> {
         "cohere" => vec!["COHERE_API_KEY"],
         "moonshot" | "kimi" => vec!["MOONSHOT_API_KEY"],
         "glm" | "zhipu" => vec!["GLM_API_KEY"],
+        "aliyun" | "aliyun-bailian" | "alibaba-cloud" => vec!["ALIYUN_API_KEY", "DASHSCOPE_API_KEY"],
         "minimax" => vec!["MINIMAX_API_KEY"],
         "qianfan" | "baidu" => vec!["QIANFAN_API_KEY"],
         "zai" | "z.ai" => vec!["ZAI_API_KEY"],
@@ -237,6 +238,12 @@ pub fn create_provider(name: &str, api_key: Option<&str>) -> anyhow::Result<Box<
         ))),
         "glm" | "zhipu" => Ok(Box::new(OpenAiCompatibleProvider::new_no_responses_fallback(
             "GLM", "https://open.bigmodel.cn/api/paas/v4/chat/completions", key, AuthStyle::Bearer,
+        ))),
+        "aliyun" | "aliyun-bailian" | "alibaba-cloud" => Ok(Box::new(OpenAiCompatibleProvider::new(
+            "Aliyun Bailian",
+            "https://dashscope.aliyuncs.com/compatible-mode/v1",
+            key,
+            AuthStyle::Bearer,
         ))),
         "minimax" => Ok(Box::new(OpenAiCompatibleProvider::new(
             "MiniMax",
