@@ -96,6 +96,7 @@ fn test_db_pool_creation() -> Result<()> {
     let config = SqliteConfig {
         path: db_path,
         max_size: 2,
+        min_size: 1,
         connection_timeout: 1,
         wal_mode: true,
         foreign_keys: true,
@@ -123,6 +124,7 @@ fn test_db_pool_with_connection() -> Result<()> {
     let config = SqliteConfig {
         path: db_path,
         max_size: 2,
+        min_size: 1,
         connection_timeout: 1,
         wal_mode: true,
         foreign_keys: true,
@@ -156,6 +158,7 @@ fn test_db_pool_init_schema() -> Result<()> {
     let config = SqliteConfig {
         path: db_path,
         max_size: 2,
+        min_size: 1,
         connection_timeout: 1,
         wal_mode: true,
         foreign_keys: true,
@@ -266,6 +269,7 @@ fn test_multiple_connections_from_pool() -> Result<()> {
     let config = SqliteConfig {
         path: db_path,
         max_size: 3,
+        min_size: 1,
         connection_timeout: 5,
         wal_mode: true,
         foreign_keys: true,

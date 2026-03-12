@@ -1,0 +1,5124 @@
+{
+  "paragraphs": [
+    {
+      "index": 3,
+      "text": "\tZW062项目原液微生物限度检测分析方法验证报告",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "font": {
+        "name": "Arial",
+        "size": "139700",
+        "bold": true,
+        "italic": null
+      }
+    },
+    {
+      "index": 7,
+      "text": "执行后批准Post-approval",
+      "style": "Normal",
+      "alignment": null,
+      "font": {
+        "name": "Arial",
+        "size": "139700",
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 13,
+      "text": "目录 Table of Contents",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "font": {
+        "name": "Arial",
+        "size": "139700",
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 15,
+      "text": "1.\t目的 Purpose\t3",
+      "style": "toc 1",
+      "alignment": null,
+      "font": {
+        "name": "Arial",
+        "size": "139700",
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 16,
+      "text": "2.\t范围 Scope\t3",
+      "style": "toc 1",
+      "alignment": null
+    },
+    {
+      "index": 17,
+      "text": "3.\t定义 Definition\t3",
+      "style": "toc 1",
+      "alignment": null
+    },
+    {
+      "index": 18,
+      "text": "4.\t职责 Responsibilities\t3",
+      "style": "toc 1",
+      "alignment": null
+    },
+    {
+      "index": 19,
+      "text": "5.\t程序 Procedure\t3",
+      "style": "toc 1",
+      "alignment": null
+    },
+    {
+      "index": 20,
+      "text": "5.1\t总结 Summary\t3",
+      "style": "toc 2",
+      "alignment": null
+    },
+    {
+      "index": 21,
+      "text": "5.2\t可接受标准和结果的总结表 Summary Table of Acceptance Criteria and Results\t3",
+      "style": "toc 2",
+      "alignment": null
+    },
+    {
+      "index": 22,
+      "text": "5.3\t系统设立 System Setup\t4",
+      "style": "toc 2",
+      "alignment": null
+    },
+    {
+      "index": 23,
+      "text": "5.4\t验证参数 Validation Parameters\t6",
+      "style": "toc 2",
+      "alignment": null
+    },
+    {
+      "index": 24,
+      "text": "5.5\t验证偏差和措施Validation Deviation and Actions\t9",
+      "style": "toc 2",
+      "alignment": null
+    },
+    {
+      "index": 25,
+      "text": "5.6\t结论 Conclusion\t9",
+      "style": "toc 2",
+      "alignment": null
+    },
+    {
+      "index": 26,
+      "text": "6.\t参考文件 References\t9",
+      "style": "toc 1",
+      "alignment": null
+    },
+    {
+      "index": 27,
+      "text": "7.\t附录 Appendixes\t10",
+      "style": "toc 1",
+      "alignment": null
+    },
+    {
+      "index": 28,
+      "text": "8.\t模板和表格 Templates and Forms\t10",
+      "style": "toc 1",
+      "alignment": null
+    },
+    {
+      "index": 29,
+      "text": "9.\t修订历史 Revision History\t10",
+      "style": "toc 1",
+      "alignment": null
+    },
+    {
+      "index": 32,
+      "text": "目的 Purpose",
+      "style": "Title",
+      "alignment": null,
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 33,
+      "text": "本报告描述了ZW062项目原液微生物限度检查验证报告，确认供试品在试验条件下进行微生物限度检测时没有抑菌性，以确保该方法可以稳定的应用于ZW062项目原液的检测。",
+      "style": "body test",
+      "alignment": null,
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 34,
+      "text": "范围 Scope",
+      "style": "Heading 1",
+      "alignment": null,
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 35,
+      "text": "适用于Hongene生产的ZW062项目原液微生物限度检测方法的验证。",
+      "style": "Normal",
+      "alignment": null,
+      "font": {
+        "name": "Arial",
+        "size": "139700",
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 36,
+      "text": "定义 Definition",
+      "style": "Title",
+      "alignment": null,
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 38,
+      "text": "职责 Responsibilities",
+      "style": "Title",
+      "alignment": null,
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 40,
+      "text": "程序 Procedure",
+      "style": "Title",
+      "alignment": null,
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 42,
+      "text": "总结 Summary",
+      "style": "level 2",
+      "alignment": null,
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 43,
+      "text": "按照《ZW062项目原液微生物限度检测分析方法验证方案》（编号：AMVP-2025-0113 ver.01）进行1次验证试验，确认了试验组、菌液对照组生长良好，无杂菌生长，供试品对照组和阴性对照组无菌生长，说明该微生物限度检测方法及检查过程中没有抑菌性，该方法适用于样品的微生物限度检测。",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 44,
+      "text": "可接受标准和结果的总结表 Summary Table of Acceptance Criteria and Results",
+      "style": "level 2",
+      "alignment": null,
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 45,
+      "text": "系统设立 System Setup",
+      "style": "level 2",
+      "alignment": null,
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 46,
+      "text": "设备",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 47,
+      "text": "经确认，验证所用到关键设备均已经过验证。",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 48,
+      "text": "培养基、试剂与耗材",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 49,
+      "text": "经确认，本次验证所用到的培养基、试剂及耗材均符合测试要求且在有效期内。",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 50,
+      "text": "菌种",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 51,
+      "text": "经确认，验证用菌种传代次数均未超过5代，菌种均在有效期内。",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 52,
+      "text": "菌悬液",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 53,
+      "text": "本次验证使用的菌株为：金黄色葡萄球菌、铜绿假单胞菌、枯草芽孢杆菌、白色念珠菌、黑曲霉。",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 54,
+      "text": "菌悬液制备",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 55,
+      "text": "本司使用的商业化派生定量菌株进行试验，使用前按照定量菌株的说明书加入1.1 mL溶解液进行复溶制成≤100CFU/0.1 mL的菌悬液。",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 56,
+      "text": "菌种计数",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 57,
+      "text": "用无菌移液枪取0.1 mL的菌悬液加入相对应的培养基表面，用无菌涂布棒均匀涂布菌悬液，应≤100CFU/0.1 mL。按下表进行培养计数。",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 58,
+      "text": "供试品",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 59,
+      "text": "取ZW062项目原液进行验证，批号：ZW062DS20251001。",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 60,
+      "text": "验证参数 Validation Parameters",
+      "style": "level 2",
+      "alignment": null,
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 61,
+      "text": "验证方法",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 62,
+      "text": "本次验证设有试验组、供试品对照组、菌液对照组和阴性对照组，通过试验组与菌液对照组比较，确定在建立的稀释方法及冲洗方法下各试验菌的回收率符合要求。菌液对照组确定所加的试验菌数量，供试品对照组用于测定供试品中需氧菌总数、霉菌和酵母菌总数及确定试验组中供试品的本底菌数。阴性对照用于确定所用的溶液和培养基及整个操作是无菌的。",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 63,
+      "text": "验证步骤",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 64,
+      "text": "供试品的制备：准备供试品90 mL，从对应储存条件取出原液待测样品，室温静置60 min使其解冻融化。",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 65,
+      "text": "试验组：先用50mL 的PH7.0无菌氯化钠-蛋白胨缓冲液以润湿滤膜，过滤，再加入供试品10mL，滤干，再加入100 mLPH7.0无菌氯化钠-蛋白胨缓冲液，并加入0.1mL 的菌悬液，滤干后，用镊子取出滤膜，菌面朝上贴于相对应培养基上。",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 66,
+      "text": "菌液对照组：先用50mL 的PH7.0无菌氯化钠-蛋白胨缓冲液以润湿滤膜，过滤，再加入PH7.0无菌氯化钠-蛋白胨缓冲液10mL，滤干，再加入100 mLPH7.0无菌氯化钠-蛋白胨缓冲液，并加入0.1mL 的菌悬液，滤干后，用镊子取出滤膜，菌面朝上贴于相对应培养基上。",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 67,
+      "text": "供试品对照组：先用50mL 的PH7.0无菌氯化钠-蛋白胨缓冲液以润湿滤膜，过滤，再加入供试品10mL ，滤干，再加入100 mLPH7.0无菌氯化钠-蛋白胨缓冲液，滤干后，用镊子取出滤膜，菌面朝上贴于培养基上，TSA、SDA各制备一皿。",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 68,
+      "text": "阴性对照组：先用50mL 的PH7.0无菌氯化钠-蛋白胨缓冲液以润湿滤膜，过滤杯中加入PH7.0无菌氯化钠-蛋白胨缓冲液10mL，滤干，再加入100 mLPH7.0无菌氯化钠-蛋白胨缓冲液，滤干后，用镊子取出滤膜，菌面朝上贴于培养基上，TSA、SDA各制备一皿。",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 69,
+      "text": "按表中规定的条件对培养基进行培养。",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 70,
+      "text": "菌落数报告原则：以TSA得到的菌落数为需氧菌，如果在TSA上发现的真菌，也按需氧菌总数计数。以SDA得到的菌落数为真菌和酵母菌总数，如果在SDA上发现细菌，也按真菌总数计数。",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 71,
+      "text": "验证结果",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 72,
+      "text": "菌种计数结果",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 73,
+      "text": "总结：试验加入的菌落数计数≤100CFU/皿，符合规定。",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 75,
+      "text": "供试品对照组、阴性对照组结果",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 76,
+      "text": "总结：阴性对照组无菌生长符合规定。",
+      "style": "Normal",
+      "alignment": null,
+      "font": {
+        "name": "Arial",
+        "size": "139700",
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 77,
+      "text": "        供试品对照组中需氧菌总数，霉菌和酵母菌总数均≤1CFU/10mL，符合规定。",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 78,
+      "text": "试验组、菌液对照组结果",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 79,
+      "text": "总结：试验组菌落回收率=（试验组菌落数-供试品对照组菌落数）/菌液对照组菌落数，试验组的菌落数回收率在0.5~2.0之间，菌液对照组、试验组无杂菌生长，符合规定。",
+      "style": "List Paragraph",
+      "alignment": "JUSTIFY (3)",
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 80,
+      "text": "验证偏差和措施Validation Deviation and Actions",
+      "style": "level 2",
+      "alignment": null,
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 81,
+      "text": "本次验证中无变更、偏差",
+      "style": "Normal",
+      "alignment": null,
+      "font": {
+        "name": "Arial",
+        "size": "139700",
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 82,
+      "text": "结论 Conclusion",
+      "style": "level 2",
+      "alignment": null,
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 83,
+      "text": "原液微生物限度检测分析方法已经按照预先批准的方案验证，方案文件编号为AMVP-2025-0113 ver.01，所有要求的验证活动已成功的执行，无任何偏差发生，所有的接受标准均完全得到符合。方法验证活动总结在报告AMVR-2025-0113 ver.01中。",
+      "style": "Normal",
+      "alignment": null,
+      "font": {
+        "name": "Arial",
+        "size": "139700",
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 84,
+      "text": "参考文件 References",
+      "style": "Heading 1",
+      "alignment": null,
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 86,
+      "text": "附录 Appendixes",
+      "style": "Heading 1",
+      "alignment": null,
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 88,
+      "text": "模板和表格 Templates and Forms",
+      "style": "Title",
+      "alignment": null,
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    },
+    {
+      "index": 90,
+      "text": "修订历史 Revision History",
+      "style": "Title",
+      "alignment": null,
+      "font": {
+        "name": null,
+        "size": null,
+        "bold": null,
+        "italic": null
+      }
+    }
+  ],
+  "tables": [
+    {
+      "index": 0,
+      "rows": [
+        [
+          {
+            "text": "",
+            "paragraphs": []
+          },
+          {
+            "text": "部门/职位\nDepartment/Title:",
+            "paragraphs": [
+              {
+                "text": "部门/职位\nDepartment/Title:",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "姓名\nName:",
+            "paragraphs": [
+              {
+                "text": "姓名\nName:",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "签名/日期\nSignature/Date:",
+            "paragraphs": [
+              {
+                "text": "签名/日期\nSignature/Date:",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "起草\nAuthor",
+            "paragraphs": [
+              {
+                "text": "起草",
+                "style": "Normal"
+              },
+              {
+                "text": "Author",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "质量控制部/检验员",
+            "paragraphs": [
+              {
+                "text": "质量控制部/检验员",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": " ",
+            "paragraphs": []
+          },
+          {
+            "text": "",
+            "paragraphs": []
+          }
+        ],
+        [
+          {
+            "text": "审核\nReviewed By:",
+            "paragraphs": [
+              {
+                "text": "审核\nReviewed By:",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "质量控制部/经理",
+            "paragraphs": [
+              {
+                "text": "质量控制部/经理",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": " ",
+            "paragraphs": []
+          },
+          {
+            "text": "",
+            "paragraphs": []
+          }
+        ],
+        [
+          {
+            "text": "审核\nReviewed By:",
+            "paragraphs": [
+              {
+                "text": "审核\nReviewed By:",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "质量保证部/经理",
+            "paragraphs": [
+              {
+                "text": "质量保证部/经理",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": " ",
+            "paragraphs": []
+          },
+          {
+            "text": "",
+            "paragraphs": []
+          }
+        ],
+        [
+          {
+            "text": "批准\nApproved By:",
+            "paragraphs": [
+              {
+                "text": "批准\nApproved By:",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "质量运营/质量负责人",
+            "paragraphs": [
+              {
+                "text": "质量运营/质量负责人",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": " ",
+            "paragraphs": []
+          },
+          {
+            "text": "",
+            "paragraphs": []
+          }
+        ]
+      ]
+    },
+    {
+      "index": 1,
+      "rows": [
+        [
+          {
+            "text": "术语\nTerm",
+            "paragraphs": [
+              {
+                "text": "术语",
+                "style": "Normal"
+              },
+              {
+                "text": "Term",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "描述\nDescription",
+            "paragraphs": [
+              {
+                "text": "描述",
+                "style": "Normal"
+              },
+              {
+                "text": "Description",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "TSA",
+            "paragraphs": [
+              {
+                "text": "TSA",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "胰酪大豆胨琼脂培养基",
+            "paragraphs": [
+              {
+                "text": "胰酪大豆胨琼脂培养基",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "SDA",
+            "paragraphs": [
+              {
+                "text": "SDA",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "沙氏葡萄糖琼脂培养基",
+            "paragraphs": [
+              {
+                "text": "沙氏葡萄糖琼脂培养基",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "TAMC",
+            "paragraphs": [
+              {
+                "text": "TAMC",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "需氧菌总数",
+            "paragraphs": [
+              {
+                "text": "需氧菌总数",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "TYMC",
+            "paragraphs": [
+              {
+                "text": "TYMC",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "霉菌和酵母菌总数",
+            "paragraphs": [
+              {
+                "text": "霉菌和酵母菌总数",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "BPS",
+            "paragraphs": [
+              {
+                "text": "BPS",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "PH7.0无菌氯化钠-蛋白胨缓冲液",
+            "paragraphs": [
+              {
+                "text": "PH7.0无菌氯化钠-蛋白胨缓冲液",
+                "style": "Normal"
+              }
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "index": 2,
+      "rows": [
+        [
+          {
+            "text": "角色或部门\nRole or Department",
+            "paragraphs": [
+              {
+                "text": "角色或部门",
+                "style": "Normal"
+              },
+              {
+                "text": "Role or Department",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "职责\nResponsibilities",
+            "paragraphs": [
+              {
+                "text": "职责",
+                "style": "Normal"
+              },
+              {
+                "text": "Responsibilities",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "QC",
+            "paragraphs": [
+              {
+                "text": "QC",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "负责报告的起草",
+            "paragraphs": [
+              {
+                "text": "负责报告的起草",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "QC经理",
+            "paragraphs": [
+              {
+                "text": "QC经理",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "负责报告的审核",
+            "paragraphs": [
+              {
+                "text": "负责报告的审核",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "QV",
+            "paragraphs": [
+              {
+                "text": "QV",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "负责报告的审核及偏差管理",
+            "paragraphs": [
+              {
+                "text": "负责报告的审核及偏差管理",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "QA",
+            "paragraphs": [
+              {
+                "text": "QA",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "负责报告的审核",
+            "paragraphs": [
+              {
+                "text": "负责报告的审核",
+                "style": "Normal"
+              }
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "index": 3,
+      "rows": [
+        [
+          {
+            "text": "检测项",
+            "paragraphs": [
+              {
+                "text": "检测项",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "内容",
+            "paragraphs": [
+              {
+                "text": "内容",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "内容",
+            "paragraphs": [
+              {
+                "text": "内容",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "要求",
+            "paragraphs": [
+              {
+                "text": "要求",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "检测结果",
+            "paragraphs": [
+              {
+                "text": "检测结果",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "微生物限度检测",
+            "paragraphs": [
+              {
+                "text": "微生物限度检测",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "计数方法适用性试验",
+            "paragraphs": [
+              {
+                "text": "计数方法适用性试验",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "通过在样品中加入已知数量的菌，计算出试验组回收率在0.5-2.0之间，菌悬液对照组菌落数≤100CFU/皿且生长良好，确认该批产品无抑菌性",
+            "paragraphs": [
+              {
+                "text": "通过在样品中加入已知数量的菌，计算出试验组回收率在0.5-2.0之间，菌悬液对照组菌落数≤100CFU/皿且生长良好，确认该批产品无抑菌性",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "试验组:回收率在0.5-2.0之间，无杂菌生长。",
+            "paragraphs": [
+              {
+                "text": "试验组:回收率在0.5-2.0之间，无杂菌生长。",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "TSA:金黄色葡萄球菌试验组的菌落数回收率为1.2；\n铜绿假单胞菌试验组的菌落数回收率为0.9；\n枯草芽孢杆菌试验组的菌落数回收率为0.9；\n白色念珠菌试验组的菌落数回收率为0.9；\n黑曲霉试验组的菌落数回收率为1.4。\nSDA白色念珠菌试验组的菌落数回收率为1.0；\n黑曲霉试验组的菌落数回收率为1.1；\n均无杂菌生长。",
+            "paragraphs": [
+              {
+                "text": "TSA:金黄色葡萄球菌试验组的菌落数回收率为1.2；",
+                "style": "Normal"
+              },
+              {
+                "text": "铜绿假单胞菌试验组的菌落数回收率为0.9；",
+                "style": "Normal"
+              },
+              {
+                "text": "枯草芽孢杆菌试验组的菌落数回收率为0.9；",
+                "style": "List Paragraph"
+              },
+              {
+                "text": "白色念珠菌试验组的菌落数回收率为0.9；",
+                "style": "Normal"
+              },
+              {
+                "text": "黑曲霉试验组的菌落数回收率为1.4。",
+                "style": "Normal"
+              },
+              {
+                "text": "SDA白色念珠菌试验组的菌落数回收率为1.0；",
+                "style": "Normal"
+              },
+              {
+                "text": "黑曲霉试验组的菌落数回收率为1.1；",
+                "style": "Normal"
+              },
+              {
+                "text": "均无杂菌生长。",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "微生物限度检测",
+            "paragraphs": [
+              {
+                "text": "微生物限度检测",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "计数方法适用性试验",
+            "paragraphs": [
+              {
+                "text": "计数方法适用性试验",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "通过在样品中加入已知数量的菌，计算出试验组回收率在0.5-2.0之间，菌悬液对照组菌落数≤100CFU/皿且生长良好，确认该批产品无抑菌性",
+            "paragraphs": [
+              {
+                "text": "通过在样品中加入已知数量的菌，计算出试验组回收率在0.5-2.0之间，菌悬液对照组菌落数≤100CFU/皿且生长良好，确认该批产品无抑菌性",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "菌悬液对照组 : ≤100CFU/皿，生长良好。",
+            "paragraphs": [
+              {
+                "text": "菌悬液对照组 : ≤100CFU/皿，生长良好。",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "菌悬液对照组:\nTSA：金黄色葡萄球菌63 CFU/皿；\n铜绿假单胞菌58 CFU/皿；\n枯草芽孢杆菌65 CFU/皿。\nSDA：白色念珠菌54 CFU/皿；\n黑曲霉65 CFU/皿；\n均生长良好且无杂菌生长。",
+            "paragraphs": [
+              {
+                "text": "菌悬液对照组:",
+                "style": "Normal"
+              },
+              {
+                "text": "TSA：金黄色葡萄球菌63 CFU/皿；",
+                "style": "Normal"
+              },
+              {
+                "text": "铜绿假单胞菌58 CFU/皿；",
+                "style": "Normal"
+              },
+              {
+                "text": "枯草芽孢杆菌65 CFU/皿。",
+                "style": "Normal"
+              },
+              {
+                "text": "SDA：白色念珠菌54 CFU/皿；",
+                "style": "Normal"
+              },
+              {
+                "text": "黑曲霉65 CFU/皿；",
+                "style": "List Paragraph"
+              },
+              {
+                "text": "均生长良好且无杂菌生长。",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "微生物限度检测",
+            "paragraphs": [
+              {
+                "text": "微生物限度检测",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "计数方法适用性试验",
+            "paragraphs": [
+              {
+                "text": "计数方法适用性试验",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "通过在样品中加入已知数量的菌，计算出试验组回收率在0.5-2.0之间，菌悬液对照组菌落数≤100CFU/皿且生长良好，确认该批产品无抑菌性",
+            "paragraphs": [
+              {
+                "text": "通过在样品中加入已知数量的菌，计算出试验组回收率在0.5-2.0之间，菌悬液对照组菌落数≤100CFU/皿且生长良好，确认该批产品无抑菌性",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "阴性对照组:无菌生长",
+            "paragraphs": [
+              {
+                "text": "阴性对照组:无菌生长",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "阴性对照组:无菌生长",
+            "paragraphs": [
+              {
+                "text": "阴性对照组:无菌生长",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "微生物限度检测",
+            "paragraphs": [
+              {
+                "text": "微生物限度检测",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "计数方法适用性试验",
+            "paragraphs": [
+              {
+                "text": "计数方法适用性试验",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "通过在样品中加入已知数量的菌，计算出试验组回收率在0.5-2.0之间，菌悬液对照组菌落数≤100CFU/皿且生长良好，确认该批产品无抑菌性",
+            "paragraphs": [
+              {
+                "text": "通过在样品中加入已知数量的菌，计算出试验组回收率在0.5-2.0之间，菌悬液对照组菌落数≤100CFU/皿且生长良好，确认该批产品无抑菌性",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "供试品对照组: \nTAMC≤1CFU/10mL;\nTYMC:≤1CFU/10mL",
+            "paragraphs": [
+              {
+                "text": "供试品对照组: ",
+                "style": "List Paragraph"
+              },
+              {
+                "text": "TAMC≤1CFU/10mL;",
+                "style": "List Paragraph"
+              },
+              {
+                "text": "TYMC:≤1CFU/10mL",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "供试品对照组:\nTAMC:<1 CFU/10mL;\nTYMC:<1 CFU/10mL。",
+            "paragraphs": [
+              {
+                "text": "供试品对照组:",
+                "style": "List Paragraph"
+              },
+              {
+                "text": "TAMC:<1 CFU/10mL;",
+                "style": "List Paragraph"
+              },
+              {
+                "text": "TYMC:<1 CFU/10mL。",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "index": 4,
+      "rows": [
+        [
+          {
+            "text": "设备名称",
+            "paragraphs": [
+              {
+                "text": "设备名称",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "设备型号",
+            "paragraphs": [
+              {
+                "text": "设备型号",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "设备编号",
+            "paragraphs": [
+              {
+                "text": "设备编号",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "校准有效期",
+            "paragraphs": [
+              {
+                "text": "校准有效期",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "验证有效期",
+            "paragraphs": [
+              {
+                "text": "验证有效期",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "生物安全柜",
+            "paragraphs": [
+              {
+                "text": "生物安全柜",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "BSC-1360ⅡA2",
+            "paragraphs": [
+              {
+                "text": "BSC-1360ⅡA2",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "E1081",
+            "paragraphs": [
+              {
+                "text": "E1081",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "2025.12.15",
+            "paragraphs": [
+              {
+                "text": "2025.12.15",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "2027.07.28",
+            "paragraphs": [
+              {
+                "text": "2027.07.28",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "生化培养箱（30-35℃）",
+            "paragraphs": [
+              {
+                "text": "生化培养箱（30-35℃）",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "Labonce-400BI",
+            "paragraphs": [
+              {
+                "text": "Labonce-400BI",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "E1240",
+            "paragraphs": [
+              {
+                "text": "E1240",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "2026.07.09",
+            "paragraphs": [
+              {
+                "text": "2026.07.09",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "2026.12.16",
+            "paragraphs": [
+              {
+                "text": "2026.12.16",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "生化培养箱（20-25℃）",
+            "paragraphs": [
+              {
+                "text": "生化培养箱（20-25℃）",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "Labonce-400BI",
+            "paragraphs": [
+              {
+                "text": "Labonce-400BI",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "E1265",
+            "paragraphs": [
+              {
+                "text": "E1265",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "2025.12.22",
+            "paragraphs": [
+              {
+                "text": "2025.12.22",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "2026.12.16",
+            "paragraphs": [
+              {
+                "text": "2026.12.16",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "微生物限度检测过滤支架",
+            "paragraphs": [
+              {
+                "text": "微生物限度检测过滤支架",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "HTY-303C",
+            "paragraphs": [
+              {
+                "text": "HTY-303C",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "E1326",
+            "paragraphs": [
+              {
+                "text": "E1326",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "N/A",
+            "paragraphs": [
+              {
+                "text": "N/A",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "N/A",
+            "paragraphs": [
+              {
+                "text": "N/A",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "隔膜泵",
+            "paragraphs": [
+              {
+                "text": "隔膜泵",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "HTY-30B",
+            "paragraphs": [
+              {
+                "text": "HTY-30B",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "E1326-1",
+            "paragraphs": [
+              {
+                "text": "E1326-1",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "N/A",
+            "paragraphs": [
+              {
+                "text": "N/A",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "N/A",
+            "paragraphs": [
+              {
+                "text": "N/A",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "移液器",
+            "paragraphs": [
+              {
+                "text": "移液器",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "P100L",
+            "paragraphs": [
+              {
+                "text": "P100L",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "E2292",
+            "paragraphs": [
+              {
+                "text": "E2292",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "2026.09.08",
+            "paragraphs": [
+              {
+                "text": "2026.09.08",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "N/A",
+            "paragraphs": [
+              {
+                "text": "N/A",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "移液器",
+            "paragraphs": [
+              {
+                "text": "移液器",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "P1000L",
+            "paragraphs": [
+              {
+                "text": "P1000L",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "E2281",
+            "paragraphs": [
+              {
+                "text": "E2281",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "2026.09.08",
+            "paragraphs": [
+              {
+                "text": "2026.09.08",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "N/A",
+            "paragraphs": [
+              {
+                "text": "N/A",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "index": 5,
+      "rows": [
+        [
+          {
+            "text": "名称",
+            "paragraphs": [
+              {
+                "text": "名称",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "批号",
+            "paragraphs": [
+              {
+                "text": "批号",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "有效期",
+            "paragraphs": [
+              {
+                "text": "有效期",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "胰酪大豆胨琼脂培养基（TSA）（90mm）",
+            "paragraphs": [
+              {
+                "text": "胰酪大豆胨琼脂培养基（TSA）（90mm）",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "QC100102510007",
+            "paragraphs": [
+              {
+                "text": "QC100102510007",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "2026.06.30",
+            "paragraphs": [
+              {
+                "text": "2026.06.30",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "沙氏葡萄糖琼脂培养基（SDA）",
+            "paragraphs": [
+              {
+                "text": "沙氏葡萄糖琼脂培养基（SDA）",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "QC100112508003",
+            "paragraphs": [
+              {
+                "text": "QC100112508003",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "2026.01.12",
+            "paragraphs": [
+              {
+                "text": "2026.01.12",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "PH7.0无菌氯化钠-蛋白缓冲液",
+            "paragraphs": [
+              {
+                "text": "PH7.0无菌氯化钠-蛋白缓冲液",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "C141305",
+            "paragraphs": [
+              {
+                "text": "C141305",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "2026.03.16",
+            "paragraphs": [
+              {
+                "text": "2026.03.16",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "200uL一次性枪头",
+            "paragraphs": [
+              {
+                "text": "200uL一次性枪头",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "1513",
+            "paragraphs": [
+              {
+                "text": "1513",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "2027.04.21",
+            "paragraphs": [
+              {
+                "text": "2027.04.21",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "1000uL一次性枪头",
+            "paragraphs": [
+              {
+                "text": "1000uL一次性枪头",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "0237",
+            "paragraphs": [
+              {
+                "text": "0237",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "2027.03.05",
+            "paragraphs": [
+              {
+                "text": "2027.03.05",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "一次性过滤杯",
+            "paragraphs": [
+              {
+                "text": "一次性过滤杯",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "2025041001",
+            "paragraphs": [
+              {
+                "text": "2025041001",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "2027.04.09",
+            "paragraphs": [
+              {
+                "text": "2027.04.09",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "无菌保存杯",
+            "paragraphs": [
+              {
+                "text": "无菌保存杯",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "20241118",
+            "paragraphs": [
+              {
+                "text": "20241118",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "2027.11.17",
+            "paragraphs": [
+              {
+                "text": "2027.11.17",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "一次性塑料涂布棒",
+            "paragraphs": [
+              {
+                "text": "一次性塑料涂布棒",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "20240516",
+            "paragraphs": [
+              {
+                "text": "20240516",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "2027.05.15",
+            "paragraphs": [
+              {
+                "text": "2027.05.15",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "index": 6,
+      "rows": [
+        [
+          {
+            "text": "菌种名称",
+            "paragraphs": [
+              {
+                "text": "菌种名称",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "菌种批号",
+            "paragraphs": [
+              {
+                "text": "菌种批号",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "有效期",
+            "paragraphs": [
+              {
+                "text": "有效期",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "传代次数",
+            "paragraphs": [
+              {
+                "text": "传代次数",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "金黄色葡萄球菌定量菌株（ATCC6538）",
+            "paragraphs": [
+              {
+                "text": "金黄色葡萄球菌定量菌株（ATCC6538）",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "250619M3",
+            "paragraphs": [
+              {
+                "text": "250619M3",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "2027.06.18",
+            "paragraphs": [
+              {
+                "text": "2027.06.18",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "代数：3",
+            "paragraphs": [
+              {
+                "text": "代数：3",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "铜绿假单胞菌定量菌株（ATCC9027）",
+            "paragraphs": [
+              {
+                "text": "铜绿假单胞菌定量菌株（ATCC9027）",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "250729M1",
+            "paragraphs": [
+              {
+                "text": "250729M1",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "2027.08.28",
+            "paragraphs": [
+              {
+                "text": "2027.08.28",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "代数：3",
+            "paragraphs": [
+              {
+                "text": "代数：3",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "枯草芽孢杆菌定量菌株（ATCC6633）",
+            "paragraphs": [
+              {
+                "text": "枯草芽孢杆菌定量菌株（ATCC6633）",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "250103M1",
+            "paragraphs": [
+              {
+                "text": "250103M1",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "2026.01.02",
+            "paragraphs": [
+              {
+                "text": "2026.01.02",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "代数：3",
+            "paragraphs": [
+              {
+                "text": "代数：3",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "白色念珠菌定量菌株（ATCC10231）",
+            "paragraphs": [
+              {
+                "text": "白色念珠菌定量菌株（ATCC10231）",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "250619M1",
+            "paragraphs": [
+              {
+                "text": "250619M1",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "2027.06.18",
+            "paragraphs": [
+              {
+                "text": "2027.06.18",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "代数：3",
+            "paragraphs": [
+              {
+                "text": "代数：3",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "黑曲霉定量菌株（ATCC16404）",
+            "paragraphs": [
+              {
+                "text": "黑曲霉定量菌株（ATCC16404）",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "250513M5",
+            "paragraphs": [
+              {
+                "text": "250513M5",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "2027.05.12",
+            "paragraphs": [
+              {
+                "text": "2027.05.12",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "代数：3",
+            "paragraphs": [
+              {
+                "text": "代数：3",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "index": 7,
+      "rows": [
+        [
+          {
+            "text": "菌种名称",
+            "paragraphs": [
+              {
+                "text": "菌种名称",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "菌种编号",
+            "paragraphs": [
+              {
+                "text": "菌种编号",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "计数培养基",
+            "paragraphs": [
+              {
+                "text": "计数培养基",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "计数条件",
+            "paragraphs": [
+              {
+                "text": "计数条件",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "金黄色葡萄球菌",
+            "paragraphs": [
+              {
+                "text": "金黄色葡萄球菌",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "ATCC6538",
+            "paragraphs": [
+              {
+                "text": "ATCC6538",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "TSA",
+            "paragraphs": [
+              {
+                "text": "TSA",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "30~35℃，≤3d",
+            "paragraphs": [
+              {
+                "text": "30~35℃，≤3d",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "铜绿假单胞菌",
+            "paragraphs": [
+              {
+                "text": "铜绿假单胞菌",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "ATCC9027",
+            "paragraphs": [
+              {
+                "text": "ATCC9027",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "TSA",
+            "paragraphs": [
+              {
+                "text": "TSA",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "30~35℃，≤3d",
+            "paragraphs": [
+              {
+                "text": "30~35℃，≤3d",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "枯草芽孢杆菌",
+            "paragraphs": [
+              {
+                "text": "枯草芽孢杆菌",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "ATCC6633",
+            "paragraphs": [
+              {
+                "text": "ATCC6633",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "TSA",
+            "paragraphs": [
+              {
+                "text": "TSA",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "30~35℃，≤3d",
+            "paragraphs": [
+              {
+                "text": "30~35℃，≤3d",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "白色念珠菌",
+            "paragraphs": [
+              {
+                "text": "白色念珠菌",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "ATCC10231",
+            "paragraphs": [
+              {
+                "text": "ATCC10231",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "SDA",
+            "paragraphs": [
+              {
+                "text": "SDA",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "20~25℃，≤5d",
+            "paragraphs": [
+              {
+                "text": "20~25℃，≤5d",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "黑曲霉",
+            "paragraphs": [
+              {
+                "text": "黑曲霉",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "ATCC16404",
+            "paragraphs": [
+              {
+                "text": "ATCC16404",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "SDA",
+            "paragraphs": [
+              {
+                "text": "SDA",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "20~25℃，≤5d",
+            "paragraphs": [
+              {
+                "text": "20~25℃，≤5d",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "index": 8,
+      "rows": [
+        [
+          {
+            "text": "组别",
+            "paragraphs": [
+              {
+                "text": "组别",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "名称",
+            "paragraphs": [
+              {
+                "text": "名称",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "培养基",
+            "paragraphs": [
+              {
+                "text": "培养基",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "培养温度及时间",
+            "paragraphs": [
+              {
+                "text": "培养温度及时间",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "试验组\n菌液对照组",
+            "paragraphs": [
+              {
+                "text": "试验组",
+                "style": "Normal"
+              },
+              {
+                "text": "菌液对照组",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "金黄色葡萄球菌",
+            "paragraphs": [
+              {
+                "text": "金黄色葡萄球菌",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "TSA",
+            "paragraphs": [
+              {
+                "text": "TSA",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "30~35℃，≤3d",
+            "paragraphs": [
+              {
+                "text": "30~35℃，≤3d",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "试验组\n菌液对照组",
+            "paragraphs": [
+              {
+                "text": "试验组",
+                "style": "Normal"
+              },
+              {
+                "text": "菌液对照组",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "铜绿假单胞菌",
+            "paragraphs": [
+              {
+                "text": "铜绿假单胞菌",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "TSA",
+            "paragraphs": [
+              {
+                "text": "TSA",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "30~35℃，≤3d",
+            "paragraphs": [
+              {
+                "text": "30~35℃，≤3d",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "试验组\n菌液对照组",
+            "paragraphs": [
+              {
+                "text": "试验组",
+                "style": "Normal"
+              },
+              {
+                "text": "菌液对照组",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "枯草芽孢杆菌",
+            "paragraphs": [
+              {
+                "text": "枯草芽孢杆菌",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "TSA",
+            "paragraphs": [
+              {
+                "text": "TSA",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "30~35℃，≤3d",
+            "paragraphs": [
+              {
+                "text": "30~35℃，≤3d",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "试验组\n菌液对照组",
+            "paragraphs": [
+              {
+                "text": "试验组",
+                "style": "Normal"
+              },
+              {
+                "text": "菌液对照组",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "白色念珠菌",
+            "paragraphs": [
+              {
+                "text": "白色念珠菌",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "TSA",
+            "paragraphs": [
+              {
+                "text": "TSA",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "30~35℃，≤5d",
+            "paragraphs": [
+              {
+                "text": "30~35℃，≤5d",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "试验组\n菌液对照组",
+            "paragraphs": [
+              {
+                "text": "试验组",
+                "style": "Normal"
+              },
+              {
+                "text": "菌液对照组",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "黑曲霉",
+            "paragraphs": [
+              {
+                "text": "黑曲霉",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "TSA",
+            "paragraphs": [
+              {
+                "text": "TSA",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "30~35℃，≤5d",
+            "paragraphs": [
+              {
+                "text": "30~35℃，≤5d",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "试验组\n菌液对照组",
+            "paragraphs": [
+              {
+                "text": "试验组",
+                "style": "Normal"
+              },
+              {
+                "text": "菌液对照组",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "白色念珠菌",
+            "paragraphs": [
+              {
+                "text": "白色念珠菌",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "SDA",
+            "paragraphs": [
+              {
+                "text": "SDA",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "20~25℃，≤5d",
+            "paragraphs": [
+              {
+                "text": "20~25℃，≤5d",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "试验组\n菌液对照组",
+            "paragraphs": [
+              {
+                "text": "试验组",
+                "style": "Normal"
+              },
+              {
+                "text": "菌液对照组",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "黑曲霉",
+            "paragraphs": [
+              {
+                "text": "黑曲霉",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "SDA",
+            "paragraphs": [
+              {
+                "text": "SDA",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "20~25℃，≤5d",
+            "paragraphs": [
+              {
+                "text": "20~25℃，≤5d",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "供试品对照组\n阴性对照组",
+            "paragraphs": [
+              {
+                "text": "供试品对照组",
+                "style": "Normal"
+              },
+              {
+                "text": "阴性对照组",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "/",
+            "paragraphs": [
+              {
+                "text": "/",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "TSA",
+            "paragraphs": [
+              {
+                "text": "TSA",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "30~35℃，3-5d",
+            "paragraphs": [
+              {
+                "text": "30~35℃，3-5d",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "供试品对照组\n阴性对照组",
+            "paragraphs": [
+              {
+                "text": "供试品对照组",
+                "style": "Normal"
+              },
+              {
+                "text": "阴性对照组",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "/",
+            "paragraphs": [
+              {
+                "text": "/",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "SDA",
+            "paragraphs": [
+              {
+                "text": "SDA",
+                "style": "List Paragraph"
+              }
+            ]
+          },
+          {
+            "text": "20~25℃，5-7d",
+            "paragraphs": [
+              {
+                "text": "20~25℃，5-7d",
+                "style": "List Paragraph"
+              }
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "index": 9,
+      "rows": [
+        [
+          {
+            "text": "培养基",
+            "paragraphs": [
+              {
+                "text": "培养基",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "培养基",
+            "paragraphs": [
+              {
+                "text": "培养基",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "TSA",
+            "paragraphs": [
+              {
+                "text": "TSA",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "TSA",
+            "paragraphs": [
+              {
+                "text": "TSA",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "TSA",
+            "paragraphs": [
+              {
+                "text": "TSA",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "SDA",
+            "paragraphs": [
+              {
+                "text": "SDA",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "SDA",
+            "paragraphs": [
+              {
+                "text": "SDA",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "菌种名称",
+            "paragraphs": [
+              {
+                "text": "菌种名称",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "菌种名称",
+            "paragraphs": [
+              {
+                "text": "菌种名称",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "金黄色葡萄球菌",
+            "paragraphs": [
+              {
+                "text": "金黄色葡萄球菌",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "铜绿假单胞菌",
+            "paragraphs": [
+              {
+                "text": "铜绿假单胞菌",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "枯草芽孢杆菌",
+            "paragraphs": [
+              {
+                "text": "枯草芽孢杆菌",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "白色念珠菌",
+            "paragraphs": [
+              {
+                "text": "白色念珠菌",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "黑曲霉",
+            "paragraphs": [
+              {
+                "text": "黑曲霉",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "菌落形态",
+            "paragraphs": [
+              {
+                "text": "菌落形态",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "标准",
+            "paragraphs": [
+              {
+                "text": "标准",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "金黄色的圆形菌落，隆起，边缘整齐，表面光滑，无杂菌生长。",
+            "paragraphs": [
+              {
+                "text": "金黄色的圆形菌落，隆起，边缘整齐，表面光滑，无杂菌生长。",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "半透明的绿色或黄绿色菌落，隆起，边缘整齐，表面光滑，无杂菌生长。",
+            "paragraphs": [
+              {
+                "text": "半透明的绿色或黄绿色菌落，隆起，边缘整齐，表面光滑，无杂菌生长。",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "表面粗糙不透明，有褶皱，边缘不整齐，呈不规则状，无杂菌生长。",
+            "paragraphs": [
+              {
+                "text": "表面粗糙不透明，有褶皱，边缘不整齐，呈不规则状，无杂菌生长。",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "乳白色的圆形，凸起，边缘整齐，表面光滑，无杂菌生长。",
+            "paragraphs": [
+              {
+                "text": "乳白色的圆形，凸起，边缘整齐，表面光滑，无杂菌生长。",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "菌落形态较大，质地疏松，外观干燥，不透明，黑色绒毛状，无杂菌生长。",
+            "paragraphs": [
+              {
+                "text": "菌落形态较大，质地疏松，外观干燥，不透明，黑色绒毛状，无杂菌生长。",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "培养开始时间",
+            "paragraphs": [
+              {
+                "text": "培养开始时间",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "培养开始时间",
+            "paragraphs": [
+              {
+                "text": "培养开始时间",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.20 14:48",
+            "paragraphs": [
+              {
+                "text": "2025.11.20 14:48",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.20 14:48",
+            "paragraphs": [
+              {
+                "text": "2025.11.20 14:48",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.20 14:48",
+            "paragraphs": [
+              {
+                "text": "2025.11.20 14:48",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.20 14:48",
+            "paragraphs": [
+              {
+                "text": "2025.11.20 14:48",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.20 14:48",
+            "paragraphs": [
+              {
+                "text": "2025.11.20 14:48",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "培养温度",
+            "paragraphs": [
+              {
+                "text": "培养温度",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "培养温度",
+            "paragraphs": [
+              {
+                "text": "培养温度",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "32.5℃",
+            "paragraphs": [
+              {
+                "text": "32.5℃",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "32.5℃",
+            "paragraphs": [
+              {
+                "text": "32.5℃",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "32.5℃",
+            "paragraphs": [
+              {
+                "text": "32.5℃",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "22.5℃",
+            "paragraphs": [
+              {
+                "text": "22.5℃",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "22.5℃",
+            "paragraphs": [
+              {
+                "text": "22.5℃",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "培养结束时间",
+            "paragraphs": [
+              {
+                "text": "培养结束时间",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "培养结束时间",
+            "paragraphs": [
+              {
+                "text": "培养结束时间",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.21 20:45",
+            "paragraphs": [
+              {
+                "text": "2025.11.21 20:45",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.21 20:45",
+            "paragraphs": [
+              {
+                "text": "2025.11.21 20:45",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.21 20:45",
+            "paragraphs": [
+              {
+                "text": "2025.11.21 20:45",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.24 09:03",
+            "paragraphs": [
+              {
+                "text": "2025.11.24 09:03",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.24 09:03",
+            "paragraphs": [
+              {
+                "text": "2025.11.24 09:03",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "计数结果（CFU/皿）",
+            "paragraphs": [
+              {
+                "text": "计数结果（CFU/皿）",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "平皿1",
+            "paragraphs": [
+              {
+                "text": "平皿1",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "69",
+            "paragraphs": [
+              {
+                "text": "69",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "57",
+            "paragraphs": [
+              {
+                "text": "57",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "63",
+            "paragraphs": [
+              {
+                "text": "63",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "55",
+            "paragraphs": [
+              {
+                "text": "55",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "69",
+            "paragraphs": [
+              {
+                "text": "69",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "计数结果（CFU/皿）",
+            "paragraphs": [
+              {
+                "text": "计数结果（CFU/皿）",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "平皿2",
+            "paragraphs": [
+              {
+                "text": "平皿2",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "56",
+            "paragraphs": [
+              {
+                "text": "56",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "59",
+            "paragraphs": [
+              {
+                "text": "59",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "66",
+            "paragraphs": [
+              {
+                "text": "66",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "52",
+            "paragraphs": [
+              {
+                "text": "52",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "61",
+            "paragraphs": [
+              {
+                "text": "61",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "计数结果（CFU/皿）",
+            "paragraphs": [
+              {
+                "text": "计数结果（CFU/皿）",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "平均（≤100CFU）",
+            "paragraphs": [
+              {
+                "text": "平均（≤100CFU）",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "63",
+            "paragraphs": [
+              {
+                "text": "63",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "58",
+            "paragraphs": [
+              {
+                "text": "58",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "65",
+            "paragraphs": [
+              {
+                "text": "65",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "54",
+            "paragraphs": [
+              {
+                "text": "54",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "65",
+            "paragraphs": [
+              {
+                "text": "65",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "阴性对照",
+            "paragraphs": [
+              {
+                "text": "阴性对照",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "平皿1",
+            "paragraphs": [
+              {
+                "text": "平皿1",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "无菌生长    □有菌生长",
+            "paragraphs": [
+              {
+                "text": "无菌生长    □有菌生长",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "无菌生长    □有菌生长",
+            "paragraphs": [
+              {
+                "text": "无菌生长    □有菌生长",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "无菌生长    □有菌生长",
+            "paragraphs": [
+              {
+                "text": "无菌生长    □有菌生长",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "无菌生长 □有菌生长",
+            "paragraphs": [
+              {
+                "text": "无菌生长 □有菌生长",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "无菌生长 □有菌生长",
+            "paragraphs": [
+              {
+                "text": "无菌生长 □有菌生长",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "阴性对照",
+            "paragraphs": [
+              {
+                "text": "阴性对照",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "平皿2",
+            "paragraphs": [
+              {
+                "text": "平皿2",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "无菌生长    □有菌生长",
+            "paragraphs": [
+              {
+                "text": "无菌生长    □有菌生长",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "无菌生长    □有菌生长",
+            "paragraphs": [
+              {
+                "text": "无菌生长    □有菌生长",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "无菌生长    □有菌生长",
+            "paragraphs": [
+              {
+                "text": "无菌生长    □有菌生长",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "无菌生长 □有菌生长",
+            "paragraphs": [
+              {
+                "text": "无菌生长 □有菌生长",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "无菌生长 □有菌生长",
+            "paragraphs": [
+              {
+                "text": "无菌生长 □有菌生长",
+                "style": "Normal"
+              }
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "index": 10,
+      "rows": [
+        [
+          {
+            "text": "培养开始时间",
+            "paragraphs": [
+              {
+                "text": "培养开始时间",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "培养开始时间",
+            "paragraphs": [
+              {
+                "text": "培养开始时间",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.20 14:48",
+            "paragraphs": [
+              {
+                "text": "2025.11.20 14:48",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.20 14:48",
+            "paragraphs": [
+              {
+                "text": "2025.11.20 14:48",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "培养结束时间",
+            "paragraphs": [
+              {
+                "text": "培养结束时间",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "培养结束时间",
+            "paragraphs": [
+              {
+                "text": "培养结束时间",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.24 09:03",
+            "paragraphs": [
+              {
+                "text": "2025.11.24 09:03",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.27 10:00",
+            "paragraphs": [
+              {
+                "text": "2025.11.27 10:00",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "培养温度",
+            "paragraphs": [
+              {
+                "text": "培养温度",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "培养温度",
+            "paragraphs": [
+              {
+                "text": "培养温度",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "32.5℃",
+            "paragraphs": [
+              {
+                "text": "32.5℃",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "22.5℃",
+            "paragraphs": [
+              {
+                "text": "22.5℃",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "需氧菌计数（TSA）",
+            "paragraphs": [
+              {
+                "text": "需氧菌计数（TSA）",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "阴性对照组（CFU/皿）",
+            "paragraphs": [
+              {
+                "text": "阴性对照组（CFU/皿）",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "0",
+            "paragraphs": [
+              {
+                "text": "0",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "N/A",
+            "paragraphs": [
+              {
+                "text": "N/A",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "需氧菌计数（TSA）",
+            "paragraphs": [
+              {
+                "text": "需氧菌计数（TSA）",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "供试品对照组（CFU/皿）",
+            "paragraphs": [
+              {
+                "text": "供试品对照组（CFU/皿）",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "0",
+            "paragraphs": [
+              {
+                "text": "0",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "N/A",
+            "paragraphs": [
+              {
+                "text": "N/A",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "需氧菌计数（TSA）",
+            "paragraphs": [
+              {
+                "text": "需氧菌计数（TSA）",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "供试品检查结果（CFU/10mL）",
+            "paragraphs": [
+              {
+                "text": "供试品检查结果（CFU/10mL）",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "＜1",
+            "paragraphs": [
+              {
+                "text": "＜1",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "N/A",
+            "paragraphs": [
+              {
+                "text": "N/A",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "霉菌和酵母菌（SDA）",
+            "paragraphs": [
+              {
+                "text": "霉菌和酵母菌（SDA）",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "阴性对照组（CFU/皿）",
+            "paragraphs": [
+              {
+                "text": "阴性对照组（CFU/皿）",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "N/A",
+            "paragraphs": [
+              {
+                "text": "N/A",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "0",
+            "paragraphs": [
+              {
+                "text": "0",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "霉菌和酵母菌（SDA）",
+            "paragraphs": [
+              {
+                "text": "霉菌和酵母菌（SDA）",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "供试品对照组（CFU/皿）",
+            "paragraphs": [
+              {
+                "text": "供试品对照组（CFU/皿）",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "N/A",
+            "paragraphs": [
+              {
+                "text": "N/A",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "0",
+            "paragraphs": [
+              {
+                "text": "0",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "霉菌和酵母菌（SDA）",
+            "paragraphs": [
+              {
+                "text": "霉菌和酵母菌（SDA）",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "供试品检查结果（CFU/10mL）",
+            "paragraphs": [
+              {
+                "text": "供试品检查结果（CFU/10mL）",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "N/A",
+            "paragraphs": [
+              {
+                "text": "N/A",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "＜1",
+            "paragraphs": [
+              {
+                "text": "＜1",
+                "style": "Normal"
+              }
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "index": 11,
+      "rows": [
+        [
+          {
+            "text": "项目",
+            "paragraphs": [
+              {
+                "text": "项目",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "TSA计数（CFU/皿）",
+            "paragraphs": [
+              {
+                "text": "TSA计数（CFU/皿）",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "TSA计数（CFU/皿）",
+            "paragraphs": [
+              {
+                "text": "TSA计数（CFU/皿）",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "TSA计数（CFU/皿）",
+            "paragraphs": [
+              {
+                "text": "TSA计数（CFU/皿）",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "TSA计数（CFU/皿）",
+            "paragraphs": [
+              {
+                "text": "TSA计数（CFU/皿）",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "TSA计数（CFU/皿）",
+            "paragraphs": [
+              {
+                "text": "TSA计数（CFU/皿）",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "SDA计数（CFU/皿）",
+            "paragraphs": [
+              {
+                "text": "SDA计数（CFU/皿）",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "SDA计数（CFU/皿）",
+            "paragraphs": [
+              {
+                "text": "SDA计数（CFU/皿）",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "项目",
+            "paragraphs": [
+              {
+                "text": "项目",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "金葡",
+            "paragraphs": [
+              {
+                "text": "金葡",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "铜绿",
+            "paragraphs": [
+              {
+                "text": "铜绿",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "枯草",
+            "paragraphs": [
+              {
+                "text": "枯草",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "白念",
+            "paragraphs": [
+              {
+                "text": "白念",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "黑曲霉",
+            "paragraphs": [
+              {
+                "text": "黑曲霉",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "白念",
+            "paragraphs": [
+              {
+                "text": "白念",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "黑曲霉",
+            "paragraphs": [
+              {
+                "text": "黑曲霉",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "培养开始时间",
+            "paragraphs": [
+              {
+                "text": "培养开始时间",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.20 14:48",
+            "paragraphs": [
+              {
+                "text": "2025.11.20 14:48",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.20 14:48",
+            "paragraphs": [
+              {
+                "text": "2025.11.20 14:48",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.20 14:48",
+            "paragraphs": [
+              {
+                "text": "2025.11.20 14:48",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.20 14:48",
+            "paragraphs": [
+              {
+                "text": "2025.11.20 14:48",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.20 14:48",
+            "paragraphs": [
+              {
+                "text": "2025.11.20 14:48",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.20 14:48",
+            "paragraphs": [
+              {
+                "text": "2025.11.20 14:48",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.20 14:48",
+            "paragraphs": [
+              {
+                "text": "2025.11.20 14:48",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "培养结束时间",
+            "paragraphs": [
+              {
+                "text": "培养结束时间",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.21 20:45",
+            "paragraphs": [
+              {
+                "text": "2025.11.21 20:45",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.21 20:45",
+            "paragraphs": [
+              {
+                "text": "2025.11.21 20:45",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.21 20:45",
+            "paragraphs": [
+              {
+                "text": "2025.11.21 20:45",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.24 09:03",
+            "paragraphs": [
+              {
+                "text": "2025.11.24 09:03",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.24 09:03",
+            "paragraphs": [
+              {
+                "text": "2025.11.24 09:03",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.24 09:03",
+            "paragraphs": [
+              {
+                "text": "2025.11.24 09:03",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025.11.24 09:03",
+            "paragraphs": [
+              {
+                "text": "2025.11.24 09:03",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "培养温度",
+            "paragraphs": [
+              {
+                "text": "培养温度",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "32.5℃",
+            "paragraphs": [
+              {
+                "text": "32.5℃",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "32.5℃",
+            "paragraphs": [
+              {
+                "text": "32.5℃",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "32.5℃",
+            "paragraphs": [
+              {
+                "text": "32.5℃",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "22.5℃",
+            "paragraphs": [
+              {
+                "text": "22.5℃",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "22.5℃",
+            "paragraphs": [
+              {
+                "text": "22.5℃",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "22.5℃",
+            "paragraphs": [
+              {
+                "text": "22.5℃",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "22.5℃",
+            "paragraphs": [
+              {
+                "text": "22.5℃",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "试验组",
+            "paragraphs": [
+              {
+                "text": "试验组",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "62",
+            "paragraphs": [
+              {
+                "text": "62",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "42",
+            "paragraphs": [
+              {
+                "text": "42",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "50",
+            "paragraphs": [
+              {
+                "text": "50",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "44",
+            "paragraphs": [
+              {
+                "text": "44",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "54",
+            "paragraphs": [
+              {
+                "text": "54",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "53",
+            "paragraphs": [
+              {
+                "text": "53",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "50",
+            "paragraphs": [
+              {
+                "text": "50",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "菌液对照组",
+            "paragraphs": [
+              {
+                "text": "菌液对照组",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "52",
+            "paragraphs": [
+              {
+                "text": "52",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "48",
+            "paragraphs": [
+              {
+                "text": "48",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "57",
+            "paragraphs": [
+              {
+                "text": "57",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "51",
+            "paragraphs": [
+              {
+                "text": "51",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "38",
+            "paragraphs": [
+              {
+                "text": "38",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "55",
+            "paragraphs": [
+              {
+                "text": "55",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "46",
+            "paragraphs": [
+              {
+                "text": "46",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "试验组回收率",
+            "paragraphs": [
+              {
+                "text": "试验组回收率",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "1.2",
+            "paragraphs": [
+              {
+                "text": "1.2",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "0.9",
+            "paragraphs": [
+              {
+                "text": "0.9",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "0.9",
+            "paragraphs": [
+              {
+                "text": "0.9",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "0.9",
+            "paragraphs": [
+              {
+                "text": "0.9",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "1.4",
+            "paragraphs": [
+              {
+                "text": "1.4",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "1.0",
+            "paragraphs": [
+              {
+                "text": "1.0",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "1.1",
+            "paragraphs": [
+              {
+                "text": "1.1",
+                "style": "Normal"
+              }
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "index": 12,
+      "rows": [
+        [
+          {
+            "text": "文件编号\nDocument No.",
+            "paragraphs": [
+              {
+                "text": "文件编号",
+                "style": "Normal"
+              },
+              {
+                "text": "Document No.",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "标题\nTitle",
+            "paragraphs": [
+              {
+                "text": "标题",
+                "style": "Normal"
+              },
+              {
+                "text": "Title",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "N/A",
+            "paragraphs": [
+              {
+                "text": "N/A",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "2025版《中国药典》通则<1105>",
+            "paragraphs": [
+              {
+                "text": "2025版《中国药典》通则<1105>",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "N/A",
+            "paragraphs": [
+              {
+                "text": "N/A",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "美国药典<61>",
+            "paragraphs": [
+              {
+                "text": "美国药典<61>",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "E-SMP-QV-001",
+            "paragraphs": [
+              {
+                "text": "E-SMP-QV-001",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "验证管理规程",
+            "paragraphs": [
+              {
+                "text": "验证管理规程",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "E-SMP-QV-012",
+            "paragraphs": [
+              {
+                "text": "E-SMP-QV-012",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "分析方法验证管理规程",
+            "paragraphs": [
+              {
+                "text": "分析方法验证管理规程",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "E-SOP-QC-017",
+            "paragraphs": [
+              {
+                "text": "E-SOP-QC-017",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "生物安全柜标准操作规程",
+            "paragraphs": [
+              {
+                "text": "生物安全柜标准操作规程",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "E-SOP-QC-057",
+            "paragraphs": [
+              {
+                "text": "E-SOP-QC-057",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "生化培养箱标准操作规程",
+            "paragraphs": [
+              {
+                "text": "生化培养箱标准操作规程",
+                "style": "Normal"
+              }
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "index": 13,
+      "rows": [
+        [
+          {
+            "text": "编号\nNo.",
+            "paragraphs": [
+              {
+                "text": "编号",
+                "style": "Normal"
+              },
+              {
+                "text": "No.",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "名称\nTitle",
+            "paragraphs": [
+              {
+                "text": "名称",
+                "style": "Normal"
+              },
+              {
+                "text": "Title",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "N/A",
+            "paragraphs": [
+              {
+                "text": "N/A",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "N/A",
+            "paragraphs": [
+              {
+                "text": "N/A",
+                "style": "Normal"
+              }
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "index": 14,
+      "rows": [
+        [
+          {
+            "text": "编号\nNo.",
+            "paragraphs": [
+              {
+                "text": "编号",
+                "style": "Normal"
+              },
+              {
+                "text": "No.",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "名称\nTitle",
+            "paragraphs": [
+              {
+                "text": "名称",
+                "style": "Normal"
+              },
+              {
+                "text": "Title",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "AMVP-2025-0113-R1",
+            "paragraphs": [
+              {
+                "text": "AMVP-2025-0113-R1",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "文件确认表",
+            "paragraphs": [
+              {
+                "text": "文件确认表",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "AMVP-2025-0113-R2",
+            "paragraphs": [
+              {
+                "text": "AMVP-2025-0113-R2",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "试剂、菌株、耗材确认表",
+            "paragraphs": [
+              {
+                "text": "试剂、菌株、耗材确认表",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "AMVP-2025-0113-R3",
+            "paragraphs": [
+              {
+                "text": "AMVP-2025-0113-R3",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "仪器确认表",
+            "paragraphs": [
+              {
+                "text": "仪器确认表",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "AMVP-2025-0113-R4",
+            "paragraphs": [
+              {
+                "text": "AMVP-2025-0113-R4",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "签名确认表",
+            "paragraphs": [
+              {
+                "text": "签名确认表",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "AMVP-2025-0113-R5",
+            "paragraphs": [
+              {
+                "text": "AMVP-2025-0113-R5",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "验证记录表",
+            "paragraphs": [
+              {
+                "text": "验证记录表",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "AMVP-2025-0113-R6",
+            "paragraphs": [
+              {
+                "text": "AMVP-2025-0113-R6",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "偏差列表",
+            "paragraphs": [
+              {
+                "text": "偏差列表",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "AMVP-2025-0113-R7",
+            "paragraphs": [
+              {
+                "text": "AMVP-2025-0113-R7",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "方案变更表",
+            "paragraphs": [
+              {
+                "text": "方案变更表",
+                "style": "Normal"
+              }
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "index": 15,
+      "rows": [
+        [
+          {
+            "text": "版本号\nVersion No.",
+            "paragraphs": [
+              {
+                "text": "版本号",
+                "style": "Normal"
+              },
+              {
+                "text": "Version No.",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "变更描述\nChange Description",
+            "paragraphs": [
+              {
+                "text": "变更描述",
+                "style": "Normal"
+              },
+              {
+                "text": "Change Description",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "生效日期\nEffective Date",
+            "paragraphs": [
+              {
+                "text": "生效日期",
+                "style": "Normal"
+              },
+              {
+                "text": "Effective Date",
+                "style": "Normal"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "text": "01",
+            "paragraphs": [
+              {
+                "text": "01",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "新建ZW062项目原液微生物限度检测分析方法验证报告",
+            "paragraphs": [
+              {
+                "text": "新建ZW062项目原液微生物限度检测分析方法验证报告",
+                "style": "Normal"
+              }
+            ]
+          },
+          {
+            "text": "",
+            "paragraphs": []
+          }
+        ]
+      ]
+    }
+  ],
+  "headers": [],
+  "footers": [
+    {
+      "section": 0,
+      "text": "上海兆维医药科技有限公司 Shanghai Hongene Biologics Tech Co., Ltd."
+    }
+  ]
+}
